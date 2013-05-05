@@ -1,1 +1,222 @@
-My GitHub Page
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Diaspora* Esayshare</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400" type="text/css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="js/excanvas.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/spinners.min.js"></script>
+<script type="text/javascript" src="js/lightview.js"></script>
+<link rel="stylesheet" type="text/css" href="css/lightview/lightview.css">
+<style>
+html, body { 
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  color: #222;
+  line-height: 18px;
+}
+#header {
+  width: 600px;
+  height: 66px;
+  margin: 30px auto 10px auto; 
+  display: block;
+  position: relative;
+}
+#header .left {
+  float: left;
+  height: 64px;
+}
+#container, #upgrade {
+  width: 600px;
+  margin: 30px auto 40px auto;
+}
+#upgrade {
+  font-size: 16px;
+  line-height: 20px;
+}
+.content {
+  width: 100%;
+  margin: 15px 0 10px;
+}
+h1 {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #000;
+  margin-left: 10px;
+}
+h3 {
+  font-size: inherit;
+  font-weight: bold;
+  color: #d00;
+  margin-bottom: 5px;
+}
+#thumbs {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+}
+#thumbs div {
+  float: left;
+  margin-right: 8px;
+  padding: 4px;
+}
+#thumbs img {
+  border: 2px solid #666;
+}
+#thumbs img:hover {
+  opacity: .5;
+}
+dl    { margin-top: 5px; }
+dt.ev { color: #830; }
+dd    { margin: 0 0 5px 10px; }
+.divider {
+  width: 100%;
+  height: 1px;
+  background: -moz-linear-gradient(left, #fff 0%, #222 50%, #fff 100%); 
+  background: -webkit-linear-gradient(left, #fff 0%, #222 50%, #fff 100%); 
+  background: linear-gradient(left, #fff 0%, #222 50%, #fff 100%);
+  margin-top: 15px;
+  display: block;
+}
+a, a:link {
+  text-decoration: none;
+}
+</style>
+<script type="text/javascript">
+$(function () {
+  var query = window.location.search;
+  if (query.substring(3) == "upgrade") {
+    $('#container').css('display','none');
+    $('#upgrade').css('display', 'block');
+  }
+});
+</script>
+</head>
+<body>
+<div id="header">
+  <div class="left"><img src="images/logo.png" alt=""></div>
+  <div class="left"><h1>DIASPORA* Easyshare</h1></div>
+</div>
+
+<div id="container">
+  <div class="content">
+    Mozilla Firefox add-on to easily share web content on your Diaspora* pod.<br><br>
+    <div id="thumbs">
+      <div>
+        <a href="images/screenshot1.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Context-menu" 
+          data-lightview-caption="Right click on images and select 'Share on Diaspora*'.">
+          <img src="images/thumbnails/thumb1.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot2.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Panel" 
+          data-lightview-caption="Creates the post.">
+          <img src="images/thumbnails/thumb2.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot3.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Publisher" 
+          data-lightview-caption="Send to Diaspora*.">
+          <img src="images/thumbnails/thumb3.jpg"alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <h3>Settings:</h3>
+    After install you must save the url of your Diaspora* pod.<br>
+    Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options<br>
+    and enter the URL (e.g.: https://yourpod.com).<br><br>
+    Note:<br>
+    There's a little tedious bug when typing the url (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">Bug 784335</a>):<br>
+    <i>Typing forward slash ("/") in the preference field moves cursor to search field. You need to put again the cursor in the field.</i>
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>Usage:</h3>
+    Right click on images and select "Share on Diaspora*". A panel will be shown and you can create the post.<br><br>
+    The post will be structured in this way: image/title/link/text/hashtags and sent to diaspora via the publisher bookmarklet.<br><br>
+    Panel fields:
+    <dl>
+      <dt class="ev">- Title</dt>
+        <dd>The document title. You can edit or change it.</dd>
+      <dt class="ev">- Url</dt>
+        <dd>The document URL. You can shorten it.</dd>
+      <dt class="ev">- Text</dt>
+        <dd>Additional text. You can use markdown. Text selected in the document will be automatically entered.</dd>
+      <dt class="ev">- Tags</dt>
+        <dd>Hashtags. Enter them separated by commas.</dd>
+    </dl>
+    You must be logged to your Diaspora* pod to use this addon.
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>Options:</h3>
+    Firefox > Addons > Extensions > Diaspora* Easyshare > Options
+    <dl>
+      <dt class="ev">- Advertises</dt>
+        <dd>Add/remove "via Easyshare" at end of post.</dd>
+      <dt class="ev">- Set the publisher window height</dt>
+        <dd>If you have many aspects you can increase the publisher window height.</dd>
+      <dt class="ev">- Your Bitly API credentials</dt>
+        <dd>Uses your own Bitly API credentials for shorten URLs or leave the fields blank if you want use the internal ones.</dd>
+    </dl>
+    <div class="divider"></div>
+  </div>
+    
+  <div class="content">
+    <h3>Changelog:</h3>
+    <dl>
+      <dt>v.0.3</dt>
+        <dd>- Added ability to use own Bitly API credential for shorten URLs (Options).<br>
+            - Some fixies and code improvements.
+        </dd>
+      <dt>v.0.2.1</dt>
+        <dd>- Removed addslashes function. Bookmarklet publisher escape all passed params.</dd>
+      <dt>v.0.2</dt>
+        <dd>- Added ability to remove "via Easyshare" from post (Options).<br>
+            - Added ability to set the publisher window height (Options).<br>
+            - Now hashtags can be entered with or without the hash sign and with or without spaces between them.<br>
+            - Some little fixes.
+        </dd>
+      <dt>v.0.1.1</dt>
+        <dd>- Fixed character encoding error.</dd>
+      <dt>v.0.1</dt>
+        <dd>- First release.</dd>
+    </dl>
+  </div>
+</div>
+
+<div id="upgrade" style="display:none;">
+  Upgraded to version 0.3
+  <dl>
+    <dt>Changes:</dt>
+      <dd>- Added ability to use own Bitly API credential for shorten URLs (Options).<br>
+          - Some fixies and code improvements.
+      </dd>
+  </dl>
+</div>
+</body>
+</html>
