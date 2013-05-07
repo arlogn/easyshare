@@ -1,0 +1,48 @@
+{
+    "preferences": [
+        {
+            "description": "Enter URL of your Diaspora* pod.", 
+            "type": "string", 
+            "name": "podURL", 
+            "value": "", 
+            "title": "Pod URL"
+        },
+		{
+    		"description": "Add 'via Easyshare' at end of post.",
+    		"type": "bool",
+    		"name": "viaEasyshare",
+    		"value": true,
+    		"title": "Advertises"
+		},
+		{
+    		"description": "If you have many aspects you can increase the publisher window height.",
+    		"type": "integer",
+    		"name": "publisherHeight",
+    		"value": 250,
+    		"title": "Set the publisher window height"
+		},
+		{
+			"description": "", 
+            "type": "string", 
+            "name": "bitlyLogin", 
+            "value": "", 
+            "title": "Your Bitly login"
+		},
+		{
+			"description": "Uses your own Bitly API credentials for shorten URLs or leave above fields blank if you want use the internal ones.", 
+            "type": "string", 
+            "name": "bitlyApikey", 
+            "value": "", 
+            "title": "Your Bitly API key"
+		}],
+    "name": "d_easyshare", 
+    "license": "GPLv3", 
+    "author": "arlo gn", 
+    "version": "0.3", 
+    "fullName": "Diaspora* Easyshare",
+	"id": "jid1-gqfeTXcouyVkpg",
+	"description": "Easily share web content on your Diaspora* pod.",
+	"homepage": "http://arlogn.github.io/easyshare/",
+	"icon": "skin/icon.png",
+	"icon64": "skin/icon64.png"
+}
