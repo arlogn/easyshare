@@ -128,7 +128,7 @@ $(function () {
           class='lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Panel" 
-          data-lightview-caption="Creates the post.">
+          data-lightview-caption="Build the post.">
           <img src="images/thumbnails/thumb2.jpg"alt="">
         </a>
       </div>
@@ -136,18 +136,45 @@ $(function () {
         <a href="images/screenshot3.jpg" 
           class='lightview' 
           data-lightview-group='easyshare'
+          data-lightview-title="Context-menu" 
+          data-lightview-caption="Right click on youtube video page and select 'Share video on Diaspora*'.">
+          <img src="images/thumbnails/thumb3.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot4.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Panel" 
+          data-lightview-caption="Build the post.">
+          <img src="images/thumbnails/thumb4.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot5.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
           data-lightview-title="Publisher" 
           data-lightview-caption="Send to Diaspora*.">
-          <img src="images/thumbnails/thumb3.jpg"alt="">
+          <img src="images/thumbnails/thumb5.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot6.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Preferences" 
+          data-lightview-caption="Preferences tab.">
+          <img src="images/thumbnails/thumb6.jpg"alt="">
         </a>
       </div>
     </div>
   </div>
   
   <div class="content">
-    <h3>Settings:</h3>
+    <h3>Settings</h3>
     After install you must save the URL of your Diaspora* pod.<br>
-    Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options<br>
+    Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences<br>
     and enter the URL (e.g. https://yourpod.com).<br><br>
     Note:<br>
     There's a little tedious bug when typing the url (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">Bug 784335</a>):<br>
@@ -156,27 +183,41 @@ $(function () {
   </div>
   
   <div class="content">
-    <h3>Usage:</h3>
-    Right click on images and select "Share on Diaspora*". A panel will be shown and you can create the post.<br><br>
-    The post will be structured in this way: image/title/link/text/hashtags and sent to diaspora via the publisher bookmarklet.<br><br>
-    Panel fields:
+    <h3>Usage</h3>
     <dl>
-      <dt class="ev">- Title</dt>
-        <dd>The document title. You can edit or change it.</dd>
-      <dt class="ev">- Url</dt>
-        <dd>The document URL. You can shorten it.</dd>
-      <dt class="ev">- Text</dt>
-        <dd>Additional text. You can use markdown. Text selected in the document will be automatically entered.</dd>
-      <dt class="ev">- Tags</dt>
-        <dd>Hashtags. Enter them separated by commas.</dd>
+      <dt class="ev">- Share images</dt>
+        <dd>Right click on images and select "Share on Diaspora*".</dd>
+      <dt class="ev">- Share videos</dt>
+        <dd>You can share videos from youtube.com. Right click on video page and select "Share video on Diaspora*".</dd>
     </dl>
     You must be logged to your Diaspora* pod to use this addon.
     <div class="divider"></div>
   </div>
   
   <div class="content">
-    <h3>Options:</h3>
-    Firefox > Addons > Extensions > Diaspora* Easyshare > Options
+    <h3>The panel</h3>
+    <dl>
+      <dt class="ev">- Title</dt>
+        <dd>Shows document-title/video-title. You can edit or change it.</dd>
+      <dt class="ev">- Url</dt>
+        <dd>The document-URL/video-URL. You can shorten long urls.</dd>
+      <dt class="ev">- Text</dt>
+        <dd>Additional text. Automatically shows text selected (images) or description (videos). You can add markdown emphasis (italics) or use your own markdown syntax.</dd>
+      <dt class="ev">- Tags</dt>
+        <dd>Hashtags. Enter them separated by commas.</dd>
+    </dl>
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>The post</h3>
+    Diaspora* Easyshare send the post to Diaspora via the publisher bookmarklet, forcing it to build the post as /image/title/link/text/hashtags for images and title/text/hashtags/video for videos.
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>Preferences</h3>
+    Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences
     <dl>
       <dt class="ev">- Advertises</dt>
         <dd>Add/remove "via Easyshare" at end of post.</dd>
@@ -189,8 +230,12 @@ $(function () {
   </div>
     
   <div class="content">
-    <h3>Changelog:</h3>
+    <h3>Changelog</h3>
     <dl>
+      <dt>v.0.4</dt>
+        <dd>- Share videos from youtube by right clicking on the video pages.<br>
+            - New link to add markdown emphasis (italics) to entered text.
+        </dd>
       <dt>v.0.3</dt>
         <dd>- [Options] Added ability to use own Bitly API credential for shorten URLs.<br>
             - Some code improvements.
@@ -212,11 +257,11 @@ $(function () {
 </div>
 
 <div id="upgrade" style="display:none;">
-  Upgraded to version 0.3
+  Upgraded to version 0.4
   <dl>
     <dt>Changes:</dt>
-      <dd>- [Options] Added ability to use own Bitly API credential for shorten URLs.<br>
-          - Some code improvements.
+      <dd>- Share videos from youtube by right clicking on the video pages.<br>
+          - New link to add markdown emphasis (italics) to entered text.
       </dd>
   </dl>
 </div>
