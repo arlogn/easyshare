@@ -19,6 +19,7 @@
 var easyshare = {
 
   prefs: {},
+  youtube: {},
 
   $: function (id) {
   		
@@ -27,7 +28,7 @@ var easyshare = {
   },
   
   /* 
-    Populate the panel  
+    Populate the panel
   */
   populate: function (data) {
     
@@ -42,13 +43,13 @@ var easyshare = {
     
     this.$('title').value = data.title;
     this.$('url').value = data.url;
-    this.$('text').value = data.sel;
+    this.$('text').value = data.text;
     this.$('tags').value = '';
-    
+    this.youtube = { video: data.video, videoUrl: data.videoUrl };
   },
 
   /* 
-    Short URL via bit.ly api
+    Shorten URL via bit.ly api
   */
   shortify: function () {
     
@@ -89,45 +90,88 @@ var easyshare = {
     xhr.send(null);
     
   },
+  
+  /*
+    Add emphasis to entered text
+  */
+  markdownify: function () {
+  	
+    var t = this.$('text'),
+        s = t.value;
+    if (s.length > 0 && s.indexOf('_') != 0)
+      t.value = s.trim().replace(/[\\_\*]/g, '\\$&').replace(/^([\s\S]*)$/i, '_$1_');
+  	 
+  },
+  
+  /*
+    Params (@title,@url) to share images as image/title/text/tags
+  */
+  image_params: function (title, text, tags) {
+  	 
+  	 var url = encodeURIComponent(this.$('url').value),
+        img = "[![Image](" + encodeURIComponent(this.$('thumb')
+            .getAttribute('src')) + ")](" + url + ")",
+        params = { title: "?title=", url: "" };
+    title.length > 0 ?
+            params.title += img + "<br> **" + encodeURIComponent(title) + 
+            "** <br>[" + url + "](" + url + ")" :
+            params.title += img;
+  	 if (text.length > 0) params.title += "<br><br>" + encodeURIComponent(text);
+  	 if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
+  	 this.prefs && this.prefs.viaEasyshare ?
+  	         params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
+  	         params.url += "&url=<br><br>";
+  	 
+  	 return params;
+  	            
+  },
+  
+  /*
+    Params (@title,@url) to share youtube videos as title/text/tags/video
+  */
+  video_params: function (title, text, tags) {
+  	 
+  	 var params = { title: "?title=", url: "&url=" };
+  	 if (title.length > 0) params.title += "**" + encodeURIComponent(title) + "**";
+  	 if (text.length > 0) params.title += "<br>" + encodeURIComponent(text);
+  	 if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
+  	 this.prefs && this.prefs.viaEasyshare ?
+            params.title += "<br><sub>[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
+            params.title += "<br><br>";
+    params.url += this.youtube.videoUrl;
+   	         
+  	 return params;
+  	            
+  },
 
   /* 
     Send to Diaspora via publisher bookmarklet
   */
   send: function () {
     
-    var docURL = encodeURIComponent(this.$('url').value),
-        image = "[![Image](" + encodeURIComponent(this.$('thumb')
-          .getAttribute('src')) + ")](" + docURL + ")",
-        title = this.$('title').value,
-        text = this.$('text').value,
-        tags = this.$('tags').value;
-
-    /* shows a warning and exit if pod URL was not saved */
     if (this.prefs.podURL == "") {
       var w = "WARNING!\nYou have not entered the URL of your Diaspora* pod.\n" +
-              "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options\n" +
-              "and enter the URL (e.g. https://awesomepod.com).";
+              "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences\n" +
+              "and enter the URL (e.g. https://yourpod.com).";
       return alert(w);
     }
-
-    var URL = this.prefs.podURL + "/bookmarklet?title=" + image +
-              "<br> **" + encodeURIComponent(title) + "** <br>[" +
-              docURL + "](" + docURL + ")";
-
-    if (text.length > 0) URL += "<br><br>" + encodeURIComponent(text);
-
-    if (tags.length > 0) {
-      /* Allows to enter hashtags with or without hash sign and spaces between them */
-      /* Maybe there is a better way to do this */
-      tags = tags.replace(/\s+/g, '').replace(/^(.+)$/g, '#$1')
-                 .replace(/,/g, ' #').replace(/##/g, '#');
-      URL += "<br><br>" + encodeURIComponent(tags);
-    }
-
-    if (this.prefs.viaEasyshare)
-      URL += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>";
-    else
-      URL += "<br><sub>&url=</sub>";
+    
+    var title  = this.$('title').value,
+        text   = this.$('text').value,
+        tags   = this.$('tags').value,
+        params = {}; 
+        
+    tags.length > 0 ? 
+        tags = tags.replace(/\s+/g, '') 	 
+  	                .replace(/^(.+)$/g, '#$1')
+  	                .replace(/,/g, ' #')
+  	                .replace(/##/g, '#') :
+  	     tags = null;
+  	     
+  	 this.youtube && this.youtube.video ? params = this.video_params(title, text, tags) :
+  	 												  params = this.image_params(title, text, tags);
+    
+    var URL = this.prefs.podURL + "/bookmarklet" + params.title + "" + params.url;
 
     if (!window.open(URL + "&v=1&noui=1&jump=doclose", "diasporav1",
       "location=yes,links=no,scrollbars=no,toolbar=no,width=600,height=" +
@@ -137,7 +181,7 @@ var easyshare = {
   },
   
   /* 
-    Initializes 
+    Initialize
   */
   init: function () {
     
@@ -150,8 +194,12 @@ var easyshare = {
     });
     
     this.$('send').addEventListener('click', function () { easyshare.send() }, false);
-    this.$('shortify').addEventListener("click", function (e) {
+    this.$('shorturl').addEventListener('click', function (e) {
       easyshare.shortify();
+      e.preventDefault();
+    }, false);
+    this.$('emphasis').addEventListener('click', function (e) {
+      easyshare.markdownify();
       e.preventDefault();
     }, false);
     
@@ -160,4 +208,3 @@ var easyshare = {
 };
 
 window.addEventListener('load', function () { easyshare.init() }, false);
-
