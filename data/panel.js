@@ -119,8 +119,8 @@ var easyshare = {
     if (text.length > 0) params.title += "<br><br>" + encodeURIComponent(text);
     if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
     this.prefs && this.prefs.viaEasyshare ?
-  	         params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
-  	         params.url += "&url=<br><br>";
+             params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
+             params.url += "&url=<br><br>";
   	 
     return params;
   	            
@@ -133,14 +133,14 @@ var easyshare = {
     
     var params = { title: "?title=", url: "&url=" };
     if (title.length > 0) params.title += "**" + encodeURIComponent(title) + "**";
-  	if (text.length > 0) params.title += "<br>" + encodeURIComponent(text);
-  	if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
-  	this.prefs && this.prefs.viaEasyshare ?
+    if (text.length > 0) params.title += "<br>" + encodeURIComponent(text);
+    if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
+    this.prefs && this.prefs.viaEasyshare ?
             params.title += "<br><sub>[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
             params.title += "<br><br>";
     params.url += this.youtube.videoUrl;
    	         
-  	return params;
+    return params;
   	            
   },
 
@@ -163,13 +163,13 @@ var easyshare = {
         
     tags.length > 0 ? 
         tags = tags.replace(/\s+/g, '') 	 
-  	               .replace(/^(.+)$/g, '#$1')
-  	               .replace(/,/g, ' #')
-  	               .replace(/##/g, '#') :
+                   .replace(/^(.+)$/g, '#$1')
+                   .replace(/,/g, ' #')
+                   .replace(/##/g, '#') :
         tags = null;
   	     
-  	 this.youtube && this.youtube.video ? params = this.video_params(title, text, tags) :
-                                          params = this.image_params(title, text, tags);
+    this.youtube && this.youtube.video ? params = this.video_params(title, text, tags) :
+                                         params = this.image_params(title, text, tags);
     
     var URL = this.prefs.podURL + "/bookmarklet" + params.title + "" + params.url;
 
