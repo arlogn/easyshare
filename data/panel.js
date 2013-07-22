@@ -95,7 +95,7 @@ var easyshare = {
     Add emphasis to entered text
   */
   markdownify: function () {
-  	
+    
     var t = this.$('text'),
         s = t.value;
     if (s.length > 0 && s.indexOf('_') != 0)
@@ -107,8 +107,8 @@ var easyshare = {
     Params (@title,@url) to share images as image/title/text/tags
   */
   image_params: function (title, text, tags) {
-  	 
-  	 var url = encodeURIComponent(this.$('url').value),
+    
+    var url = encodeURIComponent(this.$('url').value),
         img = "[![Image](" + encodeURIComponent(this.$('thumb')
             .getAttribute('src')) + ")](" + url + ")",
         params = { title: "?title=", url: "" };
@@ -116,9 +116,9 @@ var easyshare = {
             params.title += img + "<br> **" + encodeURIComponent(title) + 
             "** <br>[" + url + "](" + url + ")" :
             params.title += img;
-  	 if (text.length > 0) params.title += "<br><br>" + encodeURIComponent(text);
-  	 if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
-  	 this.prefs && this.prefs.viaEasyshare ?
+    if (text.length > 0) params.title += "<br><br>" + encodeURIComponent(text);
+    if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
+    this.prefs && this.prefs.viaEasyshare ?
   	         params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
   	         params.url += "&url=<br><br>";
   	 
@@ -130,9 +130,9 @@ var easyshare = {
     Params (@title,@url) to share youtube videos as title/text/tags/video
   */
   video_params: function (title, text, tags) {
-  	 
-  	 var params = { title: "?title=", url: "&url=" };
-  	 if (title.length > 0) params.title += "**" + encodeURIComponent(title) + "**";
+    
+    var params = { title: "?title=", url: "&url=" };
+    if (title.length > 0) params.title += "**" + encodeURIComponent(title) + "**";
   	 if (text.length > 0) params.title += "<br>" + encodeURIComponent(text);
   	 if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
   	 this.prefs && this.prefs.viaEasyshare ?
