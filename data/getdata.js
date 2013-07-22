@@ -24,19 +24,19 @@ self.on('click', function(node) {
     data.video = false;
     data.videoUrl = 'none';
   } else {
-  	 var vd = videoData();
-  	 if (vd) {
+    var vd = videoData();
+  	if (vd) {
       data.node = '<img id="thumb" src="' + vd.thumb + '">';
       data.title = vd.title;
       data.text = vd.desc;
       data.videoUrl = vd.url;
-  	 } else {
+  	} else {
       data.node = '<p id="thumb" class="warning">No thumbnail and description.<br>' +
   	 	            'Video data not found.</p>';
-  	   data.title = document.title;
-  	   data.text = "";
-  	   data.videoUrl = data.url;
-  	 }
+  	  data.title = document.title;
+  	  data.text = "";
+  	  data.videoUrl = data.url;
+  	}
     data.video = true;
   }
   
