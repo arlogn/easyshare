@@ -92,6 +92,11 @@ dd    { margin: 0 0 5px 10px; }
 a, a:link {
   text-decoration: none;
 }
+.highlights {
+  font-style: oblique;
+  background-color: #eee;
+  padding: 2px;
+}
 </style>
 <script type="text/javascript">
 $(function () {
@@ -119,7 +124,7 @@ $(function () {
           class='lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Context-menu" 
-          data-lightview-caption="Right click on images and select 'Share on Diaspora*'.">
+          data-lightview-caption="Right click on images and choose 'Share on Diaspora*'.">
           <img src="images/thumbnails/thumb1.jpg"alt="">
         </a>
       </div>
@@ -137,7 +142,7 @@ $(function () {
           class='lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Context-menu" 
-          data-lightview-caption="Right click on youtube video page and select 'Share video on Diaspora*'.">
+          data-lightview-caption="Right click selected text and choose 'Share selection on Diaspora*'.">
           <img src="images/thumbnails/thumb3.jpg"alt="">
         </a>
       </div>
@@ -154,8 +159,8 @@ $(function () {
         <a href="images/screenshot5.jpg" 
           class='lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Publisher" 
-          data-lightview-caption="Send to Diaspora*.">
+          data-lightview-title="Context-menu" 
+          data-lightview-caption="Right click on youtube video page and choose 'Share video on Diaspora*'.">
           <img src="images/thumbnails/thumb5.jpg"alt="">
         </a>
       </div>
@@ -163,9 +168,36 @@ $(function () {
         <a href="images/screenshot6.jpg" 
           class='lightview' 
           data-lightview-group='easyshare'
+          data-lightview-title="Panel" 
+          data-lightview-caption="Build the post.">
+          <img src="images/thumbnails/thumb6.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot7.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Publisher" 
+          data-lightview-caption="Send to Diaspora*">
+          <img src="images/thumbnails/thumb7.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot8.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
+          data-lightview-title="Widget Panel" 
+          data-lightview-caption="Add-on bar widget for fast text-only posts.">
+          <img src="images/thumbnails/thumb8.jpg"alt="">
+        </a>
+      </div>
+      <div>
+        <a href="images/screenshot9.jpg" 
+          class='lightview' 
+          data-lightview-group='easyshare'
           data-lightview-title="Preferences" 
           data-lightview-caption="Preferences tab.">
-          <img src="images/thumbnails/thumb6.jpg"alt="">
+          <img src="images/thumbnails/thumb9.jpg"alt="">
         </a>
       </div>
     </div>
@@ -185,10 +217,12 @@ $(function () {
   <div class="content">
     <h3>Usage</h3>
     <dl>
-      <dt class="ev">- Share images</dt>
-        <dd>Right click on images and select "Share on Diaspora*".</dd>
-      <dt class="ev">- Share videos</dt>
-        <dd>You can share videos from youtube.com. Right click on video page and select "Share video on Diaspora*".</dd>
+      <dt class="ev">Share images</dt>
+        <dd>Right click on images and choose <span class="highlights">Share on Diaspora*</span>. Selected text is automatically entered.</dd>
+      <dt class="ev">Share selection</dt>
+        <dd>Share only selected text. Right click and choose <span class="highlights">Share selection on Diaspora*</span>.</dd>
+      <dt class="ev">Share videos</dt>
+        <dd>Share videos from youtube.com. Right click on video page and choose <span class="highlights">Share video on Diaspora*</span>. Video description is automatically entered.</dd>
     </dl>
     You must be logged to your Diaspora* pod to use this addon.
     <div class="divider"></div>
@@ -197,13 +231,13 @@ $(function () {
   <div class="content">
     <h3>The panel</h3>
     <dl>
-      <dt class="ev">- Title</dt>
+      <dt class="ev">Title</dt>
         <dd>Shows document-title/video-title. You can edit or change it.</dd>
-      <dt class="ev">- Url</dt>
+      <dt class="ev">Url</dt>
         <dd>Shows document-URL/video-URL. You can shorten long urls.</dd>
-      <dt class="ev">- Text</dt>
-        <dd>Additional text. Automatically shows text selected (images) or description (videos). You can add markdown emphasis (italics) or use your own markdown syntax.</dd>
-      <dt class="ev">- Tags</dt>
+      <dt class="ev">Text</dt>
+        <dd>Automatically shows text selected or video description but you can insert what you want. You can add markdown emphasis (italics) or use your own markdown syntax.</dd>
+      <dt class="ev">Tags</dt>
         <dd>Hashtags. Enter them separated by commas.</dd>
     </dl>
     <div class="divider"></div>
@@ -211,7 +245,13 @@ $(function () {
   
   <div class="content">
     <h3>The post</h3>
-    Diaspora* Easyshare send the post to Diaspora via the publisher bookmarklet, forcing it to build the post as /image/title/link/text/hashtags/ for images and /title/text/hashtags/link/video/ for videos.
+    Diaspora* Easyshare send the post to Diaspora via the publisher bookmarklet, forcing it to build the post as:<br>image/title/link/text/hashtags/ - to share images<br>title/link/text/hashtags/ - to share text-only<br>title/text/hashtags/link/video/ - to share videos.
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>The widget</h3>
+    You can send fast text-only posts using the add-on bar widget. The widget can be permanently removed by the preferences.
     <div class="divider"></div>
   </div>
   
@@ -219,36 +259,52 @@ $(function () {
     <h3>Preferences</h3>
     Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences
     <dl>
-      <dt class="ev">- Advertises</dt>
+      <dt class="ev">Pod URL (required)</dt>
+        <dd>The URL of your diaspora* pod.</dd>
+      <dt class="ev">Widget</dt>
+        <dd>Show/remove the add-on bar widget. If you remove it and want to show again in the same Firefox session you must restart the browser.</dd>
+      <dt class="ev">Advertises</dt>
         <dd>Add/remove "via Easyshare" at end of post.</dd>
-      <dt class="ev">- Set the publisher window height</dt>
+      <dt class="ev">Set the publisher window height</dt>
         <dd>If you have many aspects you can increase the publisher window height.</dd>
-      <dt class="ev">- Your Bitly API credentials</dt>
-        <dd>Uses your own Bitly API credentials for shorten URLs or leave the fields blank if you want use the internal ones.</dd>
+      <dt class="ev">Your Bitly API credentials</dt>
+        <dd>Uses your own Bitly API credentials to shorten URLs or leave the fields blank if you want use the internal ones.</dd>
     </dl>
     <div class="divider"></div>
   </div>
     
   <div class="content">
+    <h3>Issues</h3>
+    Please, reports bugs and issues on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>. Thanks.
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
     <h3>Changelog</h3>
     <dl>
+      <dt>v.0.5 <em>(pending review on AMO)</em></dt>
+        <dd>- New feature - Share selected text.<br>
+            - New add-on bar widget to send fast text-only posts.<br>
+            - Preferences > Added ability to show/remove widget.<br>
+            - Improved text formatting.
+        </dd>
       <dt>v.0.4.1</dt>
-        <dd>- Shows context menu item for share videos even on secure (SSL) Youtube pages.
+        <dd>- Share videos even on secure (SSL) Youtube pages.
         </dd>
       <dt>v.0.4</dt>
-        <dd>- Share videos from youtube by right clicking on video pages.<br>
-            - New link to add markdown emphasis (italics) to entered text.
+        <dd>- New feature - Share videos from youtube video pages.<br>
+            - Added link to add markdown emphasis (italics) to entered text.
         </dd>
       <dt>v.0.3</dt>
-        <dd>- Preferences > Added ability to use own Bitly API credential for shorten URLs.<br>
+        <dd>- Preferences > Added ability to use own Bitly API credential to shorten URLs.<br>
             - Some code improvements.
         </dd>
       <dt>v.0.2.1</dt>
-        <dd>- Removed function to escape special characters. Publisher escape all passed params.</dd>
+        <dd>- Removed unnecessary function to escape special characters.</dd>
       <dt>v.0.2</dt>
         <dd>- Preferences > Added ability to remove "via Easyshare" from post.<br>
             - Preferences > Added ability to set the publisher window height.<br>
-            - Typing of hashtags simplified. Now can be entered with or without the hash sign and with or without spaces between them.<br>
+            - Typing of hashtags simplified.<br>
             - Some minor fixes and improvements.
         </dd>
       <dt>v.0.1.1</dt>
@@ -260,12 +316,16 @@ $(function () {
 </div>
 
 <div id="upgrade" style="display:none;">
-  Upgraded to version 0.4.1<br>
+  Upgraded to version 0.5<br>
   <dl>
     <dt>Changes:</dt>
-      <dd>- Shows context menu item for share videos even on secure (SSL) Youtube pages.
+      <dd>- New feature - Share selected text.<br>
+          - New add-on bar widget to send fast text-only posts.<br>
+          - Preferences > Added ability to show/remove widget.<br>
+          - Improved text formatting.
       </dd>
   </dl>
+  <a href="index.html">Read more</a>
 </div>
 </body>
 </html>
