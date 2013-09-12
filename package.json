@@ -8,6 +8,13 @@
             "title": "Pod URL"
         },
         {
+            "description": "Show a widget in the add-on bar to send fast text-only posts.",
+            "type": "bool",
+            "name": "showWidget",
+            "value": true,
+            "title": "Show widget"
+        },
+		{
             "description": "Add 'via Easyshare' at end of post.",
             "type": "bool",
             "name": "viaEasyshare",
@@ -29,7 +36,7 @@
             "title": "Your Bitly login"
         },
         {
-            "description": "Uses your own Bitly API credentials for shorten URLs or leave above fields blank if you want use the internal ones.", 
+            "description": "Uses your own Bitly API credentials to shorten URLs or leave above fields blank if you want use the internal ones.", 
             "type": "string", 
             "name": "bitlyApikey", 
             "value": "", 
@@ -38,11 +45,11 @@
     "name": "d_easyshare", 
     "license": "GPLv3", 
     "author": "arlo gn", 
-    "version": "0.4.1", 
+    "version": "0.5", 
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
     "homepage": "http://arlogn.github.io/easyshare/",
-    "icon": "skin/icon.png",
-    "icon64": "skin/icon64.png"
+    "icon": "icons/icon.png",
+    "icon64": "icons/icon64.png"
 }
