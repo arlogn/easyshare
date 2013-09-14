@@ -140,7 +140,7 @@ var easyshare = {
   send: function () {
     if (this.prefs.podURL == "") {
       var w = "WARNING!\nYou have not entered the URL of your Diaspora* pod.\n" +
-              "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences\n" +
+              "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options\n" +
               "and enter the URL (e.g. https://yourpod.com).";
       return alert(w);
     }
