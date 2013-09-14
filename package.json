@@ -45,7 +45,7 @@
     "name": "d_easyshare", 
     "license": "GPLv3", 
     "author": "arlo gn", 
-    "version": "0.5", 
+    "version": "0.5.1", 
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
