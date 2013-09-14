@@ -6,7 +6,7 @@
 var send = function (prefs) {
   if (prefs.podURL == "" || prefs.podURL == null) {
     var w = "WARNING!\nYou have not entered the URL of your Diaspora* pod.\n" +
-            "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences\n" +
+            "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options\n" +
             "and enter the URL (e.g. https://yourpod.com).";
     return alert(w);
   }
@@ -58,10 +58,6 @@ var init = function () {
   });
   document.getElementById('send').addEventListener('click', function () { 
     send(prefs); 
-  }, false);
-  document.getElementById('shorturl').addEventListener('click', function (e) {
-    shorten();
-    e.preventDefault();
   }, false);
 };
 
