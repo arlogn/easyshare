@@ -48,8 +48,8 @@ var easyshare = {
     Shorten URL via bit.ly api
   */
   shorten: function () {
-    var LOGIN = this.prefs.bitlyLogin || "diasporaeasyshare";
-    var APIKEY = this.prefs.bitlyApikey || "R_5ab4e2e8e9ad46c746079a9933596bec";
+    var LOGIN = this.prefs.pref_bitlylogin || "diasporaeasyshare";
+    var APIKEY = this.prefs.pref_bitlyapikey || "R_5ab4e2e8e9ad46c746079a9933596bec";
     
     var url = this.$('url'),
         longURL = url.value,
@@ -90,9 +90,25 @@ var easyshare = {
   */
   emphasize: function () {
     var t = this.$('text'),
-        s = t.value;
-    if (s.length > 0 && s.indexOf('_') != 0)
-      t.value = s.trim().replace(/[\\_\*]/g, '\\$&').replace(/^([\s\S]*)$/i, '_$1_');
+        s = t.value,
+        re = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+        uiU = false;
+        
+    // Underscores in URLs?
+    var urls = s.match(re);
+    if (urls) {
+      for (var i in urls) {
+        if (/_/.test(urls[i])) {
+          uiU = true;
+          break;
+        }
+      }
+    }
+    
+    if (s.length > 0 && s.indexOf('_') != 0 && !uiU)
+      t.value = s.trim().replace(/[\\_\*]/g, '\\$&')
+                        .replace(re, '<a href="$1">$1</a>')
+                        .replace(/^([\s\S]*)$/i, '_$1_');
   },
   
   /*
@@ -104,14 +120,14 @@ var easyshare = {
         url = encodeURIComponent(this.$('url').value),
         params = { title: "?title=", url: "" };
         
-    if (node.nodeName == "IMG")
+    if (node.className != "easyshare-placeholder")
             params.title += "[![Image](" + encodeURIComponent(node.getAttribute('src')) + 
                             ")](" + url + ")<br>";
     if (title) params.title += "**" + encodeURIComponent(title) + 
                                "** <br>[" + url + "](" + url + ")<br>";    
     if (text) params.title += "<br>" + encodeURIComponent(text);
     if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
-    this.prefs && this.prefs.viaEasyshare ?
+    this.prefs && this.prefs.pref_adveasyshare ?
              params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
              params.url += "&url=<br><br>";
   	 
@@ -126,7 +142,7 @@ var easyshare = {
     if (title) params.title += "**" + encodeURIComponent(title) + "**";
     if (text) params.title += "<br>" + encodeURIComponent(text);
     if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
-    this.prefs && this.prefs.viaEasyshare ?
+    this.prefs && this.prefs.pref_adveasyshare ?
             params.title += "<br><sub>[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
             params.title += "<br><br>";
     params.url += this.youtube.videoUrl;
@@ -138,10 +154,8 @@ var easyshare = {
     Send to Diaspora via the publisher bookmarklet
   */
   send: function () {
-    if (this.prefs.podURL == "") {
-      var w = "WARNING!\nYou have not entered the URL of your Diaspora* pod.\n" +
-              "Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Options\n" +
-              "and enter the URL (e.g. https://yourpod.com).";
+    if (this.prefs.pref_podurl == "") {
+      var w = self.options.warning.replace(/\\n/g, '\n');
       return alert(w);
     }
     
@@ -164,11 +178,11 @@ var easyshare = {
     this.youtube && this.youtube.video ? params = this._vparams(title, text, tags) :
                                          params = this._params(title, text, tags);                        
     
-    var URL = this.prefs.podURL + "/bookmarklet" + params.title + "" + params.url;
+    var URL = this.prefs.pref_podurl + "/bookmarklet" + params.title + "" + params.url;
 
     if (!window.open(URL + "&v=1&noui=1&jump=doclose", "diasporav1",
       "location=yes,links=no,scrollbars=no,toolbar=no,width=600,height=" +
-      this.prefs.publisherHeight.toString()))
+      this.prefs.pref_publisherheight.toString()))
       location.href = URL + "jump=yes";
   },
   
