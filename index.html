@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Diaspora* Esayshare</title>
+<title>Diaspora* Easyshare</title>
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400" type="text/css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
@@ -97,6 +97,13 @@ a, a:link {
   background-color: #eee;
   padding: 2px;
 }
+.sub {
+  font-size: 11px;
+  line-height: 12px;
+  color: #333;
+  margin-top: 3px;
+  display: inline-block;
+}
 </style>
 <script type="text/javascript">
 $(function () {
@@ -124,7 +131,7 @@ $(function () {
           class='lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Context-menu" 
-          data-lightview-caption="Right click on images and choose 'Share on Diaspora*'.">
+          data-lightview-caption="Right click on images and choose 'Share image on Diaspora*'.">
           <img src="images/thumbnails/thumb1.jpg"alt="">
         </a>
       </div>
@@ -205,12 +212,11 @@ $(function () {
   
   <div class="content">
     <h3>Settings</h3>
-    After install you must save the URL of your Diaspora* pod.<br>
-    Go to Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences<br>
-    and enter the URL (e.g. https://yourpod.com).<br><br>
+    After installing the addon you must save the URL of your Diaspora* pod.<br>
+    Go to <span class="highlights">Firefox > Add-ons > Extensions > Diaspora* Easyshare > Options/Preferences</span> and enter the URL.<br><br>
     Note:<br>
     There's a little tedious bug when typing the url (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">Bug 784335</a>):<br>
-    <i>Typing forward slash ("/") in the preference field moves cursor to search field. You need to put again the cursor in the field.</i>
+    <i>Typing forward slash ("/") in the preference field moves cursor to search field. You need to put again the cursor in the right field.</i>
     <div class="divider"></div>
   </div>
   
@@ -218,11 +224,11 @@ $(function () {
     <h3>Usage</h3>
     <dl>
       <dt class="ev">Share images</dt>
-        <dd>Right click on images and choose <span class="highlights">Share on Diaspora*</span>. Selected text is automatically entered.</dd>
-      <dt class="ev">Share selection</dt>
-        <dd>Share only selected text. Right click and choose <span class="highlights">Share selection on Diaspora*</span>.</dd>
-      <dt class="ev">Share videos</dt>
-        <dd>Share videos from youtube.com. Right click on video page and choose <span class="highlights">Share video on Diaspora*</span>. Video description is automatically entered.</dd>
+        <dd>Right click on images and choose <span class="highlights">Share image on Diaspora*</span>.<br>Selected text in the page will be automatically entered in the panel Text field.</dd>
+      <dt class="ev">Share only selected text</dt>
+        <dd>Right click on selection and choose <span class="highlights">Share selection on Diaspora*</span>.</dd>
+      <dt class="ev">Share YouTube videos</dt>
+        <dd>Right click on youtube video page and choose <span class="highlights">Share video on Diaspora*</span>.</dd>
     </dl>
     You must be logged to your Diaspora* pod to use this addon.
     <div class="divider"></div>
@@ -232,44 +238,57 @@ $(function () {
     <h3>The panel</h3>
     <dl>
       <dt class="ev">Title</dt>
-        <dd>Shows document-title/video-title. You can edit or change it.</dd>
+        <dd>This field shows the document title or video title. You can change or modify its content. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</dd>
       <dt class="ev">Url</dt>
-        <dd>Shows document-URL/video-URL. You can shorten long urls.</dd>
+        <dd>This field shows the document URL or video URL. With a click you can shorten long URLs.</dd>
       <dt class="ev">Text</dt>
-        <dd>Automatically shows text selected or video description but you can insert what you want. You can add markdown emphasis (italics) or use your own markdown syntax.</dd>
+        <dd>This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can add markdown syntax to give emphasis to the text(*) or use your own markdown syntax.<br>
+        <span class="sub">(*) If text does not contain underscores in URLs. All underscores and asterisks will be escaped so URLs would be modified.</span></dd>
       <dt class="ev">Tags</dt>
-        <dd>Hashtags. Enter them separated by commas.</dd>
+        <dd>Field to enter hashtags separated by commas (tag1,tag2,tag3...).</dd>
     </dl>
     <div class="divider"></div>
   </div>
   
   <div class="content">
     <h3>The post</h3>
-    Diaspora* Easyshare send the post to Diaspora via the publisher bookmarklet, forcing it to build the post as:<br>image/title/link/text/hashtags/ - to share images<br>title/link/text/hashtags/ - to share text-only<br>title/text/hashtags/link/video/ - to share videos.
+    Easyshare sends the post to Diaspora* via the publisher bookmarklet, forcing it to build the post as:<br>image/title/link/text/hashtags/ - when you share images<br>title/link/text/hashtags/ - when you share text-only<br>title/text/hashtags/link/video/ - when you share videos.<br><br>
     <div class="divider"></div>
   </div>
   
   <div class="content">
     <h3>The widget</h3>
-    You can send fast text-only posts using the widget in the add-on bar. The widget can be permanently removed by the preferences.
+    By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can quickly send text-only posts.
+    The widget can be permanently removed by the Options/Preferences.
     <div class="divider"></div>
   </div>
   
   <div class="content">
     <h3>Preferences</h3>
-    Firefox > Addons > Extensions > Diaspora* Easyshare > Preferences
+    <span class="highlights">Firefox > Add-ons > Extensions > Diaspora* Easyshare > Options/Preferences</span><br>
+    or type <span class="highlights">about:addons</span> in the address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span><br><br>
     <dl>
       <dt class="ev">Pod URL (required)</dt>
         <dd>The URL of your diaspora* pod.</dd>
       <dt class="ev">Widget</dt>
-        <dd>Show/remove the widget from the add-on bar. If you remove it and want to show again in the same Firefox session you must restart the browser.</dd>
-      <dt class="ev">Advertises</dt>
-        <dd>Add/remove "via Easyshare" at the end of post.</dd>
-      <dt class="ev">Set the publisher window height</dt>
-        <dd>If you have many aspects you can increase the publisher window height.</dd>
-      <dt class="ev">Your Bitly API credentials</dt>
-        <dd>Uses your own Bitly API credentials to shorten URLs or leave the fields blank if you want use the internal ones.</dd>
+        <dd>Show/remove the widget in the browser add-on bar. After removing it, if you select the checkbox to show it again in the same Firefox session, you must restart the browser.</dd>
+      <dt class="ev">Advertises Easyshare</dt>
+        <dd>Add/remove "via Easyshare" at the end of post.<br>
+        <span class="sub">Adding 'via Easyshare' at the end of post as well as an advertisement for this addon it's a necessity. It's a way to utilize the hyphen that is automatically entered by the bookmarklet (all params passed to the bookmarklet are separated by an hyphen). If you choose not to advertise the addon, the hyphen will be positioned at the end of hashtags.</span></dd>
+      <dt class="ev">Publisher window height</dt>
+        <dd>Increase the publisher window height. This is useful if the Aspects drop-down menu isn't entirely shown.</dd>
+      <dt class="ev">Bitly API credentials (Login/API key)</dt>
+        <dd>Use your own Bitly API credentials to shorten URLs or leave these fields blank to use the internal ones.</dd>
     </dl>
+    <div class="divider"></div>
+  </div>
+  
+  <div class="content">
+    <h3>Language localization</h3>
+    From version 0.5.2 Easyshare supports multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:<br>
+    - Italian (it-IT)<br><br>
+    If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>.<br>
+    <span class="sub">And feel free to correct or improve my poor english. :)</span>
     <div class="divider"></div>
   </div>
     
@@ -282,7 +301,12 @@ $(function () {
   <div class="content">
     <h3>Changelog</h3>
     <dl>
-      <dt>v.0.5.1 <em>(pending review on AMO)</em></dt>
+      <dt>v.0.5.2 <span class="sub">pending review on AMO</span></dt>
+        <dd>- Added support for multi-language lacalization.<br>
+            - Added localized strings for Italian language.<br>
+            - Minor improvements.
+        </dd>
+      <dt>v.0.5.1</dt>
         <dd>- Fixed serious typo.
         </dd>
       <dt>v.0.5</dt>
@@ -296,7 +320,7 @@ $(function () {
         </dd>
       <dt>v.0.4</dt>
         <dd>- New feature - Share videos from youtube video pages.<br>
-            - Added link to add markdown emphasis (italics) to entered text.
+            - Added button to give emphasis to entered text.
         </dd>
       <dt>v.0.3</dt>
         <dd>- Preferences > Added ability to use own Bitly API credential to shorten URLs.<br>
@@ -319,10 +343,12 @@ $(function () {
 </div>
 
 <div id="upgrade" style="display:none;">
-  Upgraded to version 0.5.1<br>
+  Upgraded to version 0.5.2<br>
   <dl>
     <dt>Changes:</dt>
-      <dd>- Fixed serious typo.
+      <dd>- Added support for multi-language lacalization.<br>
+          - Added localized strings for Italian language.<br><br>
+          - Minor improvements.
       </dd>
   </dl>
   <a href="index.html">Read more</a>
