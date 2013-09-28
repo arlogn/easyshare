@@ -32,24 +32,25 @@ img {
 #title, #url, #text, #tags {
   height: 50px;
 }
-.control {
+.controls {
   width: 99%;
   height: 20px;
 }
-.control a {
+.controls a {
   float: right;
   margin: 3px 20px 0;
   color: white;
   text-decoration: none;
 }
-.control a:hover {
+.controls a:hover {
   text-decoration: underline;
 }
-.control a:focus, .control a:active {
+.controls a:focus, .controls a:active {
   outline: none;
 }
 .button {
   float: right;
+  padding: .5em 2em;
   margin: 10px 15px;
 }
 .warning {
@@ -73,16 +74,16 @@ img {
 		<div style="max-width:230px;" id="wrapper"></div>
 	</div>
 	<div class="rightside">
-		<label>TITLE</label>
+		<label data-l10n-id='panel_label_title'></label>
 		<textarea id="title"></textarea>
 		<textarea id="url"></textarea>
-		<div class="control"><a id="shorturl" href="#">Short URL</a></div>
-		<label>TEXT</label>
+		<div class="controls"><a id="shorturl" href="#" data-l10n-id='panel_ctrl_shorturl'></a></div>
+		<label data-l10n-id='panel_label_text'></label>
 		<textarea id="text"></textarea>
-		<div class="control"><a id="emphasis" href="#">Emphasis</a></div>
-		<label>TAGS</label>
+		<div class="controls"><a id="emphasis" href="#" data-l10n-id='panel_ctrl_emphasis'></a></div>
+		<label data-l10n-id='panel_label_tags'></label>
 		<textarea id="tags" placeholder="tag1,tag2,tag3 ..."></textarea>
-		<input type="button" id="send" class="button" value="Send">
+		<button id="send" class="button" data-l10n-id='panel_button_send'></button>
 	</div>
 	<div id="footer">DIASPORA* Easyshare</div>	
 </body>
