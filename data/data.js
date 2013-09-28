@@ -14,7 +14,7 @@ var videoData = function () {
 
 self.on('click', function (node, data) {
   var d = { url: document.URL };
-  
+
   switch (data) {
     case 'image' :
       d.node = '<img id="datanode" width="' + node.clientWidth + 
@@ -32,8 +32,7 @@ self.on('click', function (node, data) {
         d.text = vd.desc;
         d.videoUrl = vd.url;
       } else {
-        d.node = '<p id="datanode" class="warning">No thumbnail and description.<br>' +
-                 'Video data not found but you can share anyway this video.</p>';
+        d.node = '<img id="datanode" class="easyshare-placeholder" src="images/easyshare.png"></img>';
         d.title = document.title;
         d.text = "";
         d.videoUrl = data.url;
@@ -41,8 +40,7 @@ self.on('click', function (node, data) {
       d.video = true;
       break;
     case 'selection' :    	
-      d.node = '<p id="datanode" class="warning">No image. ' +
-               'You have chosen to share only selected text.</p>';
+      d.node = '<img id="datanode" class="easyshare-placeholder" src="images/easyshare.png"></img>'
       d.title = document.title; 
       d.text = window.getSelection().toString();
       d.video = false;
