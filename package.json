@@ -3,49 +3,49 @@
         {
             "description": "Enter URL of your Diaspora* pod.", 
             "type": "string", 
-            "name": "podURL", 
+            "name": "pref_podurl", 
             "value": "", 
             "title": "Pod URL"
         },
         {
-            "description": "Show a widget in the add-on bar to send fast text-only posts.",
+            "description": "Activates and shows a widget in the add-on bar to quickly send text-only posts.",
             "type": "bool",
-            "name": "showWidget",
+            "name": "pref_widget",
             "value": true,
-            "title": "Show widget"
+            "title": "Widget"
         },
-		{
-            "description": "Add 'via Easyshare' at end of post.",
+		    {
+            "description": "Advertises this add-on by adding 'via Easyshare' at the end of posts.",
             "type": "bool",
-            "name": "viaEasyshare",
+            "name": "pref_adveasyshare",
             "value": true,
-            "title": "Advertises"
+            "title": "Advertise Easyshare"
         },
         {
-            "description": "If you have many aspects you can increase the publisher window height.",
+            "description": "If the Aspects drop-down menu isn't entirely shown you can increase the publisher window height.",
             "type": "integer",
-            "name": "publisherHeight",
+            "name": "pref_publisherheight",
             "value": 250,
-            "title": "Set the publisher window height"
+            "title": "Publisher window height"
         },
         {
             "description": "", 
             "type": "string", 
-            "name": "bitlyLogin", 
+            "name": "pref_bitlylogin", 
             "value": "", 
-            "title": "Your Bitly login"
+            "title": "Bitly login"
         },
         {
             "description": "Uses your own Bitly API credentials to shorten URLs or leave above fields blank if you want use the internal ones.", 
             "type": "string", 
-            "name": "bitlyApikey", 
+            "name": "pref_bitlyapikey", 
             "value": "", 
-            "title": "Your Bitly API key"
+            "title": "Bitly API key"
         }],
     "name": "d_easyshare", 
     "license": "GPLv3", 
     "author": "arlo gn", 
-    "version": "0.5.1", 
+    "version": "0.5.2", 
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
