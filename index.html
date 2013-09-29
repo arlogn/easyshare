@@ -39,9 +39,13 @@ body {
   width: 600px;
   margin: 30px auto 40px auto;
 }
+#container {
+  display: block;
+}
 #upgrade {
   font-size: 16px;
   line-height: 20px;
+  display: none;
 }
 .content {
   width: 100%;
@@ -109,9 +113,13 @@ a, a:link {
 $(function () {
   var query = window.location.search;
   if (query.substring(3) == "upgrade") {
-    $('#container').css('display','none');
-    $('#upgrade').css('display', 'block');
+    $('#container').hide();
+    $('#upgrade').show();
   }
+  $('#read-more').on('click', function () {
+    $('#upgrade').hide();
+    $('#container').fadeIn('slow');
+  });
 });
 </script>
 </head>
@@ -342,16 +350,16 @@ $(function () {
   </div>
 </div>
 
-<div id="upgrade" style="display:none;">
+<div id="upgrade">
   Upgraded to version 0.5.2<br>
   <dl>
     <dt>Changes:</dt>
       <dd>- Added support for multi-language lacalization.<br>
-          - Added localized strings for Italian language.<br><br>
+          - Added localized strings for Italian language.<br>
           - Minor improvements.
       </dd>
   </dl>
-  <a href="index.html">Read more</a>
+  <a id="read-more" href="#">Read more</a>
 </div>
 </body>
 </html>
