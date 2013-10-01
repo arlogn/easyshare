@@ -1,105 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Firefox add-on to easily share web content on your Diaspora* pod">
+<meta name="author" content="arlo gn">
+<link rel="shortcut icon" href="assets/ico/favicon.png">
 <title>Diaspora* Easyshare</title>
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400" type="text/css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lightview/lightview.css">
 <!--[if lt IE 9]>
-  <script type="text/javascript" src="js/excanvas.js"></script>
+  <script src="assets/js/html5shiv.js"></script>
+  <script src="assets/js/respond.min.js"></script>
+  <script src="assets/js/excanvas.js"></script>
 <![endif]-->
-<script type="text/javascript" src="js/spinners.min.js"></script>
-<script type="text/javascript" src="js/lightview.js"></script>
-<link rel="stylesheet" type="text/css" href="css/lightview/lightview.css">
 <style>
-html, body { 
-  margin: 0;
-  padding: 0;
+.marketing {
+  margin: 20px 0 20px;
 }
-body {
-  font-family: 'Raleway', sans-serif;
-  font-size: 14px;
-  background-color: #fff;
-  color: #222;
-  line-height: 18px;
+.pull-left img {
+  margin: 0 10px 15px 0;
 }
-#header {
-  width: 600px;
-  height: 66px;
-  margin: 30px auto 10px auto; 
-  display: block;
-  position: relative;
+.thumbnails {
+  margin: 10px -5px;
 }
-#header .left {
-  float: left;
-  height: 64px;
+.thumbnails div {
+  padding-left: 5px;
+  padding-right: 5px;
 }
-#container, #upgrade {
-  width: 600px;
-  margin: 30px auto 40px auto;
-}
-#container {
-  display: block;
-}
-#upgrade {
-  font-size: 16px;
-  line-height: 20px;
-  display: none;
-}
-.content {
-  width: 100%;
-  margin: 15px 0 10px;
-}
-h1 {
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 30px;
-  color: #000;
-  margin-left: 10px;
-}
-h3 {
-  font-size: inherit;
-  font-weight: bold;
-  color: #d00;
-  margin-bottom: 5px;
-}
-#thumbs {
-  width: 100%;
-  margin: 15px 0 10px;
-  display: block;
-  overflow: hidden;
-}
-#thumbs div {
-  float: left;
-  margin-right: 8px;
-  padding: 4px;
-}
-#thumbs img {
-  border: 2px solid #666;
-}
-#thumbs img:hover {
-  opacity: .5;
-}
-dl    { margin-top: 5px; }
-dt.ev { color: #830; }
-dd    { margin: 0 0 5px 10px; }
-.divider {
-  width: 100%;
-  height: 1px;
-  background: -moz-linear-gradient(left, #fff 0%, #222 50%, #fff 100%); 
-  background: -webkit-linear-gradient(left, #fff 0%, #222 50%, #fff 100%); 
-  background: linear-gradient(left, #fff 0%, #222 50%, #fff 100%);
-  margin-top: 15px;
-  display: block;
-}
-a, a:link {
-  text-decoration: none;
-}
-.highlights {
-  font-style: oblique;
-  background-color: #eee;
-  padding: 2px;
+.tab-content {
+  padding: 10px;
+  border: solid #ddd;
+  border-width: 0 1px 1px;
 }
 .sub {
   font-size: 11px;
@@ -108,258 +42,366 @@ a, a:link {
   margin-top: 3px;
   display: inline-block;
 }
+.highlights {
+  color: #75252a;
+}
+.table-condensed > tbody > tr > td {
+  padding: 1px 8px;
+}
+#upgrade {
+  width: 600px;
+  margin: 30px auto 40px auto;
+  font-size: 16px;
+  line-height: 20px;
+  display: none;
+}
+/* fully show ligthbox buttons */
+.lv_side, .lv_slider {
+  padding-bottom: 33px !important;
+}
 </style>
-<script type="text/javascript">
-$(function () {
-  var query = window.location.search;
-  if (query.substring(3) == "upgrade") {
-    $('#container').hide();
-    $('#upgrade').show();
-  }
-  $('#read-more').on('click', function () {
-    $('#upgrade').hide();
-    $('#container').fadeIn('slow');
-  });
-});
-</script>
 </head>
-<body>
-<div id="header">
-  <div class="left"><img src="images/logo.png" alt=""></div>
-  <div class="left"><h1>DIASPORA* Easyshare</h1></div>
-</div>
 
-<div id="container">
-  <div class="content">
-    Mozilla Firefox add-on to easily share web content on your Diaspora* pod.<br>
-    <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/">https://addons.mozilla.org/firefox/addon/diaspora-easyshare/</a>
-    <div id="thumbs">
-      <div>
-        <a href="images/screenshot1.jpg" 
-          class='lightview' 
+<body>
+
+  <div class="container" id="container">
+    <!-- Jambotron -->
+    <div class="jumbotron marketing">
+      <div class="pull-left"><img src="assets/img/logo.png" alt=""></div>
+      <div class="pull-left"><h1>DIASPORA* Easyshare</h1></div>
+      <div class="clearfix"></div>
+      <p class="h4">Mozilla Firefox add-on to easily share web content on your Diaspora* pod.</p>
+      <p class="h5">Diaspora* Easyshare extends your right-click context menu with the ability to share images, text and videos.</p>
+      <p><a class="btn btn-success btn-lg" href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/"><span class="glyphicon glyphicon-share"></span> Install</a></p>
+    </div>
+    <!-- Thumbnails -->
+    <div class="row thumbnails">
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot1.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Context-menu" 
+          data-lightview-title="Context menu" 
           data-lightview-caption="Right click on images and choose 'Share image on Diaspora*'.">
-          <img src="images/thumbnails/thumb1.jpg"alt="">
+          <img src="assets/img/screenshot1.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot2.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot2.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Panel" 
-          data-lightview-caption="Build the post.">
-          <img src="images/thumbnails/thumb2.jpg"alt="">
+          data-lightview-title="Context menu" 
+          data-lightview-caption="Right click on selected text and choose 'Share selection on Diaspora*'.">
+          <img src="assets/img/screenshot2.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot3.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot3.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Context-menu" 
-          data-lightview-caption="Right click selected text and choose 'Share selection on Diaspora*'.">
-          <img src="images/thumbnails/thumb3.jpg"alt="">
+          data-lightview-title="Context menu" 
+          data-lightview-caption="Right click on youtube video pages and choose 'Share video on Diaspora*'.">
+          <img src="assets/img/screenshot3.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot4.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot4.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Panel" 
-          data-lightview-caption="Build the post.">
-          <img src="images/thumbnails/thumb4.jpg"alt="">
+          data-lightview-title="Panel with thumbnail" 
+          data-lightview-caption="Build and send the post.">
+          <img src="assets/img/screenshot4.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot5.jpg" 
-          class='lightview' 
+  </div>
+  
+  <div class="row thumbnails">
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot5.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Context-menu" 
-          data-lightview-caption="Right click on youtube video page and choose 'Share video on Diaspora*'.">
-          <img src="images/thumbnails/thumb5.jpg"alt="">
+          data-lightview-title="Panel without thumbnail (only text)" 
+          data-lightview-caption="Build and send the post.">
+          <img src="assets/img/screenshot5.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot6.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot6.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
-          data-lightview-title="Panel" 
-          data-lightview-caption="Build the post.">
-          <img src="images/thumbnails/thumb6.jpg"alt="">
+          data-lightview-title="Widget" 
+          data-lightview-caption="Quickly send text-only post.">
+          <img src="assets/img/screenshot6.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot7.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot7.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Publisher" 
-          data-lightview-caption="Send to Diaspora*">
-          <img src="images/thumbnails/thumb7.jpg"alt="">
+          data-lightview-caption="Send to Diaspora*.">
+          <img src="assets/img/screenshot7.jpg"alt="">
         </a>
       </div>
-      <div>
-        <a href="images/screenshot8.jpg" 
-          class='lightview' 
-          data-lightview-group='easyshare'
-          data-lightview-title="Widget Panel" 
-          data-lightview-caption="Add-on bar widget for fast text-only posts.">
-          <img src="images/thumbnails/thumb8.jpg"alt="">
-        </a>
-      </div>
-      <div>
-        <a href="images/screenshot9.jpg" 
-          class='lightview' 
+      
+      <div class="col-sm-6 col-md-3 pdng-lr5">
+        <a href="assets/img/screenshot8.jpg" 
+          class='thumbnail lightview' 
           data-lightview-group='easyshare'
           data-lightview-title="Preferences" 
-          data-lightview-caption="Preferences tab.">
-          <img src="images/thumbnails/thumb9.jpg"alt="">
+          data-lightview-caption="Easyshare Options/Preferences">
+          <img src="assets/img/screenshot8.jpg"alt="">
         </a>
       </div>
     </div>
-  </div>
-  
-  <div class="content">
-    <h3>Settings</h3>
-    After installing the addon you must save the URL of your Diaspora* pod.<br>
-    Go to <span class="highlights">Firefox > Add-ons > Extensions > Diaspora* Easyshare > Options/Preferences</span> and enter the URL.<br><br>
-    Note:<br>
-    There's a little tedious bug when typing the url (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">Bug 784335</a>):<br>
-    <i>Typing forward slash ("/") in the preference field moves cursor to search field. You need to put again the cursor in the right field.</i>
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>Usage</h3>
-    <dl>
-      <dt class="ev">Share images</dt>
-        <dd>Right click on images and choose <span class="highlights">Share image on Diaspora*</span>.<br>Selected text in the page will be automatically entered in the panel Text field.</dd>
-      <dt class="ev">Share only selected text</dt>
-        <dd>Right click on selection and choose <span class="highlights">Share selection on Diaspora*</span>.</dd>
-      <dt class="ev">Share YouTube videos</dt>
-        <dd>Right click on youtube video page and choose <span class="highlights">Share video on Diaspora*</span>.</dd>
-    </dl>
-    You must be logged to your Diaspora* pod to use this addon.
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>The panel</h3>
-    <dl>
-      <dt class="ev">Title</dt>
-        <dd>This field shows the document title or video title. You can change or modify its content. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</dd>
-      <dt class="ev">Url</dt>
-        <dd>This field shows the document URL or video URL. With a click you can shorten long URLs.</dd>
-      <dt class="ev">Text</dt>
-        <dd>This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can add markdown syntax to give emphasis to the text(*) or use your own markdown syntax.<br>
-        <span class="sub">(*) If text does not contain underscores in URLs. All underscores and asterisks will be escaped so URLs would be modified.</span></dd>
-      <dt class="ev">Tags</dt>
-        <dd>Field to enter hashtags separated by commas (tag1,tag2,tag3...).</dd>
-    </dl>
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>The post</h3>
-    Easyshare sends the post to Diaspora* via the publisher bookmarklet, forcing it to build the post as:<br>image/title/link/text/hashtags/ - when you share images<br>title/link/text/hashtags/ - when you share text-only<br>title/text/hashtags/link/video/ - when you share videos.<br><br>
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>The widget</h3>
-    By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can quickly send text-only posts.
-    The widget can be permanently removed by the Options/Preferences.
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>Preferences</h3>
-    <span class="highlights">Firefox > Add-ons > Extensions > Diaspora* Easyshare > Options/Preferences</span><br>
-    or type <span class="highlights">about:addons</span> in the address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span><br><br>
-    <dl>
-      <dt class="ev">Pod URL (required)</dt>
-        <dd>The URL of your diaspora* pod.</dd>
-      <dt class="ev">Widget</dt>
-        <dd>Show/remove the widget in the browser add-on bar. After removing it, if you select the checkbox to show it again in the same Firefox session, you must restart the browser.</dd>
-      <dt class="ev">Advertises Easyshare</dt>
-        <dd>Add/remove "via Easyshare" at the end of post.<br>
-        <span class="sub">Adding 'via Easyshare' at the end of post as well as an advertisement for this addon it's a necessity. It's a way to utilize the hyphen that is automatically entered by the bookmarklet (all params passed to the bookmarklet are separated by an hyphen). If you choose not to advertise the addon, the hyphen will be positioned at the end of hashtags.</span></dd>
-      <dt class="ev">Publisher window height</dt>
-        <dd>Increase the publisher window height. This is useful if the Aspects drop-down menu isn't entirely shown.</dd>
-      <dt class="ev">Bitly API credentials (Login/API key)</dt>
-        <dd>Use your own Bitly API credentials to shorten URLs or leave these fields blank to use the internal ones.</dd>
-    </dl>
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>Language localization</h3>
-    From version 0.5.2 Easyshare supports multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:<br>
-    - Italian (it-IT)<br><br>
-    If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>.<br>
-    <span class="sub">And feel free to correct or improve my poor english. :)</span>
-    <div class="divider"></div>
-  </div>
-    
-  <div class="content">
-    <h3>Issues</h3>
-    Please, reports bugs and issues on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>. Thanks.
-    <div class="divider"></div>
-  </div>
-  
-  <div class="content">
-    <h3>Changelog</h3>
-    <dl>
-      <dt>v.0.5.2</dt>
-        <dd>- Added support for multi-language lacalization.<br>
-            - Added localized strings for Italian language.<br>
-            - Minor improvements.
-        </dd>
-      <dt>v.0.5.1</dt>
-        <dd>- Fixed serious typo.
-        </dd>
-      <dt>v.0.5</dt>
-        <dd>- New feature - Share selected text.<br>
-            - New widget to send fast text-only posts.<br>
-            - Preferences > Added ability to show/remove widget.<br>
-            - Improved text formatting.
-        </dd>
-      <dt>v.0.4.1</dt>
-        <dd>- Share videos even on secure (SSL) Youtube pages.
-        </dd>
-      <dt>v.0.4</dt>
-        <dd>- New feature - Share videos from youtube video pages.<br>
-            - Added button to give emphasis to entered text.
-        </dd>
-      <dt>v.0.3</dt>
-        <dd>- Preferences > Added ability to use own Bitly API credential to shorten URLs.<br>
-            - Some code improvements.
-        </dd>
-      <dt>v.0.2.1</dt>
-        <dd>- Removed unnecessary function to escape special characters.</dd>
-      <dt>v.0.2</dt>
-        <dd>- Preferences > Added ability to remove "via Easyshare" from post.<br>
-            - Preferences > Added ability to set the publisher window height.<br>
-            - Typing of hashtags simplified.<br>
-            - Some minor fixes and improvements.
-        </dd>
-      <dt>v.0.1.1</dt>
-        <dd>- Fixed character encoding error.</dd>
-      <dt>v.0.1</dt>
-        <dd>- First release.</dd>
-    </dl>
-  </div>
-</div>
+    <!-- Nav Tabs -->
+    <div class="row marketing">
+      <ul id="navtabs" class="nav nav-tabs">
+        <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
+        <li><a href="#usage" data-toggle="tab">Usage</a></li>
+        <li><a href="#panel" data-toggle="tab">Panel</a></li>
+        <li><a href="#post" data-toggle="tab">Post</a></li>
+        <li><a href="#widget" data-toggle="tab">Widget</a></li>
+        <li><a href="#preferences" data-toggle="tab">Preferences</a></li>
+        <li><a href="#locals" data-toggle="tab">Locals</a></li>
+      </ul>
+      <div class="tab-content">
+        <!-- Settings -->
+        <div class="tab-pane fade active in" id="settings">
+          <p>After installing the add-on you must save the URL of your Diaspora* pod in the Preferences.<br>
+          <p>Note:<br>
+          There's a little tedious bug (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">784335</a>) when typing the url in an add-on preference field:<br>
+          <em>Typing forward slash ("/") in the preference field moves the cursor in the Search field. To continue typing you need to put the cursor back in the preference field.</em></p>
+        </div>
+        <!-- Usage -->
+        <div class="tab-pane fade" id="usage">
+          <p>Choose what to share with the context menu that will open a panel from which easily build the post that you want to send.</p>
+          <p><strong>Share images</strong><br>
+            Right click on images and choose <span class="highlights">'Share image on Diaspora*'</span>.<br>
+            Selected text in the page will be automatically entered in the panel Text field.</p>
+          <p><strong>Share only selected text</strong><br>
+            Right click on selection and choose <span class="highlights">'Share selection on Diaspora*'</span>.</p>
+          <p><strong>Share YouTube videos</strong><br>
+            Right click on youtube video page and choose <span class="highlights">'Share video on Diaspora*'</span>.</p>
+          <p><em>You must be logged to your Diaspora* pod to use this add-on.</em></p>
+        </div>
+        <!-- Panel -->
+        <div class="tab-pane fade" id="panel">
+          <p><strong>Title</strong><br>
+            This field shows the document title or video title. You can change or modify its content. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</p>
+          <p><strong>Url</strong><br>
+            This field shows the document URL or video URL. With a click you can shorten long URLs.</p>
+          <p><strong>Text</strong><br>
+            This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can add markdown syntax to give emphasis to the text(*) or use your own markdown syntax.<br>
+            <span class="sub">(*) If text does not contain underscores in URLs. All underscores and asterisks will be escaped so URLs would be modified.</span></p>
+          <p><strong>Tags</strong><br>
+            Field to enter hashtags separated by commas (tag1,tag2,tag3...).</p>
+        </div>
+        <!-- Post -->
+        <div class="tab-pane fade" id="post">
+          <p>Easyshare sends the post to Diaspora* via the publisher bookmarklet, forcing it to build the post as:<br>
+          <span class="highlights">image / title / link / text / hashtags /</span> --- when you share images<br>
+          <span class="highlights">title / link / text / hashtags /</span> --- when you share text-only<br>
+          <span class="highlights">title / text / hashtags / link / video /</span> --- when you share videos.</p>
+        </div>
+        <!-- Widget -->
+        <div class="tab-pane fade" id="widget">
+          <p>By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can quickly send text-only posts.<br>
+          The widget can be permanently removed by uncheking the checkbox in the Options/Preferences.</p>
+        </div>
+        <!-- Preferences -->
+        <div class="tab-pane fade" id="preferences">
+          <p>Type <span class="highlights">about:addons</span> in the Firefox address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span></p>
+          <p><strong>Pod URL (required)</strong><br>
+            The URL of your diaspora* pod.</p>
+          <p><strong>Widget</strong><br>
+            Show/remove the widget in the browser add-on bar.<br>
+            <span class="sub">After removing it, if you select the checkbox to show it again in the same Firefox session, you must restart the browser.</span></p>
+          <p><strong>Advertises Easyshare</strong><br>
+            Add/remove <span class="highlights">'via Easyshare'</span> at the end of post.<br>
+            <span class="sub">Adding 'via Easyshare' at the end of post as well as an advertisement for this add-on it's a necessity. It's a way to utilize the hyphen that is automatically entered by the bookmarklet (all params passed to the bookmarklet are separated by an hyphen). If you choose not to advertise the add-on, the hyphen will be positioned at the end of hashtags.</span></p>
+          <p><strong>Publisher window height</strong><br>
+            Increase the publisher window height. This is useful if the Aspects drop-down menu isn't entirely shown.</p>
+          <p><strong>Bitly API credentials (Login/API key)</strong><br>
+            Use your own Bitly API credentials to shorten URLs or leave these fields blank to use the internal ones.</p>
+        </div>
+        <!-- Locals -->
+        <div class="tab-pane fade" id="locals">
+          <p>From version 0.5.2 Easyshare supports multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:</p>
+          <p>- Italian (it-IT)</p>
+          <p>If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Changelog -->
+    <div class="row marketing">
+      <div class="panel panel-default">
+        <div class="panel-heading">Changelog</div>
+        <table class="table-condensed">
+          <tbody>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.5.2 -->
+            <tr>
+              <td>v.0.5.2</td>
+              <td>- Added support for multi-language lacalization.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Added localized strings for Italian language.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Minor improvements.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.5.1 -->
+            <tr>
+              <td>v.0.5.1</td>
+              <td>- Fixed serious typo.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.5 -->
+            <tr>
+              <td>v.0.5</td>
+              <td>- New feature > Share selected text.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- New widget to send fast text-only posts.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Preferences > Added ability to show/remove widget.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Improved text formatting.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.4.1 -->
+            <tr>
+              <td>v.0.4.1</td>
+              <td>- Share videos even on secure (SSL) Youtube pages.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.4 -->
+            <tr>
+              <td>v.0.4</td>
+              <td>- New feature > Share videos from youtube video pages.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Added button to give emphasis to entered text.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.3 -->
+            <tr>
+              <td>v.0.3</td>
+              <td>- Preferences > Added ability to use own Bitly API credential to shorten URLs.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Some code improvements.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.2.1 -->
+            <tr>
+              <td>v.0.2.1</td>
+              <td>- Removed unnecessary function to escape special characters.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.2 -->
+            <tr>
+              <td>v.0.2</td>
+              <td>- Preferences > Added ability to remove "via Easyshare" from post.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Preferences > Added ability to set the publisher window height.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Typing of hashtags simplified.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Some minor fixes and improvements.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.1.1 -->
+            <tr>
+              <td>v.0.1.1</td>
+              <td>- Fixed character encoding error.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.1 -->
+            <tr>
+              <td>v.0.1</td>
+              <td>- First release.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+      <p></p>
+    </div>
 
-<div id="upgrade">
-  Updated to version 0.5.2<br>
-  <dl>
-    <dt>Changes:</dt>
-      <dd>- Added support for multi-language lacalization.<br>
-          - Added localized strings for Italian language.<br>
-          - Minor improvements.
-      </dd>
-  </dl>
-  <a id="read-more" href="javascript:void(0)">Read more</a>
-</div>
+  </div> <!-- /container -->
+
+  <!-- Upgrade -->
+  <div id="upgrade">
+    <div class="pull-left"><img src="assets/img/logo.png" alt=""></div>
+    <div class="pull-left"><h1>DIASPORA* Easyshare</h1></div>
+    <div class="clearfix"></div>
+    <p>Updated to version 0.5.2</p>
+    <table class="table-condensed">
+      <tbody>
+        <tr>
+          <td>Changes:</td>
+          <td>- Added support for multi-language lacalization.</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>- Added localized strings for Italian language.</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>- Minor improvements.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin:20px 0 0 10px;"><a id="read-more" href="javascript:void(0)">Read more</a></p>
+  </div>
+  
+  <script type="text/javascript" src="assets/js//jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/js/spinners.min.js"></script>
+  <script type="text/javascript" src="assets/js/lightview.js"></script>
+  <script>
+    $(function () {
+      var query = window.location.search;
+      if (query.substring(3) == "upgrade") {
+        $('#container').hide();
+        $('#upgrade').show();
+      }
+      $('#read-more').on('click', function (e) {
+        e.preventDefault();
+        $('#upgrade').hide();
+        $('#container').fadeIn('slow');
+      });
+      $('#navtab a').on('click', function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      });
+    });
+  </script>
+  
 </body>
 </html>
