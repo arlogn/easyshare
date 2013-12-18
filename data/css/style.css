@@ -6,8 +6,34 @@ body {
   margin: 0;
   padding: 0;
 }
+.leftside {
+  width: 230px;
+  float: left;
+  margin: 10px 0 0 10px;
+  overflow: hidden;
+  display: block;
+}
+.rightside {
+  width: 360px;
+  max-height: 360px;
+  float: right;
+  margin: 5px 10px 5px 0;
+  overflow: hidden;
+  display: block;
+}
+#wrapper {
+  width: 100%;
+  max-height: 355px;
+  overflow: hidden;
+  display: block;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
 #title, #url, #text, #tags {
   width: 100%;
+  height: 50px;
   display: block;
 }
 #url {
@@ -16,11 +42,33 @@ body {
   resize: none;
   color: #0af;
 }
+.controls {
+  width: 99%;
+  height: 20px;
+}
+.controls a {
+  float: right;
+  margin: 3px 20px 0;
+  color: white;
+  text-decoration: none;
+}
+.controls a:hover {
+  text-decoration: underline;
+}
+.controls a:focus, .controls a:active {
+  outline: none;
+}
+#undo {
+  color: #00aaff;
+}
 label {
   margin: 5px 0 0 2px;
   display: inline-block;
 }
 .button {
+  float: right;
+  padding: .5em 2em;
+  margin: 10px 15px;
   display: inline-block;
   vertical-align: baseline;
   cursor: pointer;
@@ -45,4 +93,14 @@ label {
 }
 .button::-moz-focus-inner {
   border: none;
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 26px;
+  background-color: #333;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: 2px;
 }
