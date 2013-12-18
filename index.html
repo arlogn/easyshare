@@ -176,7 +176,8 @@
           <p>After installing the add-on you must save the URL of your Diaspora* pod in the Preferences.<br>
           <p>Note:<br>
           There's a little tedious bug (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">784335</a>) when typing the url in an add-on preference field:<br>
-          <em>Typing forward slash ("/") in the preference field moves the cursor in the Search field. To continue typing you need to put the cursor back in the preference field.</em></p>
+          <em>Typing forward slash ("/") in the preference field moves the cursor in the Search field. To continue typing you need to put the cursor back in the preference field.</em><br>
+          <strong>This is fixed on Firefox v.25.0.1</strong></p>
         </div>
         <!-- Usage -->
         <div class="tab-pane fade" id="usage">
@@ -192,14 +193,14 @@
         </div>
         <!-- Panel -->
         <div class="tab-pane fade" id="panel">
-          <p>The panel fields from which to build the post</p>
+          <p>The panel fields from which to build the post.</p>
           <p><strong>Title</strong><br>
             This field shows the document title or video title. You can change or modify its content. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</p>
           <p><strong>Url</strong><br>
             This field shows the document URL or video URL. With a click you can shorten long URLs.</p>
           <p><strong>Text</strong><br>
-            This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can add markdown syntax to give emphasis to the text(*) or use your own markdown syntax.<br>
-            <span class="sub">(*) If text does not contain underscores in URLs. All underscores and asterisks will be escaped so URLs would be modified.</span></p>
+            This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can formatting text adding html tags for <strong>Emphasis</strong>, <strong>Strong</strong> or <strong>Blockquote</strong>. You can do that on the whole text or only on selected text. Or both.<br>
+            Or you can manually enter your own markdown sintax.</p>
           <p><strong>Tags</strong><br>
             Field to enter hashtags separated by commas (tag1,tag2,tag3...).</p>
         </div>
@@ -212,20 +213,19 @@
         </div>
         <!-- Widget -->
         <div class="tab-pane fade" id="widget">
-          <p>By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can quickly send text-only posts.<br>
+          <p>By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can open the panel without acting on the page elements.<br>
           The widget can be permanently removed by uncheking the checkbox in the Options/Preferences.</p>
         </div>
         <!-- Preferences -->
         <div class="tab-pane fade" id="preferences">
-          <p>Type <span class="highlights">about:addons</span> in the Firefox address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span></p>
+          <p>Type <span class="highlights">about:addons</span> in the Firefox address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span>.</p>
           <p><strong>Pod URL (required)</strong><br>
             The URL of your diaspora* pod.</p>
           <p><strong>Widget</strong><br>
-            Show/remove the widget in the browser add-on bar.<br>
-            <span class="sub">After removing it, if you select the checkbox to show it again in the same Firefox session, you must restart the browser.</span></p>
+            Show/remove the widget in the browser add-on bar.</p>
           <p><strong>Advertises Easyshare</strong><br>
-            Add/remove <span class="highlights">'via Easyshare'</span> at the end of post.<br>
-            <span class="sub">Adding 'via Easyshare' at the end of post as well as an advertisement for this add-on it's a necessity. It's a way to utilize the hyphen that is automatically entered by the bookmarklet (all params passed to the bookmarklet are separated by an hyphen). If you choose not to advertise the add-on, the hyphen will be positioned at the end of hashtags.</span></p>
+            Add/remove <span class="highlights sub">'- via Easyshare'</span> at the end of any post.<br>
+            <span class="sub">Adding '- via Easyshare' at the end of post as well as an advertisement for this add-on it's a necessity. It's a way to utilize the hyphen that is automatically entered by the bookmarklet (all params passed to the bookmarklet are separated by an hyphen). If you choose not to advertise the add-on, the hyphen will be positioned at the end of last line.</span></p>
           <p><strong>Publisher window height</strong><br>
             Increase the publisher window height. This is useful if the Aspects drop-down menu isn't entirely shown.</p>
           <p><strong>Bitly API credentials (Login/API key)</strong><br>
@@ -235,11 +235,11 @@
         <div class="tab-pane fade" id="locals">
           <p>From version 0.5.2 Easyshare supports multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:</p>
           <p>- Italian (it-IT)</p>
-          <p>If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>.</p>
+          <p>If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>. You can find the strings to translate in the /local folder. Any improvements for the english language are welcome.</p>
         </div>
         <!-- Issues -->
         <div class="tab-pane fade" id="issues">
-          <p>Please, use <a href="https://github.com/arlogn/easyshare/issues">GitHub Issues Tracker</a> to report bugs, issues or features requests. Thanks.</p>
+          <p>Please, use <a href="https://github.com/arlogn/easyshare/issues">GitHub Issues Tracker</a> to report bugs, issues or any requests. Thanks.</p>
         </div>
       </div>
     </div>
@@ -250,6 +250,21 @@
         <table class="table-condensed">
           <tbody>
             <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.6 -->
+            <tr>
+              <td>v.0.6</td>
+              <td>- Removed the panel attached to the widget. Now the widget opens the main panel.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Improved text formatting. Controls for Enphasis, Strong and Blockquote.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Some minor fixes and improvements.</td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td></tr>
+            
             <!-- 0.5.2 -->
             <tr>
               <td>v.0.5.2</td>
@@ -303,10 +318,6 @@
               <td></td>
               <td>- Added button to give emphasis to entered text.</td>
             </tr>
-            <tr>
-              <td></td>
-              <td>- Major improvements.</td>
-            </tr>
             <tr><td>&nbsp;</td><td></td></tr>
             <!-- 0.3 -->
             <tr>
@@ -315,7 +326,7 @@
             </tr>
             <tr>
               <td></td>
-              <td>- Minor improvements.</td>
+              <td>- Some code improvements.</td>
             </tr>
             <tr><td>&nbsp;</td><td></td></tr>
             <!-- 0.2.1 -->
@@ -339,7 +350,7 @@
             </tr>
             <tr>
               <td></td>
-              <td>- Minor fixes and improvements.</td>
+              <td>- Some minor fixes and improvements.</td>
             </tr>
             <tr><td>&nbsp;</td><td></td></tr>
             <!-- 0.1.1 -->
@@ -370,20 +381,20 @@
     <div class="pull-left"><img src="assets/img/logo.png" alt=""></div>
     <div class="pull-left"><h1>DIASPORA* Easyshare</h1></div>
     <div class="clearfix"></div>
-    <p>Updated to version 0.5.2</p>
+    <p>Updated to version 0.6</p>
     <table class="table-condensed">
       <tbody>
         <tr>
           <td>Changes:</td>
-          <td>- Added support for multi-language lacalization.</td>
+          <td>- Removed the panel attached to the widget. Now the widget opens the main panel.</td>
         </tr>
         <tr>
           <td></td>
-          <td>- Added localized strings for Italian language.</td>
+          <td>- Improved text formatting. Controls for Enphasis, Strong and Blockquote.</td>
         </tr>
         <tr>
           <td></td>
-          <td>- Minor improvements.</td>
+          <td>- Some minor fixes and improvements.</td>
         </tr>
       </tbody>
     </table>
