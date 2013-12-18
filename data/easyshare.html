@@ -3,71 +3,6 @@
 <meta charset="utf-8">
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 <link href='css/style.css' rel='stylesheet' type='text/css'>
-<style type="text/css">
-.leftside {
-  width: 230px;
-  float: left;
-  margin: 10px 0 0 10px;
-  overflow: hidden;
-  display: block;
-}
-.rightside {
-  width: 360px;
-  max-height: 360px;
-  float: right;
-  margin: 5px 10px 5px 0;
-  overflow: hidden;
-  display: block;
-}
-#wrapper {
-  width: 100%;
-  max-height: 355px;
-  overflow: hidden;
-  display: block;
-}
-img {
-  max-width: 100%;
-  height: auto;
-}
-#title, #url, #text, #tags {
-  height: 50px;
-}
-.controls {
-  width: 99%;
-  height: 20px;
-}
-.controls a {
-  float: right;
-  margin: 3px 20px 0;
-  color: white;
-  text-decoration: none;
-}
-.controls a:hover {
-  text-decoration: underline;
-}
-.controls a:focus, .controls a:active {
-  outline: none;
-}
-.button {
-  float: right;
-  padding: .5em 2em;
-  margin: 10px 15px;
-}
-.warning {
-  width: 90%;
-  margin: 20px auto;
-}
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 26px;
-  background-color: #333;
-  line-height: 26px;
-  text-align: center;
-  letter-spacing: 2px;
-}
-</style>
 </head>
 <body>
 	<div class="leftside">
@@ -80,7 +15,12 @@ img {
 		<div class="controls"><a id="shorturl" href="#" data-l10n-id='panel_ctrl_shorturl'></a></div>
 		<label data-l10n-id='panel_label_text'></label>
 		<textarea id="text"></textarea>
-		<div class="controls"><a id="emphasis" href="#" data-l10n-id='panel_ctrl_emphasis'></a></div>
+		<div class="controls">
+      <a id="quotation" href="#" data-l10n-id='panel_ctrl_blockquote'></a>
+      <a id="important" href="#" data-l10n-id='panel_ctrl_strong'></a>
+      <a id="emphasis" href="#" data-l10n-id='panel_ctrl_emphasis'></a>
+      <a id="undo" href="#" data-l10n-id='panel_ctrl_undo'></a>
+    </div>
 		<label data-l10n-id='panel_label_tags'></label>
 		<textarea id="tags" placeholder="tag1,tag2,tag3 ..."></textarea>
 		<button id="send" class="button" data-l10n-id='panel_button_send'></button>
