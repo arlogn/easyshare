@@ -29,13 +29,13 @@ var easyshare = {
   */
   populate: function (data) {
     var range = document.createRange(),
-        documentFragment = range.createContextualFragment(data.node),
-        node = this.$('datanode');
+        documentFragment = range.createContextualFragment(data.thumb),
+        thumb = this.$('thumb');
         
-    if (!node)
+    if (!thumb)
       this.$('wrapper').appendChild(documentFragment);
     else
-      this.$('wrapper').replaceChild(documentFragment, node);
+      this.$('wrapper').replaceChild(documentFragment, thumb);
     
     this.$('title').value = data.title;
     this.$('url').value = data.url;
@@ -86,29 +86,33 @@ var easyshare = {
   },
   
   /*
-    Add markdown emphasis to entered text
+    Formatting entered text with html.
   */
-  emphasize: function () {
+  html: function (tagname) {
     var t = this.$('text'),
-        s = t.value,
-        re = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
-        uiU = false;
-        
-    // Underscores in URLs?
-    var urls = s.match(re);
-    if (urls) {
-      for (var i in urls) {
-        if (/_/.test(urls[i])) {
-          uiU = true;
-          break;
-        }
-      }
-    }
+        v = t.value,
+        s = t.value.substring(t.selectionStart, t.selectionEnd);
     
-    if (s.length > 0 && s.indexOf('_') != 0 && !uiU)
-      t.value = s.trim().replace(/[\\_\*]/g, '\\$&')
-                        .replace(re, '<a href="$1">$1</a>')
-                        .replace(/^([\s\S]*)$/i, '_$1_');
+    if (v.length > 0 && !/^\s+$/.test(v)) {
+      if (s.length > 0) {
+        t.value = v.replace(s, '<' + tagname + '>' + s + '</' + tagname + '>');
+      } else {
+        if (!/^<\w+>.+<\/\w+>$/.test(v))
+          t.value = '<' + tagname + '>' + v + '</' + tagname + '>';
+      }
+      this.$('undo').style.display = "block";
+    }
+  },
+  
+  /*
+    Undo text formatting 
+  */
+  undo: function () {
+    var t = this.$('text'),
+        v = t.value;
+        
+    t.value = v.replace(/(<\/?)(\w+)(>)/ig, '');
+    this.$('undo').style.display = "none";
   },
   
   /*
@@ -116,20 +120,23 @@ var easyshare = {
                                   or text-only as title/text/tags
   */
   _params: function (title, text, tags) {
-    var node = this.$('datanode'),
+    var thumb = this.$('thumb'),
         url = encodeURIComponent(this.$('url').value),
         params = { title: "?title=", url: "" };
-        
-    if (node.className != "easyshare-placeholder")
-            params.title += "[![Image](" + encodeURIComponent(node.getAttribute('src')) + 
+    
+    if (thumb.className != "easyshare-placeholder")
+            params.title += "[![Image](" + encodeURIComponent(thumb.getAttribute('src')) + 
                             ")](" + url + ")<br>";
-    if (title) params.title += "**" + encodeURIComponent(title) + 
-                               "** <br>[" + url + "](" + url + ")<br>";    
+    if (title) params.title += "**" + encodeURIComponent(title) + "**";
+    if (title && url)  params.title += "<br>";
+    if (url) params.title += "[" + url + "](" + url + ")"; 
+    if ((title || url) && text) params.title += "<br>";
     if (text) params.title += "<br>" + encodeURIComponent(text);
-    if (tags) params.title += "<br><br>" + encodeURIComponent(tags);                   
+    if (tags) params.title += "<br><br>" + encodeURIComponent(tags); 
+                
     this.prefs && this.prefs.pref_adveasyshare ?
              params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
-             params.url += "&url=<br><br>";
+             params.url += "&url=";
   	 
     return params;
   },
@@ -163,17 +170,15 @@ var easyshare = {
         text   = this.$('text').value,
         tags   = this.$('tags').value,
         params = {}; 
-        
-    if (!title.length > 0) title = null;
     
-    text.length > 0 ? text = text.replace(/\n/g, '<br>') : text = null;
+    if (title.length > 0 && /^\s+$/.test(title)) title = null;
     
-    tags.length > 0 ? 
-        tags = tags.replace(/\s+/g, '') 	 
-                   .replace(/^(.+)$/g, '#$1')
-                   .replace(/,/g, ' #')
-                   .replace(/##/g, '#') :
-        tags = null;
+    if (text.length > 0) text = text.replace(/\n/g, '<br>');
+    
+    if (tags.length > 0) tags = tags.replace(/\s+/g, '') 	 
+                                    .replace(/^(.+)$/g, '#$1')
+                                    .replace(/,/g, ' #')
+                                    .replace(/##/g, '#');
   	     
     this.youtube && this.youtube.video ? params = this._vparams(title, text, tags) :
                                          params = this._params(title, text, tags);                        
@@ -192,6 +197,7 @@ var easyshare = {
   init: function () {
     self.port.on('show', function (data) {
       easyshare.populate(data);
+      document.getElementById('undo').style.display = "none";
     });
     
     self.port.on('prefs', function (prefs) {
@@ -203,8 +209,20 @@ var easyshare = {
       easyshare.shorten();
       e.preventDefault();
     }, false);
+    this.$('quotation').addEventListener('click', function (e) {
+      easyshare.html('blockquote');
+      e.preventDefault();
+    }, false);
+    this.$('important').addEventListener('click', function (e) {
+      easyshare.html('strong');
+      e.preventDefault();
+    }, false);
     this.$('emphasis').addEventListener('click', function (e) {
-      easyshare.emphasize();
+      easyshare.html('em');
+      e.preventDefault();
+    }, false);
+    this.$('undo').addEventListener('click', function (e) {
+      easyshare.undo();
       e.preventDefault();
     }, false);
   }
