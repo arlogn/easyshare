@@ -8,7 +8,7 @@
             "title": "Pod URL"
         },
         {
-            "description": "Activates and shows a widget in the add-on bar to quickly send text-only posts.",
+            "description": "Activates and shows a widget in the add-on bar.",
             "type": "bool",
             "name": "pref_widget",
             "value": true,
@@ -19,7 +19,7 @@
             "type": "bool",
             "name": "pref_adveasyshare",
             "value": true,
-            "title": "Advertise Easyshare"
+            "title": "Advertises Easyshare"
         },
         {
             "description": "If the Aspects drop-down menu isn't entirely shown you can increase the publisher window height.",
@@ -45,7 +45,7 @@
     "name": "d_easyshare", 
     "license": "GPLv3", 
     "author": "arlo gn", 
-    "version": "0.5.2", 
+    "version": "0.6", 
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
