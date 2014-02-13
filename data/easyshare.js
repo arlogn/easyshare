@@ -24,9 +24,10 @@ var easyshare = {
     return document.getElementById(id);
   },
   
-  /* 
-    Populate the panel
-  */
+  /**
+   * Populating the panel
+   * @param {Object} data
+   */
   populate: function (data) {
     var range = document.createRange(),
         documentFragment = range.createContextualFragment(data.thumb),
@@ -44,9 +45,9 @@ var easyshare = {
     this.youtube = { video: data.video, videoUrl: data.videoUrl };
   },
 
-  /* 
-    Shorten URL via bit.ly api
-  */
+  /**
+   * URL shortening (bit.ly api)
+   */
   shorten: function () {
     var LOGIN = this.prefs.pref_bitlylogin || "diasporaeasyshare";
     var APIKEY = this.prefs.pref_bitlyapikey || "R_5ab4e2e8e9ad46c746079a9933596bec";
@@ -85,9 +86,10 @@ var easyshare = {
     xhr.send(null);
   },
   
-  /*
-    Formatting entered text with html.
-  */
+  /**
+   * Text formatting
+   * @param {String} tagname
+   */
   html: function (tagname) {
     var t = this.$('text'),
         v = t.value,
@@ -104,9 +106,9 @@ var easyshare = {
     }
   },
   
-  /*
-    Undo text formatting 
-  */
+  /**
+   * Undo text formatting 
+   */
   undo: function () {
     var t = this.$('text'),
         v = t.value;
@@ -115,51 +117,40 @@ var easyshare = {
     this.$('undo').style.display = "none";
   },
   
-  /*
-    Params (@title,@url) to share images as image/title/text/tags
-                                  or text-only as title/text/tags
-  */
-  _params: function (title, text, tags) {
-    var thumb = this.$('thumb'),
-        url = encodeURIComponent(this.$('url').value),
-        params = { title: "?title=", url: "" };
+  /**
+   * Structuring the post
+   * @param {String} title
+   * @param {String} text
+   * @param {String} tags
+   */
+  _content: function (title, text, tags) {
+    var content = '';
     
-    if (thumb.className != "easyshare-placeholder")
-            params.title += "[![Image](" + encodeURIComponent(thumb.getAttribute('src')) + 
-                            ")](" + url + ")<br>";
-    if (title) params.title += "**" + encodeURIComponent(title) + "**";
-    if (title && url)  params.title += "<br>";
-    if (url) params.title += "[" + url + "](" + url + ")"; 
-    if ((title || url) && text) params.title += "<br>";
-    if (text) params.title += "<br>" + encodeURIComponent(text);
-    if (tags) params.title += "<br><br>" + encodeURIComponent(tags); 
-                
-    this.prefs && this.prefs.pref_adveasyshare ?
-             params.url += "<br><sub>&url=[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
-             params.url += "&url=";
-  	 
-    return params;
+    if (this.youtube.video) {
+      if (title) content += "**" + title + "**";
+      if (text) content += "<br>" + text;
+      if (tags) content += "<p>" + tags;
+      content += "<p> " + this.youtube.videoUrl;
+    } else {
+      var thumb = this.$('thumb'),
+      url = this.$('url').value;
+      if (thumb.className != "easyshare-placeholder")
+        content += "[![Image](" + thumb.getAttribute('src') + 
+                   ")](" + url + ")<br>";
+      if (title) content += "**" + title + "**";
+      if (title && url) content += "<br>";
+      if (url) content += "[" + url + "](" + url + ")"; 
+      if ((title || url) && text) content += "<p>"
+      if (text) content += text;
+      if (tags) content += "<p>" + tags;
+    }
+    
+    return encodeURIComponent(content);
   },
   
-  /*
-    Params (@title,@url) to share youtube videos as title/text/tags/video
-  */
-  _vparams: function (title, text, tags) {
-    var params = { title: "?title=", url: "&url=" };
-    if (title) params.title += "**" + encodeURIComponent(title) + "**";
-    if (text) params.title += "<br>" + encodeURIComponent(text);
-    if (tags) params.title += "<br><br>" + encodeURIComponent(tags);
-    this.prefs && this.prefs.pref_adveasyshare ?
-            params.title += "<br><sub>[via Easyshare](http://j.mp/XmyxIA)</sub><br><br>" :
-            params.title += "<br><br>";
-    params.url += this.youtube.videoUrl;
-   	         
-    return params;
-  },
-
-  /* 
-    Send to Diaspora via the publisher bookmarklet
-  */
+  /** 
+   * Send to Diaspora (via the publisher bookmarklet)
+   */
   send: function () {
     if (this.prefs.pref_podurl == "") {
       var w = self.options.warning.replace(/\\n/g, '\n');
@@ -168,8 +159,7 @@ var easyshare = {
     
     var title  = this.$('title').value,
         text   = this.$('text').value,
-        tags   = this.$('tags').value,
-        params = {}; 
+        tags   = this.$('tags').value;
     
     if (title.length > 0 && /^\s+$/.test(title)) title = null;
     
@@ -180,20 +170,21 @@ var easyshare = {
                                     .replace(/,/g, ' #')
                                     .replace(/##/g, '#');
   	     
-    this.youtube && this.youtube.video ? params = this._vparams(title, text, tags) :
-                                         params = this._params(title, text, tags);                        
+    var content = this._content(title, text, tags);
     
-    var URL = this.prefs.pref_podurl + "/bookmarklet" + params.title + "" + params.url;
+    var URL = this.prefs.pref_podurl + "/bookmarklet?content=" + content;
 
     if (!window.open(URL + "&v=1&noui=1&jump=doclose", "diasporav1",
       "location=yes,links=no,scrollbars=no,toolbar=no,width=600,height=" +
       this.prefs.pref_publisherheight.toString()))
       location.href = URL + "jump=yes";
+    
+    return false;
   },
   
-  /* 
-    Initialize
-  */
+  /** 
+   * Initializing listeners
+   */
   init: function () {
     self.port.on('show', function (data) {
       easyshare.populate(data);
