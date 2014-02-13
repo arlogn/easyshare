@@ -14,13 +14,6 @@
             "value": true,
             "title": "Widget"
         },
-		    {
-            "description": "Advertises this add-on by adding 'via Easyshare' at the end of posts.",
-            "type": "bool",
-            "name": "pref_adveasyshare",
-            "value": true,
-            "title": "Advertises Easyshare"
-        },
         {
             "description": "If the Aspects drop-down menu isn't entirely shown you can increase the publisher window height.",
             "type": "integer",
@@ -45,7 +38,7 @@
     "name": "d_easyshare", 
     "license": "GPLv3", 
     "author": "arlo gn", 
-    "version": "0.6", 
+    "version": "0.7", 
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
