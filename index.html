@@ -43,7 +43,15 @@
   display: inline-block;
 }
 .highlights {
-  color: #75252a;
+  background-color: #eaf5f6;
+  color: #000;
+  font-style: italic;
+  padding: 0 3px;
+}
+blockquote {
+  font-size: inherit;
+  font-style: italic;
+  color: #666;
 }
 .table-condensed > tbody > tr > td {
   padding: 1px 8px;
@@ -66,6 +74,9 @@
   margin-bottom: 50px;
   font-size: 80%;
   text-align: center;
+}
+.footer a {
+  color: #333;
 }
 </style>
 </head>
@@ -193,12 +204,12 @@
         <div class="tab-pane fade" id="usage">
           <p>Choose what to share with the right-click context menu.</p>
           <p><strong>Share images</strong><br>
-            Right click on images and choose <span class="highlights">'Share image on Diaspora*'</span>.<br>
+            Right click on images and choose <span class="highlights">Share image on Diaspora*</span>.<br>
             Selected text in the page will be automatically entered in the panel Text field.</p>
           <p><strong>Share only selected text</strong><br>
-            Right click on selection and choose <span class="highlights">'Share selection on Diaspora*'</span>.</p>
+            Right click on selection and choose <span class="highlights">Share selection on Diaspora*</span>.</p>
           <p><strong>Share YouTube videos</strong><br>
-            Right click on youtube video page and choose <span class="highlights">'Share video on Diaspora*'</span>.</p>
+            Right click on youtube video page and choose <span class="highlights">Share video on Diaspora*</span>.</p>
           <p><span class="sub">You must be logged to your Diaspora* pod to use this add-on.</span></p>
         </div>
         <!-- Panel -->
@@ -389,7 +400,7 @@
     
     <!-- Footer -->
     <div class="footer">
-      <p>-- DIASPORA* EASYSHARE --</p>
+      <p>by <a href="https://social.mbuto.me/u/podmin">arlogn</a></p>
     </div>
 
   </div> <!-- /container -->
@@ -416,9 +427,7 @@
         </tr>
       </tbody>
     </table>
-<!--
-    <p style="margin:20px 0 0 10px;"><a id="read-more" href="javascript:void(0)">Read more</a></p>
--->
+    <p style="margin:20px 0 0 10px;"><small><span class="glyphicon glyphicon-plus"></span> <a id="read-more" href="javascript:void(0)">Read more</a></small></p>
   </div>
   
   <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
