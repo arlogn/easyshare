@@ -1,0 +1,121 @@
+body {
+    color: #bbb;
+    background: #000;
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+::-moz-selection {
+    color: #fff;
+    background: #444;
+}
+#thumbside {
+    width: 230px;
+    float: left;
+    margin: 10px 0 0 10px;
+    overflow: hidden;
+    display: block;
+}
+#actionside {
+    width: 360px;
+    max-height: 360px;
+    float: right;
+    margin: 5px 10px 5px 0;
+    overflow: hidden;
+    display: block;
+}
+#wrapper {
+    width: 100%;
+    max-height: 355px;
+    overflow: hidden;
+    display: block;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+#title,
+#url,
+#text,
+#tags {
+    width: 100%;
+    display: block;
+}
+#title,
+#tags {
+    height: 50px;
+}
+#text {
+    height: 80px;
+}
+#url {
+    height: 30px;
+    background-color: #212121;
+    border: none;
+    resize: none;
+    color: #0af;
+}
+.controls {
+    width: 99%;
+    height: 20px;
+}
+.controls a {
+    float: right;
+    margin: 3px 20px 0;
+    color: white;
+    text-decoration: none;
+}
+.controls a:hover {
+    text-decoration: underline;
+}
+.controls a:focus,
+.controls a:active {
+    outline: none;
+}
+#undo {
+    color: #00aaff;
+}
+label {
+    margin: 5px 0 0 2px;
+    display: inline-block;
+}
+.button {
+    float: right;
+    padding: .5em 2em;
+    margin: 10px 15px;
+    display: inline-block;
+    vertical-align: baseline;
+    cursor: pointer;
+    font: 15px/100% 'Droid Sans', sans-serif;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    border-radius: .3em;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    color: #d9eef7;
+    border: solid 1px #0076a3;
+    background: #0095cd;
+    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+}
+.button:hover {
+    background: #007ead;
+    background: -moz-linear-gradient(top, #0095cc, #00678e);
+}
+.button:active {
+    position: relative;
+    top: 1px;
+    color: #a9eef2;
+    background: -moz-linear-gradient(top, #0078a5, #00adee);
+}
+.button::-moz-focus-inner {
+    border: none;
+}
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 26px;
+    background-color: #333;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: 2px;
+}
