@@ -1,222 +1,235 @@
 /*
   Diaspora* Easyshare
-  Copyright (C) 2013 arlo gn
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  he Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  Copyright (C) 2013 arlogn
+  Licensed under the GNU General Public License, version 3 (GPL-3.0):
+  http://opensource.org/licenses/GPL-3.0
 */
 
-var easyshare = {
-  prefs: {},
-  youtube: {},
+(function (doc) {
+    var preferences = {},
+        youtube = {};
 
-  $: function (id) {
-    return document.getElementById(id);
-  },
-  
-  /**
-   * Populating the panel
-   * @param {Object} data
-   */
-  populate: function (data) {
-    var range = document.createRange(),
-        documentFragment = range.createContextualFragment(data.thumb),
-        thumb = this.$('thumb');
-        
-    if (!thumb)
-      this.$('wrapper').appendChild(documentFragment);
-    else
-      this.$('wrapper').replaceChild(documentFragment, thumb);
-    
-    this.$('title').value = data.title;
-    this.$('url').value = data.url;
-    this.$('text').value = data.text;
-    this.$('tags').value = '';
-    this.youtube = { video: data.video, videoUrl: data.videoUrl };
-  },
+    /*
+     *
+     * Populate the panel and youtube global object
+     * @params {Object} data
+     *
+     */
+    function init(data) {
+        var range = doc.createRange(),
+            fragment = range.createContextualFragment(data.thumb),
+            wrapper = doc.getElementById("wrapper"),
+            thumb = doc.getElementById("thumb");
 
-  /**
-   * URL shortening (bit.ly api)
-   */
-  shorten: function () {
-    var LOGIN = this.prefs.pref_bitlylogin || "diasporaeasyshare";
-    var APIKEY = this.prefs.pref_bitlyapikey || "R_5ab4e2e8e9ad46c746079a9933596bec";
-    
-    var url = this.$('url'),
-        longURL = url.value,
-        bitlyURL = "http://api.bitly.com/v3/shorten?apiKey=" + APIKEY +
-                   "&login=" + LOGIN +
-                   "&longUrl=" + encodeURIComponent(longURL) + 
-                   "&format=json";
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var jsObj = JSON.parse(xhr.responseText);
-          if (jsObj.status_txt == "OK") {
-            url.value = jsObj.data.url;
-          } else {
-            url.value = "(" + jsObj.status_code + ") " + jsObj.status_txt;
-            setTimeout(function () {
-              url.value = longURL;
-            }, 2000);
-          }
+        if (!thumb) {
+            wrapper.appendChild(fragment);
         } else {
-          url.value = "ERROR " + xhr.status;
-          setTimeout(function () {
-            url.value = longURL;
-          }, 2000);
+            wrapper.replaceChild(fragment, thumb);
         }
-      }
+
+        doc.getElementById("title").value = data.title;
+        doc.getElementById("url").value = data.url;
+        doc.getElementById("text").value = data.text;
+        doc.getElementById("tags").value = "";
+
+        youtube = {
+            video: data.video,
+            url: data.vurl
+        }
+
+        doc.getElementById("undo").style.display = "none";
     }
 
-    xhr.open('GET', bitlyURL, true);
-    xhr.send(null);
-  },
-  
-  /**
-   * Text formatting
-   * @param {String} tagname
-   */
-  html: function (tagname) {
-    var t = this.$('text'),
-        v = t.value,
-        s = t.value.substring(t.selectionStart, t.selectionEnd);
-    
-    if (v.length > 0 && !/^\s+$/.test(v)) {
-      if (s.length > 0) {
-        t.value = v.replace(s, '<' + tagname + '>' + s + '</' + tagname + '>');
-      } else {
-        if (!/^<\w+>.+<\/\w+>$/.test(v))
-          t.value = '<' + tagname + '>' + v + '</' + tagname + '>';
-      }
-      this.$('undo').style.display = "block";
-    }
-  },
-  
-  /**
-   * Undo text formatting 
-   */
-  undo: function () {
-    var t = this.$('text'),
-        v = t.value;
-        
-    t.value = v.replace(/(<\/?)(\w+)(>)/ig, '');
-    this.$('undo').style.display = "none";
-  },
-  
-  /**
-   * Structuring the post
-   * @param {String} title
-   * @param {String} text
-   * @param {String} tags
-   */
-  _content: function (title, text, tags) {
-    var content = '';
-    
-    if (this.youtube.video) {
-      if (title) content += "**" + title + "**";
-      if (text) content += "<br>" + text;
-      if (tags) content += "<p>" + tags;
-      content += "<p> " + this.youtube.videoUrl;
-    } else {
-      var thumb = this.$('thumb'),
-      url = this.$('url').value;
-      if (thumb.className != "easyshare-placeholder")
-        content += "[![Image](" + thumb.getAttribute('src') + 
-                   ")](" + url + ")<br>";
-      if (title) content += "**" + title + "**";
-      if (title && url) content += "<br>";
-      if (url) content += "[" + url + "](" + url + ")"; 
-      if ((title || url) && text) content += "<p>"
-      if (text) content += text;
-      if (tags) content += "<p>" + tags;
-    }
-    
-    return encodeURIComponent(content);
-  },
-  
-  /** 
-   * Send to Diaspora (via the publisher bookmarklet)
-   */
-  send: function () {
-    if (this.prefs.pref_podurl == "") {
-      var w = self.options.warning.replace(/\\n/g, '\n');
-      return alert(w);
-    }
-    
-    var title  = this.$('title').value,
-        text   = this.$('text').value,
-        tags   = this.$('tags').value;
-    
-    if (title.length > 0 && /^\s+$/.test(title)) title = null;
-    
-    if (text.length > 0) text = text.replace(/\n/g, '<br>');
-    
-    if (tags.length > 0) tags = tags.replace(/\s+/g, '') 	 
-                                    .replace(/^(.+)$/g, '#$1')
-                                    .replace(/,/g, ' #')
-                                    .replace(/##/g, '#');
-  	     
-    var content = this._content(title, text, tags);
-    
-    var URL = this.prefs.pref_podurl + "/bookmarklet?content=" + content;
+    /*
+     *
+     * Bitly url shortener
+     *
+     */
+    function shortenLongUrl() {
+        var login = preferences.bitlyLogin || "diasporaeasyshare",
+            apikey = preferences.bitlyApikey || "R_5ab4e2e8e9ad46c746079a9933596bec",
+            url = doc.getElementById("url"),
+            longurl = url.value,
+            apicall = "http://api.bitly.com/v3/shorten?apiKey=" + apikey +
+                "&login=" + login +
+                "&longUrl=" + encodeURIComponent(longurl) +
+                "&format=json",
+            xhr = new XMLHttpRequest();
 
-    if (!window.open(URL + "&v=1&noui=1&jump=doclose", "diasporav1",
-      "location=yes,links=no,scrollbars=no,toolbar=no,width=600,height=" +
-      this.prefs.pref_publisherheight.toString()))
-      location.href = URL + "jump=yes";
-    
-    return false;
-  },
-  
-  /** 
-   * Initializing listeners
-   */
-  init: function () {
-    self.port.on('show', function (data) {
-      easyshare.populate(data);
-      document.getElementById('undo').style.display = "none";
+        xhr.open("GET", apicall, true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var jsonObj = JSON.parse(xhr.responseText);
+                    if (jsonObj.status_txt == "OK") {
+                        url.value = jsonObj.data.url;
+                    } else {
+                        url.value = "(" + jsonObj.status_code + ") " + jsonObj.status_txt;
+                        setTimeout(function() {
+                            url.value = longurl;
+                        }, 2000);
+                    }
+                } else {
+                    url.value = "Error " + xhr.status;
+                    setTimeout(function() {
+                        url.value = longurl;
+                    }, 2000);
+                }
+            }
+        };
+
+        xhr.send(null);
+    }
+
+    /*
+     *
+     * Format post body with some html tags
+     * @params {String} tagname
+     *
+     */
+    function formatText(tagname) {
+        var t = doc.getElementById("text"),
+            text = t.value,
+            sel = text.substring(t.selectionStart, t.selectionEnd);
+
+        if (tagname) {
+            if (text.length > 0 && !/^\s+$/.test(text)) {
+                if (sel.length > 0) {
+                    t.value = text.replace(sel, "<" + tagname + ">" + sel + "</" + tagname + ">");
+                } else {
+                    if (!/^<\w+>[\w\W]+<\/\w+>$/.test(text))
+                        t.value = "<" + tagname + ">" + text + "</" + tagname + ">";
+                }
+                doc.getElementById("undo").style.display = "inline";
+            }
+        } else {
+            t.value = t.value.replace(/(<\/?)(\w+)(>)/ig, "");
+            doc.getElementById("undo").style.display = "none";
+        }
+    }
+
+    /*
+     *
+     * Create the post content
+     * @returns {String}
+     *
+     */
+    function createPostContent() {
+        var title = doc.getElementById("title").value,
+            text = doc.getElementById("text").value,
+            tags = doc.getElementById("tags").value,
+            url = doc.getElementById("url").value,
+            thumb = doc.getElementById("thumb"),
+            content = "";
+
+        if (title.length > 0 && /^\s+$/.test(title)) {
+            title = "";
+        }
+        if (text.length > 0) {
+            text = text.replace(/\n/g, "<br>");
+        }
+        if (tags.length > 0) {
+            tags = tags.replace(/\s+/g, "")
+                       .replace(/^([\w\W]+)$/g, "#$1")
+                       .replace(/,/g, " #")
+                       .replace(/##/g, "#");
+        }
+
+        if (youtube.video) {
+            if (title) {
+                content += "**" + title + "**";
+            }
+            if (text) {
+                content += "<br>" + text;
+            }
+            if (tags) {
+                content += "<p>" + tags;
+            }
+            content += "<p> " + youtube.url;
+        } else {
+            if (thumb.className != "thumb-placeholder") {
+                content += "[![Image](" + thumb.getAttribute("src") +
+                    ")](" + url + ")<br>";
+            }
+            if (title) {
+                content += "**" + title + "**";
+            }
+            if (title && url) {
+                content += "<br>";
+            }
+            if (url) {
+                content += "[" + url + "](" + url + ")";
+            }
+            if ((title || url) && text) {
+                content += "<p>";
+            }
+            if (text) {
+                content += text;
+            }
+            if (tags) {
+                content += "<p>" + tags;
+            }
+        }
+
+        return encodeURIComponent(content);
+    }
+
+    /*
+     *
+     * Send the post content to the Diaspora publisher
+     *
+     */
+    function sendToPublisher() {
+        if (preferences.podUrl == "") {
+            self.port.emit("warning");
+        } else {
+            var url = preferences.podUrl + "/bookmarklet?content=" + createPostContent(),
+                width = preferences.publisherWidth,
+                height = preferences.publisherHeight,
+                left = (screen.width/2)-(width/2),
+                top = (screen.height/2)-(height/2);
+
+            if (!window.open(url + "&v=1&noui=1&jump=doclose", "diasporav1",
+                "location=yes,links=no,scrollbars=no,toolbar=no,width=" + width +
+                ",height=" + height + ",top=" + top + ",left=" + left)) {
+                window.location.href = url + "jump=yes";
+            }
+        }
+    }
+
+    self.port.on("show", function(data) {
+        init(data);
     });
-    
-    self.port.on('prefs', function (prefs) {
-      easyshare.prefs = prefs;
-    });
-    
-    this.$('send').addEventListener('click', function () { easyshare.send() }, false);
-    this.$('shorturl').addEventListener('click', function (e) {
-      easyshare.shorten();
-      e.preventDefault();
-    }, false);
-    this.$('quotation').addEventListener('click', function (e) {
-      easyshare.html('blockquote');
-      e.preventDefault();
-    }, false);
-    this.$('important').addEventListener('click', function (e) {
-      easyshare.html('strong');
-      e.preventDefault();
-    }, false);
-    this.$('emphasis').addEventListener('click', function (e) {
-      easyshare.html('em');
-      e.preventDefault();
-    }, false);
-    this.$('undo').addEventListener('click', function (e) {
-      easyshare.undo();
-      e.preventDefault();
-    }, false);
-  }
-};
 
-window.addEventListener('load', function () { easyshare.init() }, false);
+    self.port.on("prefs", function(prefs) {
+        preferences = prefs;
+    });
+
+    doc.getElementById("actionside").addEventListener("click", function(event) {
+        switch (event.target.id) {
+            case "send":
+                sendToPublisher();
+                break;
+            case "shorturl":
+                shortenLongUrl();
+                break;
+            case "blockquote":
+                formatText("blockquote");
+                break;
+            case "strong":
+                formatText("strong");
+                break;
+            case "emphasis":
+                formatText("em");
+                break;
+            case "undo":
+                formatText();
+                break;
+            default:
+                return false;
+        }
+        event.preventDefault();
+    }, false);
+
+})(document);
