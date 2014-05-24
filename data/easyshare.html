@@ -2,29 +2,31 @@
 <head>
 <meta charset="utf-8">
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-<link href='css/style.css' rel='stylesheet' type='text/css'>
+<link href='style.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<div class="leftside">
-		<div style="max-width:230px;" id="wrapper"></div>
-	</div>
-	<div class="rightside">
-		<label data-l10n-id='panel_label_title'></label>
-		<textarea id="title"></textarea>
-		<textarea id="url"></textarea>
-		<div class="controls"><a id="shorturl" href="#" data-l10n-id='panel_ctrl_shorturl'></a></div>
-		<label data-l10n-id='panel_label_text'></label>
-		<textarea id="text"></textarea>
-		<div class="controls">
-      <a id="quotation" href="#" data-l10n-id='panel_ctrl_blockquote'></a>
-      <a id="important" href="#" data-l10n-id='panel_ctrl_strong'></a>
-      <a id="emphasis" href="#" data-l10n-id='panel_ctrl_emphasis'></a>
-      <a id="undo" href="#" data-l10n-id='panel_ctrl_undo'></a>
+    <div id="thumbside">
+	<div style="max-width:230px;" id="wrapper"></div>
     </div>
-		<label data-l10n-id='panel_label_tags'></label>
-		<textarea id="tags" placeholder="tag1,tag2,tag3 ..."></textarea>
-		<button id="send" class="button" data-l10n-id='panel_button_send'></button>
+    <div id="actionside">
+	<label data-l10n-id='panelLabelTitle'></label>
+	<textarea id="title"></textarea>
+	<textarea id="url"></textarea>
+	<div class="controls">
+	    <a id="shorturl" href="#" data-l10n-id='panelCtrlShorturl'></a>
 	</div>
-	<div id="footer">DIASPORA* Easyshare</div>	
+	<label data-l10n-id='panelLabelText'></label>
+	<textarea id="text"></textarea>
+	<div class="controls">
+	    <a id="blockquote" href="#" data-l10n-id='panelCtrlBlockquote'></a>
+	    <a id="strong" href="#" data-l10n-id='panelCtrlStrong'></a>
+	    <a id="emphasis" href="#" data-l10n-id='panelCtrlEmphasis'></a>
+	    <a id="undo" href="#" data-l10n-id='panelCtrlUndo'></a>
+	</div>
+	<label data-l10n-id='panelLabelTags'></label>
+	<textarea id="tags" placeholder="tag1,tag2,tag3 ..."></textarea>
+	<button id="send" class="button" data-l10n-id='panelButtonSend'></button>
+    </div>
+    <div id="footer">DIASPORA* Easyshare</div>
 </body>
 </html>
