@@ -1,53 +1,50 @@
-var videoData = function () {
-  var c = document.getElementById('content');
-  if (!c) {
-    console.log("Easyshare: video data not found.");
-    return false;
-  }
-  var d = {
-    url   : c.querySelector('[itemprop="url"]').getAttribute('href'),
-    title : c.querySelector('[itemprop="name"]').getAttribute('content'),
-    desc  : c.querySelector('[itemprop="description"]').getAttribute('content'),
-    thumb : c.querySelector('[itemprop="thumbnailUrl"]').getAttribute('href')
-  }
-  return d;
+// Get Youtube video data
+var videoData = function() {
+    try {
+        var c = document.getElementById("content");
+        var data = {
+            url: c.querySelector("[itemprop=\"url\"]").getAttribute("href"),
+            title: c.querySelector("[itemprop=\"name\"]").getAttribute("content"),
+            desc: c.querySelector("[itemprop=\"description\"]").getAttribute("content"),
+            thumb: c.querySelector("[itemprop=\"thumbnailUrl\"]").getAttribute("href")
+        };
+    } catch (e) {
+        console.log("Easyshare: Youtube video data not found.");
+        return false;
+    }
+
+    return data;
 };
 
-self.on('click', function (node, data) {
-  var d = { url: document.URL };
+// Handling context-menu items click
+self.on("click", function(node, data) {
+    var d = {
+        url: document.URL,
+        title: document.title,
+        thumb: "<img id=\"thumb\" class=\"thumb-placeholder\" src=\"placeholder.png\">"
+    };
 
-  switch (data) {
-    case 'image' :
-      d.thumb = '<img id="thumb" width="' + node.clientWidth + 
-               '" height="' + node.clientHeight + '" src="' + node.src + '">';
-      d.title = document.title; 
-      d.text = window.getSelection().toString();
-      d.video = false;
-      d.videoUrl = 'none';
-      break;
-    case 'video' :
-      var vd = videoData();
-      if (vd) {
-        d.thumb = '<img id="thumb" src="' + vd.thumb + '">';
-        d.title = vd.title;
-        d.text = vd.desc;
-        d.videoUrl = vd.url;
-      } else {
-        d.thumb = '<img id="thumb" class="easyshare-placeholder" src="images/easyshare.png">';
-        d.title = document.title;
-        d.text = "";
-        d.videoUrl = data.url;
-      }
-      d.video = true;
-      break;
-    case 'selection' :    	
-      d.thumb = '<img id="thumb" class="easyshare-placeholder" src="images/easyshare.png">'
-      d.title = document.title; 
-      d.text = window.getSelection().toString();
-      d.video = false;
-      d.videoUrl = 'none';  
-      break;
-  }
-  
-  self.postMessage(d);
+    if (data == "video") {
+        var vd = videoData();
+        if (vd) {
+            d.thumb = "<img id=\"thumb\" src=\"" + vd.thumb + "\">";
+            d.title = vd.title;
+            d.text = vd.desc;
+            d.vurl = vd.url;
+        } else {
+            d.text = "";
+            d.vurl = data.url;
+        }
+        d.video = true;
+    } else {
+        if (data == "image") {
+            d.thumb = "<img id=\"thumb\" width=\"" + node.clientWidth +
+                "\" height=\"" + node.clientHeight + "\" src=\"" + node.src + "\">";
+        }
+        d.text = window.getSelection().toString();
+        d.video = false;
+        d.vurl = "";
+    }
+
+    self.postMessage(d);
 });
