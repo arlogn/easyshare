@@ -1,44 +1,44 @@
 {
     "preferences": [
         {
-            "description": "Enter URL of your Diaspora* pod.", 
-            "type": "string", 
-            "name": "pref_podurl", 
-            "value": "", 
+            "description": "Enter URL of your Diaspora* pod.",
+            "type": "string",
+            "name": "podUrl",
+            "value": "",
             "title": "Pod URL"
         },
         {
-            "description": "Activates and shows a widget in the add-on bar.",
-            "type": "bool",
-            "name": "pref_widget",
-            "value": true,
-            "title": "Widget"
-        },
-        {
-            "description": "If the Aspects drop-down menu isn't entirely shown you can increase the publisher window height.",
+            "description": "Set the publisher window width.",
             "type": "integer",
-            "name": "pref_publisherheight",
-            "value": 250,
-            "title": "Publisher window height"
+            "name": "publisherWidth",
+            "value": 600,
+            "title": "Publisher Width"
         },
         {
-            "description": "", 
-            "type": "string", 
-            "name": "pref_bitlylogin", 
-            "value": "", 
+            "description": "Set the publisher window height.",
+            "type": "integer",
+            "name": "publisherHeight",
+            "value": 250,
+            "title": "Publisher Height"
+        },
+        {
+            "description": "",
+            "type": "string",
+            "name": "bitlyLogin",
+            "value": "",
             "title": "Bitly login"
         },
         {
-            "description": "Uses your own Bitly API credentials to shorten URLs or leave above fields blank if you want use the internal ones.", 
-            "type": "string", 
-            "name": "pref_bitlyapikey", 
-            "value": "", 
+            "description": "Bitly API credentials to shorten URLs.",
+            "type": "string",
+            "name": "bitlyApikey",
+            "value": "",
             "title": "Bitly API key"
         }],
-    "name": "d_easyshare", 
-    "license": "GPLv3", 
-    "author": "arlo gn", 
-    "version": "0.7", 
+    "name": "d_easyshare",
+    "license": "GPLv3",
+    "author": "arlo gn",
+    "version": "0.8",
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
