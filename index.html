@@ -57,7 +57,7 @@ blockquote {
   padding: 1px 8px;
 }
 #upgrade {
-  width: 600px;
+  width: 800px;
   margin: 30px auto 40px auto;
   font-size: 16px;
   line-height: 20px;
@@ -186,7 +186,7 @@ blockquote {
         <li><a href="#usage" data-toggle="tab">Usage</a></li>
         <li><a href="#panel" data-toggle="tab">Panel</a></li>
         <li><a href="#post" data-toggle="tab">Post</a></li>
-        <li><a href="#widget" data-toggle="tab">Widget</a></li>
+        <!--<li><a href="#widget" data-toggle="tab">Widget</a></li>-->
         <li><a href="#preferences" data-toggle="tab">Preferences</a></li>
         <li><a href="#locals" data-toggle="tab">Locals</a></li>
         <li><a href="#issues" data-toggle="tab">Issues</a></li>
@@ -195,74 +195,95 @@ blockquote {
       <div class="tab-content">
         <!-- Settings -->
         <div class="tab-pane fade active in" id="settings">
-          <p>After installing the add-on you must save the URL of your Diaspora* pod in the Options/Preferences.<br>
-          <p><small>Note for Firefox 25.0.0 and earlier:<br>
+          <p>After installing the add-on you must enter the URL of your Diaspora* pod in the Options/Preferences.<br>
+          <!--<p><small>Note for Firefox 25.0.0 and earlier:<br>
           There's an annoying bug (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=784335">784335</a>) when typing the url in an add-on preference field:<br>
-          <em>Typing forward slash ("/") in the preference field moves the cursor in the search field. To continue typing you need to put the cursor back in the preference field.</em></small></p>
+          <em>Typing forward slash ("/") in the preference field moves the cursor in the search field. To continue typing you need to put the cursor back in the preference field.</em></small></p>-->
         </div>
         <!-- Usage -->
         <div class="tab-pane fade" id="usage">
           <p>Choose what to share with the right-click context menu.</p>
           <p><strong>Share images</strong><br>
-            Right click on images and choose <span class="highlights">Share image on Diaspora*</span>.<br>
+            Right click on images and choose <em>Share image on Diaspora*</em>.<br>
             Selected text in the page will be automatically entered in the panel Text field.</p>
           <p><strong>Share only selected text</strong><br>
-            Right click on selection and choose <span class="highlights">Share selection on Diaspora*</span>.</p>
+            Right click on selected text and choose <em>Share selection on Diaspora*</em>.</p>
           <p><strong>Share YouTube videos</strong><br>
-            Right click on youtube video page and choose <span class="highlights">Share video on Diaspora*</span>.</p>
+            Right click on youtube video page and choose <em>Share video on Diaspora*</em>.</p>
           <p><span class="sub">You must be logged to your Diaspora* pod to use this add-on.</span></p>
         </div>
         <!-- Panel -->
         <div class="tab-pane fade" id="panel">
           <p>The panel fields.</p>
           <p><strong>Title</strong><br>
-            This field shows the document title or video title. You can change or modify its content. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</p>
+            Document title / video title. To the title string will be automatically added markdown syntax for strong emphasis. So it's not recommended to use markdown here.</p>
           <p><strong>Url</strong><br>
-            This field shows the document URL or video URL. With a click you can shorten long URLs.</p>
+            Document URL / video URL. With a click you can shorten long URLs.</p>
           <p><strong>Text</strong><br>
-            This field contains the body of the post and you can enter what you want. It shows (if any) selected text or video description. With a click you can format entered text adding <em>emphasis</em>, <strong>strong emphasis</strong> or <blockquote>defining an indented quoted section.</blockquote>You can do that on the whole text or only on a selection. Or both.<br>
+            The body of the post. It shows (if any) selected text or video description. With a click you can format entered text adding <em>emphasis</em>, <strong>strong emphasis</strong> or <blockquote>defining an indented quoted section.</blockquote>You can do that on the whole text or only on a selection. Or both.<br>
             Alternatively you can manually enter your own markdown sintax.</p>
           <p><strong>Tags</strong><br>
-            Field to enter hashtags separated by commas (tag1,tag2,tag3...).</p>
+            Hashtags separated by commas (tag1,tag2,tag3...).</p>
         </div>
         <!-- Post -->
         <div class="tab-pane fade" id="post">
-          <p>Easyshare sends the post to Diaspora* via the publisher bookmarklet, structuring the content in this way:<br>
-          <span class="highlights">image / title / url / text / hashtags</span> --- when you share images<br>
-          <span class="highlights">title / url / text / hashtags</span> --- when you share text-only<br>
-          <span class="highlights">title / text / hashtags / url / video</span> --- when you share videos.</p>
+          <p>Easyshare sends the post to Diaspora* via the publisher for bookmarklet.<br>The content is structured in this way:</p>
+          <p><em>image / title / url / text / hashtags</em></p>
+          <p><em>title / text / hashtags / url / video</em></p>
         </div>
         <!-- Widget -->
-        <div class="tab-pane fade" id="widget">
+        <!--<div class="tab-pane fade" id="widget">
           <p>By default Easyshare puts a widget in the browser add-on bar. Clicking the icon you can open the panel without acting on the page elements.<br>
           The widget can be permanently removed by uncheking the checkbox in the Options/Preferences.</p>
-        </div>
+        </div>-->
         <!-- Preferences -->
         <div class="tab-pane fade" id="preferences">
-          <p>Type <span class="highlights">about:addons</span> in the Firefox address bar then <span class="highlights">Diaspora* Easyshare > Options/Preferences</span>.</p>
+          <p>about:addons > Diaspora* Easyshare > Options/Preferences.</p>
           <p><strong>Pod URL (required)</strong><br>
             The URL of your diaspora* pod.</p>
-          <p><strong>Widget</strong><br>
-            Show/remove the widget in the browser add-on bar.</p>
-          <p><strong>Publisher window height</strong><br>
-            Increase the publisher window height. Useful if drop-down menu for choose aspects isn't entirely visible.</p>
+          <p><strong>Publisher Width</strong><br>
+            Set the publisher window width. Default 600 (optimal).</p>
+          <p><strong>Publisher Height</strong><br>
+            Set the publisher window height. Default 250 (increase it if drop-down menu for choose aspects isn't entirely visible).</p>
           <p><strong>Bitly API credentials (Login/API key)</strong><br>
-            Use your own Bitly API credentials to shorten URLs or leave these fields blank to use the internal ones.</p>
+            Use your own Bitly API credentials to shorten URLs or leave these fields blank to use the internal ones (rate limited).</p>
         </div>
         <!-- Locals -->
         <div class="tab-pane fade" id="locals">
-          <p>From version 0.5.2 Easyshare supports multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:</p>
+          <p>Multi-language localization. Currently, in addition to the default (en-US), is localized for these languages:</p>
           <p>- Italian (it-IT)</p>
-          <p>If you want add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>. You can find the strings to translate in the /local folder. Any improvements for the english language are welcome.</p>
+          <p>If you want to add localization for your language open an issue on <a href="https://github.com/arlogn/easyshare/issues">GitHub</a>. Or create your local translation file in the /local folder and push a commit. Any improvements for the english language are welcome.</p>
         </div>
         <!-- Issues -->
         <div class="tab-pane fade" id="issues">
-          <p>Use <a href="https://github.com/arlogn/easyshare/issues">GitHub</a> to report bugs, issues or any requests. Thanks.</p>
+          <p>Use <a href="https://github.com/arlogn/easyshare/issues">GitHub</a> to report bugs, issues or suggestions. Thanks.</p>
         </div>
         <!-- Changelog -->
         <div class="tab-pane fade" id="changelog">
           <table class="table-condensed">
           <tbody>
+            <tr><td>&nbsp;</td><td></td></tr>
+            <!-- 0.8 -->
+            <tr>
+              <td>v.0.8</td>
+              <td>- New toolbar action button for Australis (on older ff versions still use the widget).</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Preferences > Added ability to set also the Width of the publisher window.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Preferences > Removed the checkbox to show/remove the widget.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Warning message as notification.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Code improvements.</td>
+            </tr>
             <tr><td>&nbsp;</td><td></td></tr>
             <!-- 0.7 -->
             <tr>
@@ -410,20 +431,28 @@ blockquote {
     <div class="pull-left"><img src="assets/img/logo.png" alt=""></div>
     <div class="pull-left"><h1>DIASPORA* Easyshare</h1></div>
     <div class="clearfix"></div>
-    <p>Updated to version 0.7</p>
+    <p>Updated to version 0.8</p>
     <table class="table-condensed">
       <tbody>
         <tr>
           <td>Changes:</td>
-          <td>- Removed the add-on advertisement (<small>- via Easyshare</small>).</td>
+          <td>- New toolbar action button for Australis (on older ff versions still use the widget).</td>
         </tr>
         <tr>
           <td></td>
-          <td>- New html markup for post structure.</td>
+          <td>- Preferences > Added ability to set also the Width of the publisher window.</td>
         </tr>
         <tr>
           <td></td>
-          <td>- Fixed a possible failure of youtube url to fetch the oembed content.</td>
+          <td>- Preferences > Removed the checkbox to show/remove the widget.</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>- Warning message as notification.</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>- Code improvements.</td>
         </tr>
       </tbody>
     </table>
