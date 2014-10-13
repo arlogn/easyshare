@@ -1,8 +1,6 @@
 Diaspora* Easyshare
 ===================
 
-Easily share web content on your Diaspora* pod.
+A Firefox addon to extend the right-click context menu with the ability to share images, text and videos on Diaspora*.
 
-![easyshare](https://raw.githubusercontent.com/arlogn/easyshare/gh-pages/assets/img/readme2.jpg)
-
-<a href="http://arlogn.github.io/easyshare/">Read more.</a>
+<a href="http://arlogn.github.io/easyshare/">http://arlogn.github.io/easyshare/</a>
