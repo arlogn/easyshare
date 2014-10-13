@@ -79,14 +79,23 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/flexslider/jquery.flexslider-min.js"></script>
 
-    <!-- Custom JavaScript for Flexslider and Smooth Scrolling -->
+    <!-- Custom JavaScript -->
     <script>
     $(function() {
+	//Redirecting if called by the addon
+	var q = window.location.search.substring(3);
+	if (q == "upgrade") {
+	    window.location.replace('update.txt');
+	} else if (q == "install") {
+	    window.location.replace('usage.txt');
+	}
+	//Flexslider
 	$('.flexslider').flexslider({
 	    animation: "fade",
 	    slideshowSpeed: 8000,
 	    pauseOnHover: true
 	});
+	//Smooth Scrolling
 	$('a[href*=#]:not([href=#])').click(function() {
             if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
                 var target = $(this.hash);
