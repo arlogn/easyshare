@@ -22,19 +22,19 @@
 # Start sharing
   -------------
   Use the right-click context menu over images and/or selected text.
-  Make the same within any Youtube video page to share videos.
+  Do the same within any Youtube video page to share videos.
 
 
 # Text formatting
   ---------------
   Add emphasis, strong emphasis or defining an indented quoted section using the
-  commands above the text box. You can do this to the entire text or by selecting
+  commands below the text box. You can do this to the entire text or by selecting
   part of it.
 
 
 # Preferences
   -----------
-  Pod Url: URL of diaspora pod where you want share on (required).
+  Pod Url: URL of diaspora pod where you want share on (https://yourpod.tld) (REQUIRED).
   Publisher Width/Height: the publisher popup window size.
   Bit.li Credentials: own Bitly API credentials to shorten URLs.
 
@@ -44,7 +44,6 @@
   Currently localized for: en-US, it-IT, nl-NL.
   More localizations and fixes to existing ones are welcome.
   Thanks to @meneer for Dutch.
-  https://github.com/arlogn/easyshare/tree/master/locale.
 
 
 # Issues, Bugs, Suggestions
