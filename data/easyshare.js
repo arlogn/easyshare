@@ -1,9 +1,10 @@
 /*
-  Diaspora* Easyshare
-  Copyright (C) 2013 arlogn
-  Licensed under the GNU General Public License, version 3 (GPL-3.0):
-  http://opensource.org/licenses/GPL-3.0
-*/
+ * Diaspora* Easyshare
+ * Copyright (C) 2013 arlogn
+ * Licensed under The MIT License (MIT)
+ * http://opensource.org/licenses/MIT
+ *
+ */
 
 (function (doc) {
     var preferences = {},
