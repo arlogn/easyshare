@@ -36,9 +36,9 @@
             "title": "Bitly API key"
         }],
     "name": "d_easyshare",
-    "license": "GPLv3",
-    "author": "arlo gn",
-    "version": "0.8.1",
+    "license": "MIT",
+    "author": "arlogn",
+    "version": "0.8.2",
     "fullName": "Diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
     "description": "Easily share web content on your Diaspora* pod.",
