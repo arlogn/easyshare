@@ -41,9 +41,10 @@
 
 # Localization
   ------------
-  Currently localized for: en-US, it-IT, nl-NL.
+  Currently localized for: en-US, it-IT, nl-NL, es-ES.
   More localizations and fixes to existing ones are welcome.
   Thanks to @meneer for Dutch.
+  Thanks to @Victorhck for Spanish.
 
 
 # Issues, Bugs, Suggestions
@@ -58,7 +59,7 @@
 
 # License
   -------
-  Licensed under the GNU General Public License, version 3 (GPL-3.0).
+  Licensed under The MIT License (MIT).
   
   
   
