@@ -59,7 +59,7 @@ h3 {
   color: #39abf6;
 }
 
-.bitly-callback {
+#bitly-callback {
   font-family: sans-serif;
   font-size: 20px;
   color: #39abf6;
@@ -68,7 +68,7 @@ h3 {
   position: absolute;
 }
 
-.bitly-callback .fail {
+#bitly-callback .fail {
   color: #f00;
 }
 
