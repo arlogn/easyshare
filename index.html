@@ -33,10 +33,11 @@
 
     <!-- Full Page Image Header Area -->
     <div id="top" class="header">
+        <div class="bitly-callback">Bitly OAuth<br>SUCCESS! Your access token has been saved in the Easyshare preferences. Now you can shorten long URLs with Bitly.</div>
         <div class="intro">
-	    <h1>DIASPORA* EASYSHARE</h1>
-	    <h3>EASILY SHARE WEB CONTENT ON YOUR DIASPORA* POD - FIREFOX ADDON</h3>
-	    <a href="#about"><i class="fa fa-chevron-down fa-3x"></i></a>
+            <h1>DIASPORA* EASYSHARE</h1>
+            <h3>EASILY SHARE WEB CONTENT ON YOUR DIASPORA* POD - FIREFOX ADDON</h3>
+            <a href="#about"><i class="fa fa-chevron-down fa-3x"></i></a>
         </div>
     </div>
 
@@ -46,26 +47,26 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div id="promo-slider" class="slider flexslider">
-			<ul class="slides">
-			    <li>
-				<img src="assets/img/slide_1.jpg" alt="">
-				<p class="flex-caption">
-				    <span class="main">EXTENDS YOUR RIGHT-CLICK CONTEXT MENU WITH THE ABILITY TO SHARE IMAGES, TEXT AND VIDEOS</span>
-				</p>
-			    </li>
-			    <li>
-				<img src="assets/img/slide_2.jpg" alt="">
-				<p class="flex-caption">
-				    <span class="main">POST TITLE - URL SHORTENING - TEXT FORMATTING - TAGS</span>
-				</p>
-			    </li>
-			</ul><!--//slides-->
-		    </div><!--//flexslider-->
-		    <div class="buttons">
-			<a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/" class="btn">Install</a>
-			<a href="./usage.txt" class="btn btn-danger">Usage</a>
-		    </div>
-		    <a href="#top"><i class="fa fa-chevron-up fa-3x"></i></a>
+                        <ul class="slides">
+                            <li>
+                                <img src="assets/img/slide_1.jpg" alt="">
+                                <p class="flex-caption">
+                                    <span class="main">EXTENDS YOUR RIGHT-CLICK CONTEXT MENU WITH THE ABILITY TO SHARE IMAGES, TEXT AND VIDEOS</span>
+                                </p>
+                            </li>
+                            <li>
+                                <img src="assets/img/slide_2.jpg" alt="">
+                                <p class="flex-caption">
+                                    <span class="main">POST TITLE - URL SHORTENING - TEXT FORMATTING - TAGS</span>
+                                </p>
+                            </li>
+                        </ul><!--//slides-->
+                    </div><!--//flexslider-->
+                    <div class="buttons">
+                        <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/" class="btn">Install</a>
+                        <a href="./usage.txt" class="btn btn-danger">Usage</a>
+                    </div>
+                    <a href="#top"><i class="fa fa-chevron-up fa-3x"></i></a>
                 </div>
             </div>
         </div>
@@ -82,21 +83,21 @@
     <!-- Custom JavaScript -->
     <script>
     $(function() {
-	//Redirecting if called by the addon
-	var q = window.location.search.substring(3);
-	if (q == "upgrade") {
-	    window.location.replace('update.txt');
-	} else if (q == "install") {
-	    window.location.replace('usage.txt');
-	}
-	//Flexslider
-	$('.flexslider').flexslider({
-	    animation: "fade",
-	    slideshowSpeed: 8000,
-	    pauseOnHover: true
-	});
-	//Smooth Scrolling
-	$('a[href*=#]:not([href=#])').click(function() {
+        //Redirecting if called by the addon
+        var q = window.location.search.substring(3);
+        if (q == "upgrade") {
+            window.location.replace('update.txt');
+        } else if (q == "install") {
+            window.location.replace('usage.txt');
+        }
+        //Flexslider
+        $('.flexslider').flexslider({
+            animation: "fade",
+            slideshowSpeed: 8000,
+            pauseOnHover: true
+        });
+        //Smooth Scrolling
+        $('a[href*=#]:not([href=#])').click(function() {
             if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
                 var target = $(this.hash);
                 target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
