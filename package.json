@@ -22,18 +22,19 @@
             "title": "Publisher Height"
         },
         {
-            "description": "",
-            "type": "string",
-            "name": "bitlyLogin",
-            "value": "",
-            "title": "Bitly login"
+            "description": "Authorize Easyshare to shorten URLs with Bilty acquiring an OAuth access token.",
+            "type": "control",
+            "name": "bitlyOAuth",
+            "label": "Authorize",
+            "title": "Bitly OAuth"
         },
         {
-            "description": "Bitly API credentials to shorten URLs.",
+            "description": "Your Bitly OAuth access token.",
             "type": "string",
-            "name": "bitlyApikey",
+            "name": "bitlyOAuthAccessToken",
             "value": "",
-            "title": "Bitly API key"
+            "title": "Access Token",
+            "hidden": true
         }],
     "name": "d_easyshare",
     "license": "MIT",

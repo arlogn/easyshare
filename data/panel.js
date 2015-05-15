@@ -1,236 +1,205 @@
-/*
- * Diaspora* Easyshare
- * Copyright (C) 2013 arlogn
- * Licensed under The MIT License (MIT)
- * http://opensource.org/licenses/MIT
- *
- */
+var youtube = youtube || {};
 
-(function (doc) {
-    var preferences = {},
-        youtube = {};
 
-    /*
-     *
-     * Populate the panel and youtube global object
-     * @params {Object} data
-     *
-     */
-    function init(data) {
-        var range = doc.createRange(),
-            fragment = range.createContextualFragment(data.thumb),
-            wrapper = doc.getElementById("wrapper"),
-            thumb = doc.getElementById("thumb");
+/* Update the panel content when displayed */
+function onPanelShow(data) {
+    var range = document.createRange(),
+        fragment = range.createContextualFragment(data.thumb),
+        wrapper = document.getElementById("thumbox"),
+        thumb = document.getElementById("thumb");
 
-        if (!thumb) {
-            wrapper.appendChild(fragment);
-        } else {
-            wrapper.replaceChild(fragment, thumb);
-        }
-
-        doc.getElementById("title").value = data.title;
-        doc.getElementById("url").value = data.url;
-        doc.getElementById("text").value = data.text;
-        doc.getElementById("tags").value = "";
-
-        youtube = {
-            video: data.video,
-            url: data.vurl
-        }
-
-        doc.getElementById("undo").style.display = "none";
+    if (!thumb) {
+        wrapper.appendChild(fragment);
+    } else {
+        wrapper.replaceChild(fragment, thumb);
     }
 
-    /*
-     *
-     * Bitly url shortener
-     *
-     */
-    function shortenLongUrl() {
-        var login = preferences.bitlyLogin || "diasporaeasyshare",
-            apikey = preferences.bitlyApikey || "R_5ab4e2e8e9ad46c746079a9933596bec",
-            url = doc.getElementById("url"),
-            longurl = url.value,
-            apicall = "http://api.bitly.com/v3/shorten?apiKey=" + apikey +
-                "&login=" + login +
-                "&longUrl=" + encodeURIComponent(longurl) +
-                "&format=json",
-            xhr = new XMLHttpRequest();
+    document.getElementById("title").value = data.title;
+    document.getElementById("url").value = data.url;
+    document.getElementById("text").value = data.text;
+    document.getElementById("tags").value = "";
 
-        xhr.open("GET", apicall, true);
+    youtube = {
+        video: data.video || false,
+        url: data.vurl || ""
+    };
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    var jsonObj = JSON.parse(xhr.responseText);
-                    if (jsonObj.status_txt == "OK") {
-                        url.value = jsonObj.data.url;
-                    } else {
-                        url.value = "(" + jsonObj.status_code + ") " + jsonObj.status_txt;
-                        setTimeout(function() {
-                            url.value = longurl;
-                        }, 2000);
-                    }
-                } else {
-                    url.value = "Error " + xhr.status;
-                    setTimeout(function() {
-                        url.value = longurl;
-                    }, 2000);
-                }
+    document.getElementById("undo").style.visibility = "hidden";
+}
+
+
+/* Add a basic formatting to the text adding some html tags */
+function makeText(tag) {
+    var t = document.getElementById("text"),
+        text = t.value,
+        sel = text.substring(t.selectionStart, t.selectionEnd),
+        undo = document.getElementById("undo");
+
+    var whitespaceonly = function(str) { 
+        return /^\s+$/.test(str); 
+    };
+
+    if (text.length > 0 && !whitespaceonly(text)) {
+        if (tag) {
+            if (sel.length > 0 && !whitespaceonly(sel)) {
+                t.value = text.replace(new RegExp('([\\s\\S]{'+t.selectionStart+'})([\\s\\S]{'+(t.selectionEnd-t.selectionStart)+'})'), '$1<'+tag+'>$2</'+tag+'>');
+            } else {
+                if (!/^<[a-z][\s\S]*>$/.test(text))
+                    t.value = "<" + tag + ">" + text + "</" + tag + ">";
             }
-        };
 
-        xhr.send(null);
-    }
+            if (undo.style.visibility === "hidden") undo.style.visibility = "visible";
 
-    /*
-     *
-     * Format post body with some html tags
-     * @params {String} tagname
-     *
-     */
-    function formatText(tagname) {
-        var t = doc.getElementById("text"),
-            text = t.value,
-            sel = text.substring(t.selectionStart, t.selectionEnd);
-
-        if (tagname) {
-            if (text.length > 0 && !/^\s+$/.test(text)) {
-                if (sel.length > 0) {
-                    t.value = text.replace(sel, "<" + tagname + ">" + sel + "</" + tagname + ">");
-                } else {
-                    if (!/^<\w+>[\w\W]+<\/\w+>$/.test(text))
-                        t.value = "<" + tagname + ">" + text + "</" + tagname + ">";
-                }
-                doc.getElementById("undo").style.display = "inline";
-            }
         } else {
-            t.value = t.value.replace(/(<\/?)(\w+)(>)/ig, "");
-            doc.getElementById("undo").style.display = "none";
+            t.value = text.replace(/(<\/?)(\w+)(>)/ig, "");
+            if (undo.style.visibility === "visible") undo.style.visibility = "hidden";
         }
     }
+}
 
-    /*
-     *
-     * Create the post content
-     * @returns {String}
-     *
-     */
-    function createPostContent() {
-        var title = doc.getElementById("title").value,
-            text = doc.getElementById("text").value,
-            tags = doc.getElementById("tags").value,
-            url = doc.getElementById("url").value,
-            thumb = doc.getElementById("thumb"),
-            content = "";
 
-        if (title.length > 0 && /^\s+$/.test(title)) {
+/* Returns a formatted post content */
+function getFormattedContent() {
+    var title = document.getElementById("title").value,
+        text = document.getElementById("text").value,
+        tags = document.getElementById("tags").value,
+        url = document.getElementById("url").value,
+        thumb = document.getElementById("thumb"),
+        content = "";
+
+    if (title.length > 0) {
+        if (/^\s+$/.test(title)) {
             title = "";
-        }
-        if (text.length > 0) {
-            text = text.replace(/\n/g, "<br>");
-        }
-        if (tags.length > 0) {
-            tags = tags.replace(/\s+/g, "")
-                       .replace(/^([\w\W]+)$/g, "#$1")
-                       .replace(/,/g, " #")
-                       .replace(/##/g, "#");
-        }
-
-        if (youtube.video) {
-            if (title) {
-                content += "**" + title + "**";
-            }
-            if (text) {
-                content += "<br>" + text;
-            }
-            if (tags) {
-                content += "<p>" + tags;
-            }
-            content += "<p> " + youtube.url;
         } else {
-            if (thumb.className != "thumb-placeholder") {
-                content += "[![Image](" + thumb.getAttribute("src") +
-                    ")](" + url + ")<br>";
-            }
-            if (title) {
-                content += "**" + title + "**";
-            }
-            if (title && url) {
-                content += "<br>";
-            }
-            if (url) {
-                content += "[" + url + "](" + url + ")";
-            }
-            if ((title || url) && text) {
-                content += "<p>";
-            }
-            if (text) {
-                content += text;
-            }
-            if (tags) {
-                content += "<p>" + tags;
-            }
-        }
-
-        return encodeURIComponent(content);
-    }
-
-    /*
-     *
-     * Send the post content to the Diaspora publisher
-     *
-     */
-    function sendToPublisher() {
-        if (preferences.podUrl == "") {
-            self.port.emit("warning");
-        } else {
-            var url = preferences.podUrl + "/bookmarklet?content=" + createPostContent(),
-                width = preferences.publisherWidth,
-                height = preferences.publisherHeight,
-                left = (screen.width/2)-(width/2),
-                top = (screen.height/2)-(height/2);
-
-            if (!window.open(url + "&v=1&noui=1&jump=doclose", "diasporav1",
-                "location=yes,links=no,scrollbars=no,toolbar=no,width=" + width +
-                ",height=" + height + ",top=" + top + ",left=" + left)) {
-                window.location.href = url + "jump=yes";
-            }
+            title = title.replace(/\*/g, "\\*");
         }
     }
+    
+    if (text.length > 0) {
+        text = text.replace(/\n/g, "<br>");
+    }
+    
+    if (tags.length > 0) {
+        tags = tags.replace(/\s+/g, "")
+                   .replace(/^([\w\W]+)$/g, "#$1")
+                   .replace(/,/g, " #")
+                   .replace(/##/g, "#");
+    }
 
-    self.port.on("show", function(data) {
-        init(data);
-    });
-
-    self.port.on("prefs", function(prefs) {
-        preferences = prefs;
-    });
-
-    doc.getElementById("actionside").addEventListener("click", function(event) {
-        switch (event.target.id) {
-            case "send":
-                sendToPublisher();
-                break;
-            case "shorturl":
-                shortenLongUrl();
-                break;
-            case "blockquote":
-                formatText("blockquote");
-                break;
-            case "strong":
-                formatText("strong");
-                break;
-            case "emphasis":
-                formatText("em");
-                break;
-            case "undo":
-                formatText();
-                break;
-            default:
-                return false;
+    if (youtube.video) {
+        if (title) {
+            title = title.replace(/\*/g, "\\*");
+            content += "**" + title + "**";
         }
-        event.preventDefault();
-    }, false);
+        
+        if (text) {
+            content += "<br>" + text;
+        }
 
-})(document);
+        //content += "<br><br>![thumb](" + thumb.getAttribute("src") + ")<br>";
+        
+        if (tags) {
+            content += "<p>" + tags + "</p>";
+        }
+
+        if (!/<\/p>$/.test(content)) {
+            content += "<br>";
+        }
+        
+        content += " " + youtube.url;
+    
+    } else {
+        if (thumb.className != "thumb-placeholder") {
+            content += "[![thumb](" + thumb.getAttribute("src") +
+                ")](" + url + ")<br><br>";
+        }
+        
+        if (title) {
+            content += "**" + title + "**";
+        }
+    
+        if (title && url) {
+            content += "<br>";
+        }
+    
+        if (url) {
+            content += "[" + url + "](" + url + ")";
+        }
+    
+        if ((title || url) && text) {
+            content += "<p>" + text + "</p>";
+        }
+        else {
+            content += text;
+        }
+    
+        if (tags) {
+            content += "<p>" + tags + "</p>";
+        }
+    
+        if (!/<\/p>$/.test(content)) {
+            content += "<br>";
+        }
+    }
+
+    return encodeURIComponent(content);
+}
+
+
+/* Send the post content to the Diaspora Publisher */
+function toPublisher() {
+    var data = { post: getFormattedContent(),
+                 screenWidth: screen.width,
+                 screenHeight: screen.height
+               };
+                 
+    self.port.emit("publish", data);
+}
+
+
+/* Listeners */
+
+self.port.on("show", onPanelShow);
+
+self.port.on("shortUrl", function(value) {
+    var url = document.getElementById("url"),
+        longUrl = url.value;
+
+    url.value = value;
+
+    // reset to longUrl on error
+    if (!/^http/.test(value)) {
+        setTimeout(function () {
+            url.value = longUrl;
+        }, 3000);
+    }
+
+});
+
+document.getElementById("shorturl").addEventListener("click", function () {
+    var longUrl = document.getElementById("url").value;
+    self.port.emit("shorten", longUrl);
+});
+
+document.getElementById("bar").addEventListener("click", function(event) {
+    switch (event.target.id) {
+        case "send":
+            toPublisher();
+            break;
+        case "blockquote":
+            makeText("blockquote");
+            break;
+        case "strong":
+            makeText("strong");
+            break;
+        case "emphasis":
+            makeText("em");
+            break;
+        case "undo":
+            makeText();
+            break;
+        default:
+            return false;
+    }
+    event.preventDefault();
+}, false);
