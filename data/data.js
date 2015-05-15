@@ -1,50 +1,59 @@
-// Get Youtube video data
+/* Get schema microdata of youtube video */
 var videoData = function() {
     try {
         var c = document.getElementById("content");
-        var data = {
+        
+        var md = {
             url: c.querySelector("[itemprop=\"url\"]").getAttribute("href"),
             title: c.querySelector("[itemprop=\"name\"]").getAttribute("content"),
             desc: c.querySelector("[itemprop=\"description\"]").getAttribute("content"),
             thumb: c.querySelector("[itemprop=\"thumbnailUrl\"]").getAttribute("href")
         };
+
     } catch (e) {
-        console.log("Easyshare: Youtube video data not found.");
+        console.warn("youtube microdata not found.");
         return false;
     }
 
-    return data;
+    return md;
 };
 
-// Handling context-menu items click
+/* Handle clicks to context-menu items */
 self.on("click", function(node, data) {
-    var d = {
+    var payload = {
         url: document.URL,
         title: document.title,
         thumb: "<img id=\"thumb\" class=\"thumb-placeholder\" src=\"placeholder.png\">"
     };
 
-    if (data == "video") {
+    if (data === "video") {
         var vd = videoData();
+        
         if (vd) {
-            d.thumb = "<img id=\"thumb\" src=\"" + vd.thumb + "\">";
-            d.title = vd.title;
-            d.text = vd.desc;
-            d.vurl = vd.url;
+            payload.thumb = "<img id=\"thumb\" src=\"" + vd.thumb + "\">";
+            payload.title = vd.title;
+            payload.text = vd.desc;
+            payload.vurl = vd.url;
         } else {
-            d.text = "";
-            d.vurl = data.url;
+            payload.text = "";
+            payload.vurl = data.url;
         }
-        d.video = true;
+
+        payload.video = true;
+    
     } else {
-        if (data == "image") {
-            d.thumb = "<img id=\"thumb\" width=\"" + node.clientWidth +
-                "\" height=\"" + node.clientHeight + "\" src=\"" + node.src + "\">";
+        
+        if (data === "image") {
+            payload.thumb = "<img id=\"thumb\" width=\"" + node.clientWidth +
+                        "\" height=\"" + node.clientHeight + "\" src=\"" + 
+                        node.src + "\">";
         }
-        d.text = window.getSelection().toString();
-        d.video = false;
-        d.vurl = "";
+
+        payload.text = window.getSelection().toString();
+        payload.video = false;
+        payload.vurl = "";
     }
 
-    self.postMessage(d);
+    // Post a message and pass collected data
+    self.postMessage(payload);
 });
