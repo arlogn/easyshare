@@ -1,120 +1,158 @@
 body {
-    color: #bbb;
-    background: #000;
+    color: #cccccc;
+    background: #333333;
     font-family: 'Droid Sans', sans-serif;
     font-size: 12px;
     margin: 0;
     padding: 0;
 }
+
 ::-moz-selection {
     color: #fff;
-    background: #444;
+    background: #2b9ad9;
 }
-#thumbside {
-    width: 230px;
-    float: left;
+
+a:focus, a:active {
+    border: 0;
+    outline: 0;
+}
+
+.container {
+    width: 720px;
+    height: 500px;
+    position: relative;
+}
+
+#main {
+    width: 495px;
     margin: 10px 0 0 10px;
-    overflow: hidden;
+    float: left;
     display: block;
 }
-#actionside {
-    width: 360px;
-    max-height: 360px;
-    float: right;
-    margin: 5px 10px 5px 0;
-    overflow: hidden;
+
+#bar {
+    width: 190px;
+    float: left;
+    margin: 16px 0 0 12px;
     display: block;
 }
-#wrapper {
-    width: 100%;
-    max-height: 355px;
-    overflow: hidden;
-    display: block;
+
+fieldset {
+    border: 1px solid #555555;
+    border-radius: 4px;
 }
-img {
-    max-width: 100%;
-    height: auto;
+
+fieldset:not(:first-child) {
+    margin-top: 15px;
 }
+
+legend {
+    font-size: 90%;
+    text-transform: uppercase;
+    color: #eeeeee;
+    margin: 0 5px;
+}
+
+textarea {
+    padding: 5px;
+    border: none;
+}
+
 #title,
-#url,
 #text,
 #tags {
     width: 100%;
     display: block;
 }
+
 #title,
 #tags {
-    height: 50px;
+    height: 40px;
 }
+
 #text {
-    height: 80px;
+    height: 200px;
 }
+
 #url {
-    height: 30px;
-    background-color: #212121;
-    border: none;
+    width: 400px;
+    height: 40px;
+    background: #333333;
     resize: none;
-    color: #0af;
-}
-.controls {
-    width: 99%;
-    height: 20px;
-}
-.controls a {
-    float: right;
-    margin: 3px 20px 0;
-    color: white;
-    text-decoration: none;
-}
-.controls a:hover {
-    text-decoration: underline;
-}
-.controls a:focus,
-.controls a:active {
-    outline: none;
-}
-#undo {
     color: #00aaff;
+    float: left;
 }
-label {
-    margin: 5px 0 0 2px;
-    display: inline-block;
+
+#thumbox {
+    width: 100%;
+    height: 188px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: block;
 }
+
+#thumbox img {
+    width: 188px;
+    height: 188px;
+    object-fit: scale-down;
+}
+
 .button {
+    text-decoration: none; 
+    color: #eeeeee;
+    border-radius: 4px;
+    display: block; 
+}
+
+.shorten {
+    text-align: center;
     float: right;
-    padding: .5em 2em;
-    margin: 10px 15px;
-    display: inline-block;
-    vertical-align: baseline;
-    cursor: pointer;
-    font: 15px/100% 'Droid Sans', sans-serif;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    border-radius: .3em;
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    color: #d9eef7;
-    border: solid 1px #0076a3;
-    background: #0095cd;
-    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
 }
-.button:hover {
-    background: #007ead;
-    background: -moz-linear-gradient(top, #0095cc, #00678e);
+
+.shorten,
+.format,
+.send {
+    background: #555555;
 }
-.button:active {
-    position: relative;
-    top: 1px;
-    color: #a9eef2;
-    background: -moz-linear-gradient(top, #0078a5, #00adee);
+
+.send {
+    padding: 22px;
+    margin-top: 26px;
+    font-size: 16px;
+    text-align: center;
 }
-.button::-moz-focus-inner {
-    border: none;
+
+.shorten:hover,
+.format:hover,
+.send:hover {
+    color: #ffffff;
+    background: #2b9ad9;
 }
+
+.shorten,
+.format,
+.undo {
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.undo {
+    background: #ff3322;
+}
+
+.undo:hover {
+    color: #ffffff;
+    background: #ff0000;
+}
+
 #footer {
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
     width: 100%;
     height: 26px;
-    background-color: #333;
+    color: #dddddd;
     line-height: 26px;
     text-align: center;
     letter-spacing: 2px;
