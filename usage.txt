@@ -27,16 +27,25 @@
 
 # Text formatting
   ---------------
-  Add emphasis, strong emphasis or defining an indented quoted section using the
-  commands below the text box. You can do this to the entire text or by selecting
-  part of it.
+  Use the buttons in the right section to add a basic formatting to the entered text.
+  You can add html tags for emphasis, strong emphasis or to define an indented quoted
+  section, to the entire text or by selecting part of it.
+
+
+# URL shortening
+  -------------------------------
+  With version 0.9.0 Easyshare stops using ApiKey authentication to access the Bitly API
+  and switches to OAuth2. Now to shorten URLs you must authorize the addon on your private
+  Bitly account to receive an OAuth access token. The token is stored (hidden) in the preferences
+  and allows Easyshare to access the Bilty API on your behalf. You can perform the authorization
+  flow using the dedicated button in the preferences.
 
 
 # Preferences
   -----------
-  Pod Url: URL of diaspora pod where you want share on (https://yourpod.tld) (REQUIRED).
-  Publisher Width/Height: the publisher popup window size.
-  Bit.li Credentials: own Bitly API credentials to shorten URLs.
+  Pod Url: URL of diaspora pod where you want to share. (REQUIRED)
+  Publisher Width/Height: set the size of the publisher popup window.
+  Bitly OAuth Web Flow: button to start the authorization process. (Required to shorten URLs)
 
 
 # Localization
