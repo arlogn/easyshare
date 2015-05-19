@@ -148,10 +148,7 @@ function getFormattedContent() {
 
 /* Send the post content to the Diaspora Publisher */
 function toPublisher() {
-    var data = { post: getFormattedContent(),
-                 screenWidth: screen.width,
-                 screenHeight: screen.height
-               };
+    var data = { post: getFormattedContent() };
                  
     self.port.emit("publish", data);
 }
@@ -167,8 +164,8 @@ self.port.on("shortUrl", function(value) {
 
     url.value = value;
 
-    // reset to longUrl on error
     if (!/^http/.test(value)) {
+        // reset value to longUrl on error
         setTimeout(function () {
             url.value = longUrl;
         }, 3000);
