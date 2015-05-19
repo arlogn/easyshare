@@ -22,11 +22,11 @@
             "title": "Publisher Height"
         },
         {
-            "description": "Authorize Easyshare to shorten URLs with Bilty acquiring an OAuth access token.",
+            "description": "Authorize Easyshare to shorten URLs on your Bitly account.",
             "type": "control",
             "name": "bitlyOAuth",
             "label": "Authorize",
-            "title": "Bitly OAuth"
+            "title": "Bitly OAuth Web Flow"
         },
         {
             "description": "Your Bitly OAuth access token.",
