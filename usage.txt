@@ -33,7 +33,7 @@
 
 
 # URL shortening
-  -------------------------------
+  --------------
   With version 0.9.0 Easyshare stops using ApiKey authentication to access the Bitly API
   and switches to OAuth2. Now to shorten URLs you must authorize the addon on your private
   Bitly account to receive an OAuth access token. The token is stored (hidden) in the preferences
@@ -50,10 +50,20 @@
 
 # Localization
   ------------
-  Currently localized for: en-US, it-IT, nl-NL, es-ES.
+  Currently localized for: english, italian, dutch, spanish, french.
   More localizations and fixes to existing ones are welcome.
   Thanks to @meneer for Dutch.
   Thanks to @Victorhck for Spanish.
+  Thanks to @Bat41 for French
+
+
+# Versions
+  --------
+  Stable: 0.9.1
+
+  Experimental: 0.10.0 
+  This version introduce a new diaspora module to create a dispora session, to post and get some
+  user data making directly network requests. It stops using the publisher bookmarklet.
 
 
 # Issues, Bugs, Suggestions
