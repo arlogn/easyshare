@@ -61,7 +61,7 @@ h3 {
 
 #bitly-callback {
   font-family: sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   color: #39abf6;
   left: 20px;
   top: 20px;
@@ -133,7 +133,7 @@ h3 {
 /* Responsive */
 
 @media (max-width: 768px) {
-	
+
   .header h1 {
     font-size: 28px;
   }
@@ -165,5 +165,5 @@ h3 {
   .flexslider .flex-control-nav {
     display: none;
   }
-  
+
 }
