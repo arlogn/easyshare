@@ -1,12 +1,12 @@
- 
+
  DIASPORA*_________________________________________________________________
- ######      ####  ###### ###  ##  ###### ###  ##     #### #######   ###### 
+ ######      ####  ###### ###  ##  ###### ###  ##     #### #######   ######
  ###  ##    ##### ###  ## ###  ## ###  ## ###  ##    #####  ###  ##  ###  ##
- ###       ## ### ####    ###  ## ####    ###  ##   ## ###  ###  ##  ###    
- #####    ##  ###  #####   #####   #####  #######  ##  ###  ######   #####  
- ###     ########    ####   ###      #### ###  ## ########  ### ##   ###    
+ ###       ## ### ####    ###  ## ####    ###  ##   ## ###  ###  ##  ###
+ #####    ##  ###  #####   #####   #####  #######  ##  ###  ######   #####
+ ###     ########    ####   ###      #### ###  ## ########  ### ##   ###
  ###  ## ##   ### ##  ###   ###   ##  ### ###  ## ##   ###  ###  ##  ###  ##
- ######  ##   ###  #####    ###    #####  ###  ## ##   ###  ###  ##  ######       
+ ######  ##   ###  #####    ###    #####  ###  ## ##   ###  ###  ##  ######
 
 
 
@@ -59,11 +59,32 @@
 
 # Versions
   --------
-  Stable: 0.9.1
+  On AMO (addons.mozilla.org): 0.8.2 (OLD)
 
-  Experimental: 0.10.0 
-  This version introduce a new diaspora module to create a dispora session, to post and get some
-  user data making directly network requests. It stops using the publisher bookmarklet.
+  Current: 0.9.1 (this file refers to this version, waiting for review on AMO)
+  https://github.com/arlogn/easyshare/blob/master/d_easyshare.0.9.1.xpi?raw=true
+
+  In progress: 0.10.1
+  This version introduce a new diaspora module to create a diaspora session, post a status
+  message and get some user data. It stops using the publisher bookmarklet.
+  Relevant differences are:
+  1) a new button in the preferences to enter the pod credentials.
+  Credentials are stored in the Firefox Password Manager and identified with this string:
+  'addon:jid1-gqfeTXcouyVkpg (Pod credentials for Easyshare)'.
+  You can manage them opening 'about:preferences#security' and clicking on 'Saved passwords'.
+  2) new input box in the panel to enter how to share the post. Here you can enter:
+  - public : to share public (you can also leave the box blank to share public)
+  - all_aspects : to share with all your aspects
+  - aspect-name : to share with a single aspect entering its name
+
+  https://github.com/arlogn/easyshare/blob/master/d_easyshare.0.10.1.xpi?raw=true
+  ANYONE WHO WANTS TO TEST THIS VERSION IS WELCOME!
+
+
+# Tips
+  ----
+  All textarea elements in the panel are resizable. To bring them back to their exact size just
+  double click on the resizer.
 
 
 # Issues, Bugs, Suggestions
@@ -79,8 +100,7 @@
 # License
   -------
   Licensed under The MIT License (MIT).
-  
-  
-  
+
+
+
 #######
-  
