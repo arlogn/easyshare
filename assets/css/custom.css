@@ -72,6 +72,22 @@ h3 {
   color: #f00;
 }
 
+#bitlyOAuth {
+  font-family: sans-serif;
+  font-size: 18px;
+  left: 20px;
+  top: 20px;
+  position: absolute;
+}
+
+#bitlyOAuth span:first-child {
+    color: #39abf6;
+}
+
+#bitlyOAuth span:last-child {
+    color: #f00;
+}
+
 /* Content */
 
 .content {
