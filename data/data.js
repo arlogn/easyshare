@@ -2,8 +2,8 @@
 var videoData = function() {
     try {
         var c = document.getElementById("content");
-        
-        var md = {
+
+        var items = {
             url: c.querySelector("[itemprop=\"url\"]").getAttribute("href"),
             title: c.querySelector("[itemprop=\"name\"]").getAttribute("content"),
             desc: c.querySelector("[itemprop=\"description\"]").getAttribute("content"),
@@ -15,7 +15,7 @@ var videoData = function() {
         return false;
     }
 
-    return md;
+    return items;
 };
 
 /* Handle clicks to context-menu items */
@@ -28,7 +28,7 @@ self.on("click", function(node, data) {
 
     if (data === "video") {
         var vd = videoData();
-        
+
         if (vd) {
             payload.thumb = "<img id=\"thumb\" src=\"" + vd.thumb + "\">";
             payload.title = vd.title;
@@ -40,12 +40,12 @@ self.on("click", function(node, data) {
         }
 
         payload.video = true;
-    
+
     } else {
-        
+
         if (data === "image") {
             payload.thumb = "<img id=\"thumb\" width=\"" + node.clientWidth +
-                        "\" height=\"" + node.clientHeight + "\" src=\"" + 
+                        "\" height=\"" + node.clientHeight + "\" src=\"" +
                         node.src + "\">";
         }
 
@@ -54,6 +54,6 @@ self.on("click", function(node, data) {
         payload.vurl = "";
     }
 
-    // Post a message and pass collected data
+    // Post a message and pass the collected data
     self.postMessage(payload);
 });
