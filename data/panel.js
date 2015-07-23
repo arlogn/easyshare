@@ -1,12 +1,15 @@
 var youtube = youtube || {};
 
 
-/* Update the panel content when displayed */
+/*
+ * Update the panel content when displayed
+ */
 function onPanelShow(data) {
     var range = document.createRange(),
         fragment = range.createContextualFragment(data.thumb),
         wrapper = document.getElementById("thumbox"),
-        thumb = document.getElementById("thumb");
+        thumb = document.getElementById("thumb"),
+        undo = document.getElementById("undo");
 
     if (!thumb) {
         wrapper.appendChild(fragment);
@@ -24,41 +27,80 @@ function onPanelShow(data) {
         url: data.vurl || ""
     };
 
-    document.getElementById("undo").style.visibility = "hidden";
+    if (undo.style.visibility != "hidden") undo.style.visibility = "hidden";
 }
 
 
-/* Add a basic formatting to the text adding some html tags */
-function makeText(tag) {
+/*
+ * Handle clicks to markdown buttons.
+ * Add syntax for emphasis, strong emphasis or to define an indented quoted section.
+ */
+function makeText(str) {
     var t = document.getElementById("text"),
         text = t.value,
         sel = text.substring(t.selectionStart, t.selectionEnd),
         undo = document.getElementById("undo");
 
-    var whitespaceonly = function(str) { 
-        return /^\s+$/.test(str); 
+    var onlySpaces = function(text) {
+        return /^\s+$/.test(text);
     };
 
-    if (text.length > 0 && !whitespaceonly(text)) {
-        if (tag) {
-            if (sel.length > 0 && !whitespaceonly(sel)) {
-                t.value = text.replace(new RegExp('([\\s\\S]{'+t.selectionStart+'})([\\s\\S]{'+(t.selectionEnd-t.selectionStart)+'})'), '$1<'+tag+'>$2</'+tag+'>');
-            } else {
-                if (!/^<[a-z][\s\S]*>$/.test(text))
-                    t.value = "<" + tag + ">" + text + "</" + tag + ">";
+    var syntaxRemove = function(text) {
+        undo.style.visibility = "hidden";
+        return text.replace(/_([\s\S]*?)_/g, '$1').
+                    replace(/\*\*([\s\S]*?)\*\*/g, '$1').
+                    replace(/\n\n>\s([\s\S]*?)\n\n/g, '$1').
+                    replace(/>\s([\s\S]*?)/g, '$1');
+    };
+
+    var markdownify = function (str, text) {
+        var syntaxFor = {
+            "emphasis": function() {
+                return "_" + text + "_";
+            },
+            "strong": function() {
+                return "**" + text + "**";
+            },
+            "blockquote": function() {
+                text = text.trim();
+                text = text.replace(/\n{3,}/g, '\n\n');
+                text = text.replace(/^/gm, '> ');
+                return "\n\n" + text + "\n\n";
             }
+        };
 
-            if (undo.style.visibility === "hidden") undo.style.visibility = "visible";
+        if (undo.style.visibility == "hidden") undo.style.visibility = "visible";
 
+        return syntaxFor[str]();
+    };
+
+    if (text.length > 0 && !onlySpaces(text)) {
+        if (str) {
+            if (sel.length > 0 && !onlySpaces(sel)) {
+                t.value = text.replace(new RegExp('([\\s\\S]{'+t.selectionStart+'})([\\s\\S]{'+(t.selectionEnd-t.selectionStart)+'})'), '$1' +
+                markdownify(str, '$2'));
+            } else {
+                // skip if text is already wrapped by markdown syntax
+                if (!/^\*(.*)\*$/.test(text) && !/^_(.*)_$/.test(text) && !/^\n\n>[\s\S]*\n\n$/.test(text)) {
+                    // if text contains newline skip emphasis and strong to avoid markdown error
+                    if (/\n/.test(text)) {
+                        if (str == "blockquote") t.value = markdownify(str, text);
+                    } else {
+                        if (str != "blockquote") text = text.trim();
+                        t.value = markdownify(str, text);
+                    }
+                }
+            }
         } else {
-            t.value = text.replace(/(<\/?)(\w+)(>)/ig, "");
-            if (undo.style.visibility === "visible") undo.style.visibility = "hidden";
+            t.value = syntaxRemove(t.value);
         }
     }
 }
 
 
-/* Returns a formatted post content */
+/*
+ * Return formatted and lined up content
+ */
 function getFormattedContent() {
     var title = document.getElementById("title").value,
         text = document.getElementById("text").value,
@@ -67,90 +109,50 @@ function getFormattedContent() {
         thumb = document.getElementById("thumb"),
         content = "";
 
-    if (title.length > 0) {
-        if (/^\s+$/.test(title)) {
-            title = "";
-        } else {
-            title = title.replace(/\*/g, "\\*");
-        }
-    }
-    
-    if (text.length > 0) {
-        text = text.replace(/\n/g, "<br>");
-    }
-    
-    if (tags.length > 0) {
-        tags = tags.replace(/\s+/g, "")
-                   .replace(/^([\w\W]+)$/g, "#$1")
-                   .replace(/,/g, " #")
-                   .replace(/##/g, "#");
-    }
+    if (title.length > 0 && /^\s+$/.test(title)) title = "";
+    else content += "**" + title + "**";
+
+    if (tags.length > 0) tags = tags.replace(/\s+/g, "")
+                                .replace(/^([\w\W]+)$/g, "#$1")
+                                .replace(/,/g, " #")
+                                .replace(/##/g, "#");
 
     if (youtube.video) {
-        if (title) {
-            title = title.replace(/\*/g, "\\*");
-            content += "**" + title + "**";
-        }
-        
-        if (text) {
-            content += "<br>" + text;
-        }
+        if (title) content += "\n";
 
-        //content += "<br><br>![thumb](" + thumb.getAttribute("src") + ")<br>";
-        
-        if (tags) {
-            content += "<p>" + tags + "</p>";
-        }
+        if (text) content += text;
 
-        if (!/<\/p>$/.test(content)) {
-            content += "<br>";
-        }
-        
-        content += " " + youtube.url;
-    
+        content += "\n\n" + youtube.url;
+
     } else {
-        if (thumb.className != "thumb-placeholder") {
-            content += "[![thumb](" + thumb.getAttribute("src") +
-                ")](" + url + ")<br><br>";
-        }
-        
-        if (title) {
-            content += "**" + title + "**";
-        }
-    
-        if (title && url) {
-            content += "<br>";
-        }
-    
-        if (url) {
-            content += "[" + url + "](" + url + ")";
-        }
-    
-        if ((title || url) && text) {
-            content += "<p>" + text + "</p>";
-        }
-        else {
-            content += text;
-        }
-    
-        if (tags) {
-            content += "<p>" + tags + "</p>";
-        }
-    
-        if (!/<\/p>$/.test(content)) {
-            content += "<br>";
-        }
+        if (thumb.className != "thumb-placeholder")
+            content += content += "[![Image](" + thumb.getAttribute("src") + ")](" + url + ")\n";
+
+        if (title && url) content += "\n";
+
+        if (url) content += "[" + url + "](" + url + ")";
+
+        if ((title || url) && text) content += "\n\n" + text;
+        else content += text;
     }
 
-    return encodeURIComponent(content);
+    if (tags) content += "\n\n" + tags;
+
+    return content;
 }
 
 
-/* Send the post content to the Diaspora Publisher */
-function toPublisher() {
-    var data = { post: getFormattedContent() };
-                 
-    self.port.emit("publish", data);
+/*
+ * Send the post data to the main add-on code
+ */
+function send() {
+    var aspect = document.getElementById("share").value;
+
+    if (aspect == "") aspect = "public";
+
+    var data = { post: getFormattedContent(), aspect: aspect };
+
+    self.port.emit("post", data);
 }
 
 
@@ -164,8 +166,8 @@ self.port.on("shortUrl", function(value) {
 
     url.value = value;
 
+    // reset to longurl if returned value is an error warning
     if (!/^http/.test(value)) {
-        // reset value to longUrl on error
         setTimeout(function () {
             url.value = longUrl;
         }, 3000);
@@ -173,15 +175,29 @@ self.port.on("shortUrl", function(value) {
 
 });
 
+self.port.on("wait", function(text, status) {
+    var button = document.getElementById("send");
+    button.text = text;
+
+    // disable the button while sending the post
+    if(status == 'sending') {
+        button.style.pointerEvents = "none";
+        button.className = "button sending";
+    } else {
+        button.style.pointerEvents = "auto";
+        button.className = "button send";
+    }
+});
+
 document.getElementById("shorturl").addEventListener("click", function () {
     var longUrl = document.getElementById("url").value;
     self.port.emit("shorten", longUrl);
 });
 
-document.getElementById("bar").addEventListener("click", function(event) {
+document.getElementById("sidebar").addEventListener("click", function(event) {
     switch (event.target.id) {
         case "send":
-            toPublisher();
+            send();
             break;
         case "blockquote":
             makeText("blockquote");
@@ -190,10 +206,10 @@ document.getElementById("bar").addEventListener("click", function(event) {
             makeText("strong");
             break;
         case "emphasis":
-            makeText("em");
+            makeText("emphasis");
             break;
         case "undo":
-            makeText();
+            makeText(null);
             break;
         default:
             return false;

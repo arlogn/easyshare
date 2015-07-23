@@ -8,7 +8,7 @@ body {
 }
 
 ::-moz-selection {
-    color: #fff;
+    color: #ffffff;
     background: #2b9ad9;
 }
 
@@ -30,7 +30,7 @@ a:focus, a:active {
     display: block;
 }
 
-#bar {
+#sidebar {
     width: 190px;
     float: left;
     margin: 16px 0 0 12px;
@@ -54,6 +54,8 @@ legend {
 }
 
 textarea {
+    background: #444444;
+    color: #dddddd;
     padding: 5px;
     border: none;
 }
@@ -88,7 +90,7 @@ textarea {
     height: 188px;
     border: 1px solid #555555;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     overflow: hidden;
     display: block;
 }
@@ -99,15 +101,53 @@ textarea {
     object-fit: scale-down;
 }
 
+.buttons {
+    width: 100%;
+    display: inline-block;
+}
+
+.buttons a {
+    float: left;
+    width: 76px;
+}
+
+.buttons a:first-child {
+    margin-right: 5px;
+}
+
 .button {
-    text-decoration: none; 
+    text-decoration: none;
     color: #eeeeee;
-    border-radius: 4px;
-    display: block; 
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+}
+
+.sharebox {
+    margin-top: 15px;
+}
+
+.sharebox label,
+.label {
+    font-size: 90%;
+}
+
+#share {
+    width: 100%;
+    height: 24px;
+    background: #444444;
+    color: #fabb68;
+    text-align: center;
+    margin: 3px 0 3px;
+    padding: 0 7px;
+    border: none;
+}
+
+.items em {
+    color: #f2f19e;
 }
 
 .shorten {
-    text-align: center;
     float: right;
 }
 
@@ -117,9 +157,10 @@ textarea {
     background: #555555;
 }
 
-.send {
+.send,
+.sending {
     padding: 22px;
-    margin-top: 26px;
+    margin-top: 16px;
     font-size: 16px;
     text-align: center;
 }
@@ -138,7 +179,8 @@ textarea {
     margin-top: 5px;
 }
 
-.undo {
+.undo,
+.sending {
     background: #ff3322;
 }
 
@@ -147,12 +189,16 @@ textarea {
     background: #ff0000;
 }
 
+.yellow {
+    color: #f2f19e;
+}
+
 #footer {
     position: absolute;
     bottom: 4px;
     width: 100%;
     height: 26px;
-    color: #dddddd;
+    color: #cccccc;
     line-height: 26px;
     text-align: center;
     letter-spacing: 2px;

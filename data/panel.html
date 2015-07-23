@@ -8,29 +8,39 @@
     <div class="container">
         <div id="main">
             <fieldset>
-                <legend data-l10n-id='panelLabelTitle'></legend>
+                <legend data-l10n-id='panelLegendTitle'></legend>
                 <textarea id="title"></textarea>
                 <textarea id="url"></textarea>
                 <a class="button shorten" id="shorturl" href="#" data-l10n-id='panelButtonShorturl'></a>
             </fieldset>
             <fieldset>
-                <legend data-l10n-id='panelLabelText'></legend>
+                <legend data-l10n-id='panelLegendText'></legend>
                 <textarea id="text"></textarea>
             </fieldset>
             <fieldset>
-                <legend data-l10n-id='panelLabelTags'></legend>
+                <legend data-l10n-id='panelLegendTags'></legend>
                 <textarea id="tags" placeholder="tag1,tag2,tag3 ..."></textarea>
             </fieldset>
         </div>
-        <div id="bar">
+        <div id="sidebar">
             <div id="thumbox"></div>
-            <a class="button format" id="emphasis" href="#" data-l10n-id='panelButtonEmphasis'></a>
-            <a class="button format" id="strong" href="#" data-l10n-id='panelButtonStrong'></a>
-            <a class="button format" id="blockquote" href="#" data-l10n-id='panelButtonBlockquote'></a>
-            <a class="button undo" id="undo" href="#" data-l10n-id='panelButtonUndo'></a>
+            <span class="label">Markdown:</span>
+            <div class="buttons">
+                <a class="button format" id="emphasis" href="#" data-l10n-id='panelButtonEmphasis'></a>
+                <a class="button format" id="strong" href="#" data-l10n-id='panelButtonStrong'></a>
+            </div>
+            <div class="buttons">
+                <a class="button format" id="blockquote" href="#" data-l10n-id='panelButtonBlockquote'></a>
+                <a class="button undo" id="undo" href="#" data-l10n-id='panelButtonUndo'></a>
+            </div>
+            <div class="sharebox">
+                <label for="share" data-l10n-id='panelLabelShareWith'></label>
+                <input id="share" name="share" type="text">
+                <span class="items"><em>aspect-name</em> | <em>all_aspects</em> | <em>public</em></span>
+            </div>
             <a class="button send" id="send" href="#" data-l10n-id='panelButtonSend'></a>
         </div>
-        <div id="footer">Diaspora* Easyshare</div>
-    </div>    
+        <div id="footer">diaspora* Easyshare</div>
+    </div>
 </body>
 </html>
