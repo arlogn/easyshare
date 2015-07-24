@@ -1,48 +1,56 @@
 {
     "preferences": [
         {
-            "description": "Enter URL of your Diaspora* pod.",
+            "description": "Enter URL of your diaspora* pod.",
             "type": "string",
             "name": "podUrl",
             "value": "",
             "title": "Pod URL"
         },
         {
-            "description": "Set the publisher window width.",
-            "type": "integer",
-            "name": "publisherWidth",
-            "value": 600,
-            "title": "Publisher Width"
-        },
-        {
-            "description": "Set the publisher window height.",
-            "type": "integer",
-            "name": "publisherHeight",
-            "value": 250,
-            "title": "Publisher Height"
+            "description": "Enter your diaspora* pod credentials.",
+            "type": "control",
+            "name": "podCredentials",
+            "label": "Enter",
+            "title": "Pod credentials"
         },
         {
             "description": "Authorize Easyshare to shorten URLs on your Bitly account.",
             "type": "control",
             "name": "bitlyOAuth",
             "label": "Authorize",
-            "title": "Bitly OAuth Web Flow"
+            "title": "Bitly OAuth web flow"
+        },
+        {
+            "description": "Select to display the provider name (via Easyshare) below any post.",
+            "type": "bool",
+            "name": "providerDisplay",
+            "value": false,
+            "title": "Display the provider name"
+        },
+        {
+            "description": "diaspora* token for authentication.",
+            "type": "string",
+            "name": "diasporaAuthenticationToken",
+            "value": "",
+            "title": "diaspora* token",
+            "hidden": true
         },
         {
             "description": "Your Bitly OAuth access token.",
             "type": "string",
             "name": "bitlyOAuthAccessToken",
             "value": "",
-            "title": "Access Token",
+            "title": "Bitly token",
             "hidden": true
         }],
     "name": "d_easyshare",
     "license": "MIT",
     "author": "arlogn",
-    "version": "0.9.1",
-    "fullName": "Diaspora* Easyshare",
+    "version": "0.10.1",
+    "fullName": "diaspora* Easyshare",
     "id": "jid1-gqfeTXcouyVkpg",
-    "description": "Easily share web content on your Diaspora* pod.",
+    "description": "Easily share web content on your diaspora* pod.",
     "homepage": "http://arlogn.github.io/easyshare/",
     "icon": "icons/icon.png",
     "icon64": "icons/icon64.png"
