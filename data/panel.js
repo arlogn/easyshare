@@ -126,7 +126,7 @@ function getFormattedContent() {
 
     } else {
         if (thumb.className != "thumb-placeholder")
-            content += content += "[![Image](" + thumb.getAttribute("src") + ")](" + url + ")\n";
+            content += "[![Image](" + thumb.getAttribute("src") + ")](" + url + ")\n";
 
         if (title && url) content += "\n";
 
