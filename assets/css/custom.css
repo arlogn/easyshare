@@ -82,11 +82,11 @@ h3 {
 }
 
 #bitlyOAuth span:first-child {
-    color: #39abf6;
+  color: #39abf6;
 }
 
 #bitlyOAuth span:last-child {
-    color: #f00;
+  color: #f00;
 }
 
 /* Content */

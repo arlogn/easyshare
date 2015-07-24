@@ -1,28 +1,16 @@
- 
+
  DIASPORA*_________________________________________________________________
- ######      ####  ###### ###  ##  ###### ###  ##     #### #######   ###### 
+ ######      ####  ###### ###  ##  ###### ###  ##     #### #######   ######
  ###  ##    ##### ###  ## ###  ## ###  ## ###  ##    #####  ###  ##  ###  ##
- ###       ## ### ####    ###  ## ####    ###  ##   ## ###  ###  ##  ###    
- #####    ##  ###  #####   #####   #####  #######  ##  ###  ######   #####  
- ###     ########    ####   ###      #### ###  ## ########  ### ##   ###    
+ ###       ## ### ####    ###  ## ####    ###  ##   ## ###  ###  ##  ###
+ #####    ##  ###  #####   #####   #####  #######  ##  ###  ######   #####
+ ###     ########    ####   ###      #### ###  ## ########  ### ##   ###
  ###  ## ##   ### ##  ###   ###   ##  ### ###  ## ##   ###  ###  ##  ###  ##
- ######  ##   ###  #####    ###    #####  ###  ## ##   ###  ###  ##  ######       
+ ######  ##   ###  #####    ###    #####  ###  ## ##   ###  ###  ##  ######
 
 
 
+####### WARNING! #######
 
-####### Updated to version 0.9.1 #######
-
-# Changes:
-  - Panel restyling.
-  - New icon 32x32 for the toolbar button (used when you move the button inside the menu)
-  - Implemented the OAuth2 authorization flow to shorten URLs with Bitly.
-  - Code refactoring.
-
-#######
-
-UPDATE FIREFOX!
-The image thumbnail in the panel is scaled using the css property 'object-fit' and is compatible only with Firefox 36+.
-Older versions do not display the image properly.
-https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
-
+You have updated to an outdated version the has some problems with the last diaspora releases.
+Please, read here: http://arlogn.github.io/easyshare/usage.html
