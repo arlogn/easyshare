@@ -98,7 +98,7 @@
         </div>
         <div class="section">
             <div class="box-warning">
-                <del><strong>WARNING!<br></strong>The addon version <strong>0.8.2.1</strong> hosted on AMO (addons.mozilla.org) is outdated and has some problems with the last diaspora releases. <strong>Please DON'T INSTALL IT!</strong> The lastest version, <strong>0.10.1</strong>, is in the AMO queue, waiting for review. Unfortunately, the AMO review process is very slow, with a big queue and it will still take a long time before it's made available.<br>Due to this problem, you can manually install the latest version downloading the installable bundle from <strong><a href="https://raw.githubusercontent.com/arlogn/easyshare/master/d_easyshare.0.10.1.xpi">here</a></strong></del><br><br><strong>Finally reviewed!<br>You can install the signed version from AMO:<br><a href="https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/">https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/</a></strong>.
+                <del><strong>WARNING!<br></strong>The addon version <strong>0.8.2.1</strong> hosted on AMO (addons.mozilla.org) is outdated and has some problems with the last diaspora releases. <strong>Please DON'T INSTALL IT!</strong> The lastest version, <strong>0.10.1</strong>, is in the AMO queue, waiting for review. Unfortunately, the AMO review process is very slow, with a big queue and it will still take a long time before it's made available.<br>Due to this problem, you can manually install the latest version downloading the installable bundle from <strong><a href="https://raw.githubusercontent.com/arlogn/easyshare/master/d_easyshare.0.10.1.xpi">here</a></strong></del><br><br><strong>Hooray, finally reviewed!<br>You can install the signed version from AMO:<br><a href="https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/">https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/</a></strong>.
             </div>
         </div>
         <div class="section">
@@ -110,16 +110,16 @@
         <div class="section">
             <dl>
                 <dt># Preferences</dt>
-                <dd><span class="strong600">Pod Url :</span> URL of your diaspora* pod. Enter the full address (https://yourpod.tld). (REQUIRED)</dd>
-                <dd><span class="strong600">Credentials :</span> the button to enter username/password to sign-in on your pod.  (REQUIRED)<br>From version 0.10.0 the credentials are used to opening a diaspora* session and post to it. They are securely stored in the Firefox Password Manager. You can manage them opening <span class="strong600"><em>about:preferences#security</em></span> and clicking the 'Saved Passwords' button.</dd>
-                <dd><span class="strong600">Bitly OAuth Web Flow :</span> the button to start the authorization process. (Required to shorten URLs)<br>From version 0.9.0 Easyshare stops using ApiKey authentication to access the Bitly API and switches to OAuth2. Now to shorten URLs you must authorize the addon on your private Bitly account and receive an OAuth access token. The token is stored (hidden) in the preferences and allows Easyshare to access the Bilty API on your behalf.</dd>
+                <dd><span class="strong600">Pod Url :</span> URL of your diaspora* pod. Enter the full address - https://yourpod.tld. (REQUIRED)</dd>
+                <dd><span class="strong600">Credentials :</span> the button to enter username/password to sign-in on your pod.  (REQUIRED)<br>From version 0.10.0 the credentials are used to opening a diaspora* session and post to it. They are securely stored in the Firefox Password Manager. You can manage them opening <span class="strong600">about:preferences#security</span> and clicking the 'Saved Passwords' button.</dd>
+                <dd><span class="strong600">Bitly OAuth Web Flow :</span> the button to start the OAuth authorization process. (Required to shorten URLs)<br>From version 0.9.0 Easyshare stops using ApiKey authentication to access the Bitly API and switches to OAuth2. Now to shorten URLs you must authorize the addon on your private Bitly account and receive an OAuth access token. The token is stored (hidden) in the preferences and allows Easyshare to access the Bilty API on your behalf.</dd>
                 <dd><span class="strong600">Display the provider name :</span> a checkbox to add the provider name (via Easyshare) below the post.</dd>
             </dl>
         </div>
         <div class="section">
             <dl>
                 <dt># Panel - Url shortening</dt>
-                <dd>Use the button near the URL box in the popup dialog to shorten long URLs (prior authorization).</dd>
+                <dd>Use the button near the URL box in the popup dialog to shorten long URLs with Bitly (prior authorization).</dd>
             </dl>
         </div>
         <div class="section">
@@ -149,15 +149,15 @@
                 <dd>Thanks to @meneer for Dutch.</dd>
                 <dd>Thanks to @Victorhck for Spanish.</dd>
                 <dd>Thanks to @Bat41 for French.</dd>
-                <dd>Note: due to the general refactoring in the latest version some locales have some string untranslated.</dd>
+                <dd>Note: due to the general refactoring in the latest version some locales have strings untranslated.</dd>
             </dl>
         </div>
         <div class="section">
             <dl>
                 <dt># Tips</dt>
                 <dd>- All textarea elements in the popup dialog are resizable to better view their content. To bring them back to their default size just double click on the resizer.</dd>
-                <dd>- Markdown buttons for emphasis and strong emphasis don't work if the text contains newline, to avoid a markdown failure. In this case, to enter the syntax you need to select the text, but take care to skip any new line.</dd>
-                <dd>- Remember to escape asterisks and underscores in the text that may generate errors when using markdown (like diaspora*).</dd>
+                <dd>- Markdown buttons for emphasis and strong emphasis don't work if the text contains newline, to avoid a markdown failure. In this case, to enter the syntax you need to select the text, taking care to skip any new line.</dd>
+                <dd>- Remember to always escape in the text those asterisks and underscores that can generate errors when using markdown (like diaspora*).</dd>
             </dl>
         </div>
         <div class="section">
