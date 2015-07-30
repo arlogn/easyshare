@@ -1,6 +1,6 @@
 diaspora* Easyshare
 ===================
 
-A Firefox addon to extend the right-click context menu with the ability to share images, text and videos on diaspora*.
+A Firefox addon to extend the right-click context menu with the ability to share images, text and videos on your diaspora* pod.
 
-<a href="http://arlogn.github.io/easyshare/">http://arlogn.github.io/easyshare/</a>
+<a href="http://arlogn.github.io/easyshare/">Getting started</a>
