@@ -13,7 +13,7 @@ body {
 }
 
 h1, h3 {
-  font-family: inherit;
+  font-family: 'Lato', sans-serif;
   font-weight: 300;
 }
 
@@ -48,6 +48,7 @@ h3 {
 }
 
 .intro h3 {
+  margin-top: 10px;
   margin-bottom: 35px;
 }
 
@@ -56,7 +57,7 @@ h3 {
 }
 
 .intro a:hover .fa {
-  color: #39abf6;
+  color: #f60;
 }
 
 #bitly-callback {
@@ -96,7 +97,7 @@ h3 {
   height: 100%;
   width: 100%;
   position: relative;
-  background: #c00;
+  background: #f40;
   color: #333;
   padding: 50px 0;
 }
@@ -119,14 +120,18 @@ h3 {
 
 .content .btn {
   color: #ddd;
-  background-color: #5A0505;
-  border-color: #410101;
+  background-color: #820;
+  border-color: #800;
 }
 
 .content .btn:hover {
   color: #fff;
   background-color: #111;
   border-color: #000;
+}
+
+.orange {
+    color: #f80;
 }
 
 /* Footer */
