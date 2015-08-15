@@ -10,6 +10,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: 400;
+  background: #fff;
 }
 
 h1, h3 {
@@ -32,7 +33,10 @@ h3 {
   height: 100%;
   width: 100%;
   position: relative;
-  background: #000;
+  background: #e73056;
+  background: -moz-linear-gradient(top, #e73056 0%, #ff4400 58%, #e77249 100%);
+  background: -webkit-linear-gradient(top, #e73056 0%, #ff4400 58%, #e77249 100%);
+  background: linear-gradient(to bottom, #e73056 0%, #ff4400 58%, #e77249 100%);
   color: #fff;
 }
 
@@ -53,25 +57,19 @@ h3 {
 }
 
 .intro .fa {
-  color: #ddd;
+  color: rgba(255, 255, 255, .3);
 }
 
 .intro a:hover .fa {
-  color: #f60;
+  color: #fff;
 }
 
-#bitly-callback {
-  font-family: sans-serif;
-  font-size: 18px;
-  color: #39abf6;
-  left: 20px;
-  top: 20px;
-  position: absolute;
+.chev-down {
+    -webkit-animation: goDown 1.6s infinite linear;
+  	animation: goDown 1.6s infinite linear;
 }
 
-#bitly-callback .fail {
-  color: #f00;
-}
+/* Bitly callback */
 
 #bitlyOAuth {
   font-family: sans-serif;
@@ -83,10 +81,11 @@ h3 {
 }
 
 #bitlyOAuth span:first-child {
-  color: #39abf6;
+  color: #fff;
 }
 
 #bitlyOAuth span:last-child {
+  background: #fff;
   color: #f00;
 }
 
@@ -97,7 +96,10 @@ h3 {
   height: 100%;
   width: 100%;
   position: relative;
-  background: #f40;
+  background: #7b36e7;
+  background: -moz-linear-gradient(top, #e77249 0%, #b336e7 58%, #7b36e7 100%);
+  background: -webkit-linear-gradient(top, #e77249 0%, #b336e7 58%, #7b36e7 100%);
+  background: linear-gradient(to bottom, #e77249 0%, #b336e7 58%, #7b36e7 100%);
   color: #333;
   padding: 50px 0;
 }
@@ -111,27 +113,41 @@ h3 {
 }
 
 .content .fa {
-  color: #000;
+  color: rgba(255, 255, 255, .3);
 }
 
 .content .fa:hover {
-  color: #fff;
+  color: #111;
 }
 
 .content .btn {
-  color: #ddd;
-  background-color: #820;
-  border-color: #800;
+  color: #eee;
+  background-color: rgba(0, 0, 0, .4);
+  border-color: rgba(0, 0, 0, .1);
+  margin: 0 2px;
 }
 
 .content .btn:hover {
   color: #fff;
   background-color: #111;
-  border-color: #000;
+  border-color: #111;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.chev-up {
+    -webkit-animation: goUp 1.6s infinite linear;
+  	animation: goUp 1.6s infinite linear;
 }
 
 .orange {
-    color: #f80;
+  color: #f80;
+}
+
+.yellow {
+  color: #ff0;
 }
 
 /* Footer */
@@ -150,6 +166,58 @@ h3 {
 
 #footer a {
   color: #ccc;
+}
+
+/* keyframes */
+
+@-webkit-keyframes goDown {
+	0%,100% {
+		-webkit-transform: translateY(-6px);
+		transform: translateY(-6px);
+  	}
+	50% {
+		-webkit-transform: translateY(6px);
+		transform: translateY(6px);
+  	}
+}
+@keyframes goDown {
+	0%,100% {
+		-webkit-transform: translateY(-6px);
+		-moz-transform: translateY(-6px);
+		-ms-transform: translateY(-6px);
+		transform: translateY(-6px);
+  	}
+	50% {
+		-webkit-transform: translateY(6px);
+		-moz-transform: translateY(6px);
+		-ms-transform: translateY(6px);
+		transform: translateY(6px);
+  	}
+}
+
+@-webkit-keyframes goUp {
+	0%,100% {
+		-webkit-transform: translateY(6px);
+		transform: translateY(6px);
+  	}
+	50% {
+		-webkit-transform: translateY(-6px);
+		transform: translateY(-6px);
+  	}
+}
+@keyframes goUp {
+	0%,100% {
+		-webkit-transform: translateY(6px);
+		-moz-transform: translateY(6px);
+		-ms-transform: translateY(6px);
+		transform: translateY(6px);
+  	}
+	50% {
+		-webkit-transform: translateY(-6px);
+		-moz-transform: translateY(-6px);
+		-ms-transform: translateY(-6px);
+		transform: translateY(-6px);
+  	}
 }
 
 /* Responsive */
