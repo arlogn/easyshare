@@ -1,0 +1,4 @@
+content d_easyshare chrome/content/
+skin    d_easyshare classic/1.0 chrome/skin/
+
+locale	d_easyshare en-US chrome/locale/en-US/
