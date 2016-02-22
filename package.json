@@ -1,5 +1,5 @@
 {
-    "preferences": [
+  "preferences": [
         {
             "description": "Enter URL of your diaspora* pod.",
             "type": "string",
@@ -15,7 +15,7 @@
             "title": "Pod credentials"
         },
         {
-            "description": "Authorize Easyshare to shorten URLs on your Bitly account.",
+            "description": "Authorize Easyshare to shorten URLs with your Bitly account.",
             "type": "control",
             "name": "bitlyOAuth",
             "label": "Authorize",
@@ -44,14 +44,22 @@
             "title": "Bitly token",
             "hidden": true
         }],
-    "name": "d_easyshare",
-    "license": "MIT",
-    "author": "arlogn",
-    "version": "0.10.1",
-    "fullName": "diaspora* Easyshare",
-    "id": "jid1-gqfeTXcouyVkpg",
-    "description": "Easily share web content on your diaspora* pod.",
-    "homepage": "http://arlogn.github.io/easyshare/",
-    "icon": "icons/icon.png",
-    "icon64": "icons/icon64.png"
+  "title": "diaspora* Easyshare",
+  "name": "d_easyshare",
+  "version": "0.11.1",
+  "id": "jid1-gqfeTXcouyVkpg@jetpack",
+  "description": "Easily share web content on your diaspora* pod",
+  "main": "index.js",
+  "author": "arlogn",
+  "homepage": "http://arlogn.github.io/easyshare/",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT",
+  "icon": "resource://jid1-gqfeTXcouyVkpg-at-jetpack/icons/icon.png",
+  "keywords": [
+    "jetpack",
+    "diaspora",
+    "social"
+  ]
 }
