@@ -33,7 +33,7 @@ function onPanelShow(data) {
 
 /*
  * Handle clicks to markdown buttons.
- * Add syntax for emphasis, strong emphasis or to define an indented quoted section.
+ * Add/remove syntax for emphasis, strong emphasis or to define an indented quoted section.
  */
 function makeText(str) {
     var t = document.getElementById("text"),
@@ -99,7 +99,7 @@ function makeText(str) {
 
 
 /*
- * Return formatted and lined up content
+ * Return a formatted and lined up content
  */
 function getFormattedContent() {
     var title = document.getElementById("title").value,
@@ -109,32 +109,24 @@ function getFormattedContent() {
         thumb = document.getElementById("thumb"),
         content = "";
 
-    if (title.length > 0 && /^\s+$/.test(title)) title = "";
-    else content += "**" + title + "**";
+
+    if (title.length > 0 && !/^\s+$/.test(title)) title = "**" + title + "**";
 
     if (tags.length > 0) tags = tags.replace(/\s+/g, "")
                                 .replace(/^([\w\W]+)$/g, "#$1")
                                 .replace(/,/g, " #")
                                 .replace(/##/g, "#");
 
-    if (youtube.video) {
-        if (title) content += "\n";
+    if (youtube.video) content += youtube.url + "\n";
 
-        if (text) content += text;
-
-        content += "\n\n" + youtube.url;
-
-    } else {
-        if (thumb.className != "thumb-placeholder")
+    if (thumb.className != "thumb-placeholder")
             content += "[![Image](" + thumb.getAttribute("src") + ")](" + url + ")\n";
 
-        if (title && url) content += "\n";
+    if (title) content += "\n" + title;
 
-        if (url) content += "[" + url + "](" + url + ")";
+    if (url) content += "\n[" + url + "](" + url + ")\n";
 
-        if ((title || url) && text) content += "\n\n" + text;
-        else content += text;
-    }
+    if (text) content += "\n\n" + text;
 
     if (tags) content += "\n\n" + tags;
 
@@ -156,7 +148,7 @@ function send() {
 }
 
 
-/* Listeners */
+/* Listen to messages */
 
 self.port.on("show", onPanelShow);
 
@@ -188,6 +180,9 @@ self.port.on("wait", function(text, status) {
         button.className = "button send";
     }
 });
+
+
+/* Event listeners */
 
 document.getElementById("shorturl").addEventListener("click", function () {
     var longUrl = document.getElementById("url").value;
