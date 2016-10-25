@@ -1,20 +1,15 @@
 body {
-    color: #cccccc;
-    background: #333333;
     font-family: 'Droid Sans', sans-serif;
     font-size: 12px;
+    background: #eeeeee;
+    color: #333333;
     margin: 0;
     padding: 0;
 }
 
 ::-moz-selection {
-    color: #ffffff;
     background: #2b9ad9;
-}
-
-a:focus, a:active {
-    border: 0;
-    outline: 0;
+    color: #ffffff;
 }
 
 .container {
@@ -23,23 +18,26 @@ a:focus, a:active {
     position: relative;
 }
 
-#main {
-    width: 495px;
-    margin: 10px 0 0 10px;
+.main {
+    width: 474px;
+    height: 478px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+    border-right: 0;
     float: left;
-    display: block;
 }
 
-#sidebar {
-    width: 190px;
+.sidebar {
+    width: 205px;
+    height: 480px;
+    background: #333333;
+    color: #cccccc;
+    padding: 10px;
     float: left;
-    margin: 16px 0 0 12px;
-    display: block;
 }
 
 fieldset {
-    border: 1px solid #555555;
-    border-radius: 4px;
+    border: 1px solid #cccccc;
 }
 
 fieldset:not(:first-child) {
@@ -49,157 +47,199 @@ fieldset:not(:first-child) {
 legend {
     font-size: 90%;
     text-transform: uppercase;
-    color: #eeeeee;
+    color: #333333;
     margin: 0 5px;
 }
 
 textarea {
-    background: #444444;
-    color: #dddddd;
+    background: #ffffff;
+    color: #333333;
     padding: 5px;
     border: none;
 }
 
-#title,
-#text,
-#tags {
+#post-title,
+#post-text,
+#post-tags {
     width: 100%;
+    border: 1px solid #dddddd;
     display: block;
 }
 
-#title,
-#tags {
+#post-title,
+#post-tags {
     height: 40px;
 }
 
-#text {
-    height: 200px;
+#post-text {
+    height: 225px;
 }
 
-#url {
-    width: 400px;
-    height: 40px;
-    background: #333333;
+#post-url {
+    width: 372px;
+    height: 38px;
+    background: #eeeeee;
     resize: none;
     color: #00aaff;
     float: left;
 }
 
-#thumbox {
-    width: 100%;
+.thumb-container {
+    width: 203px;
     height: 188px;
     border: 1px solid #555555;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     overflow: hidden;
     display: block;
+    position: relative;
 }
 
-#thumbox img {
-    width: 188px;
+.thumb-container img {
+    width: 100%;
     height: 188px;
     object-fit: scale-down;
 }
 
-.buttons {
-    width: 100%;
+.thumb-container .overlay {
+   position: absolute;
+   left: 0;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   display: flex;
+   align-items: center;
+   /*text-align: center;*/
+   z-index: 1000;
+   background-color: #333333;
+   color: #ffffff;
+   padding: 5px;
+   font-weight: bold;
+}
+
+.markdown-container {
+    width: 205px;
     display: inline-block;
 }
 
-.buttons a {
+.markdown-container .button {
+    width: 100px;
+    height: 32px;
     float: left;
-    width: 76px;
-}
-
-.buttons a:first-child {
-    margin-right: 5px;
 }
 
 .button {
+    font-size: inherit;
     text-decoration: none;
-    color: #eeeeee;
     text-align: center;
+    border: none;
     border-radius: 2px;
+    margin-top: 5px;
+    cursor: pointer;
     display: block;
 }
 
-.sharebox {
+button::-moz-focus-inner{
+    padding : 0;
+    border  : 0;
+}
+
+.shorten {
+    width: 80px;
+    height: 32px;
+    background: #a2d9ee;
+    color: #888888;
+    float: right;
+}
+
+.shorten:hover {
+    background: #2b9ad9;
+    color: #ffffff;
+}
+
+.format {
+    background: #555555;
+    color: #eeeeee;
+}
+
+.format:hover {
+    background: #2b9ad9;
+    color: #ffffff;
+}
+
+.format:first-child {
+    margin-right: 5px;
+}
+
+.undo {
+    background: #555555;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+.enabled {
+    background: #ff3322;
+    color: #eeeeee;
+}
+
+.enabled:hover {
+    background: #ff0000;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.share-container {
     margin-top: 15px;
 }
 
-.sharebox label,
-.label {
-    font-size: 90%;
-}
-
 #share {
-    width: 100%;
+    width: 205px;
     height: 24px;
     background: #444444;
     color: #fabb68;
+    font-size: inherit;
     text-align: center;
-    margin: 3px 0 3px;
+    margin: 5px 0 5px;
     padding: 0 7px;
     border: none;
 }
 
-.items em {
-    color: #f2f19e;
+.share-options {
+    color: #999999;
+    font-size: 10px;
+    text-align: center;
+    display: block;
 }
 
-.shorten {
-    float: right;
-}
-
-.shorten,
-.format,
 .send {
+    width: 100%;
+    height: 60px;
     background: #555555;
-}
-
-.send,
-.sending {
-    padding: 22px;
+    color: #eeeeee;
     margin-top: 16px;
     font-size: 16px;
     text-align: center;
 }
 
-.shorten:hover,
-.format:hover,
 .send:hover {
-    color: #ffffff;
     background: #2b9ad9;
-}
-
-.shorten,
-.format,
-.undo {
-    padding: 8px;
-    margin-top: 5px;
-}
-
-.undo,
-.sending {
-    background: #ff3322;
-}
-
-.undo:hover {
     color: #ffffff;
+}
+
+.sending{
     background: #ff0000;
+    color: #ffffff;
 }
 
-.yellow {
-    color: #f2f19e;
-}
-
-#footer {
-    position: absolute;
-    bottom: 4px;
-    width: 100%;
+.app-name {
+    width: 205px;
     height: 26px;
-    color: #cccccc;
+    color: #888888;
     line-height: 26px;
+    font-size: 11px;
     text-align: center;
     letter-spacing: 2px;
+    text-transform: uppercase;
+    bottom: 4px;
+    position: absolute;
 }
