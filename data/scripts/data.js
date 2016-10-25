@@ -1,59 +1,47 @@
-/* Get schema microdata of youtube video */
 var videoData = function() {
     try {
-        var c = document.getElementById("content");
+        var itemscope = document.getElementById("watch7-content");
 
         var items = {
-            url: c.querySelector("[itemprop=\"url\"]").getAttribute("href"),
-            title: c.querySelector("[itemprop=\"name\"]").getAttribute("content"),
-            desc: c.querySelector("[itemprop=\"description\"]").getAttribute("content"),
-            thumb: c.querySelector("[itemprop=\"thumbnailUrl\"]").getAttribute("href")
+            title: itemscope.querySelector("[itemprop='name']").getAttribute("content"),
+            desc: itemscope.querySelector("[itemprop='description']").getAttribute("content"),
+            thumb: itemscope.querySelector("[itemprop='thumbnailUrl']").getAttribute("href")
         };
 
     } catch (e) {
-        console.warn("youtube microdata not found.");
-        return false;
+        console.warn("video microdata not found.");
+        return null;
     }
 
     return items;
 };
 
-/* Handle clicks to context-menu items */
 self.on("click", function(node, data) {
-    var payload = {
+    var content = {
         url: document.URL,
         title: document.title,
-        thumb: "<img id=\"thumb\" class=\"thumb-placeholder\" src=\"placeholder.png\">"
+        image: "images/diaspora.png"
     };
 
     if (data === "video") {
-        var vd = videoData();
+        var video_data = videoData();
 
-        if (vd) {
-            payload.thumb = "<img id=\"thumb\" src=\"" + vd.thumb + "\">";
-            payload.title = vd.title;
-            payload.text = vd.desc;
-            payload.vurl = vd.url;
+        if (typeof(video_data) === "object") {
+            content.title = video_data.title;
+            content.text = video_data.desc;
+            content.image = video_data.thumb;
         } else {
-            payload.text = "";
-            payload.vurl = data.url;
+            content.text = "";
         }
-
-        payload.video = true;
-
-    } else {
+    }
+    else {
 
         if (data === "image") {
-            payload.thumb = "<img id=\"thumb\" width=\"" + node.clientWidth +
-                        "\" height=\"" + node.clientHeight + "\" src=\"" +
-                        node.src + "\">";
+            content.image = node.src;
         }
 
-        payload.text = window.getSelection().toString();
-        payload.video = false;
-        payload.vurl = "";
+        content.text = window.getSelection().toString();
     }
 
-    // Post a message and pass the collected data
-    self.postMessage(payload);
+    self.postMessage(content);
 });
