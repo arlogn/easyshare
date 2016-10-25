@@ -8,7 +8,7 @@
             "title": "Pod URL"
         },
         {
-            "description": "Enter your diaspora* pod credentials.",
+            "description": "Enter credentials to access your pod.",
             "type": "control",
             "name": "podCredentials",
             "label": "Enter",
@@ -19,47 +19,51 @@
             "type": "control",
             "name": "bitlyOAuth",
             "label": "Authorize",
-            "title": "Bitly OAuth web flow"
+            "title": "Bitly OAuth"
         },
         {
-            "description": "Select to display the provider name (via Easyshare) below any post.",
+            "description": "Display the provider in the post.",
             "type": "bool",
             "name": "providerDisplay",
             "value": false,
-            "title": "Display the provider name"
+            "title": "Provider"
         },
         {
-            "description": "diaspora* token for authentication.",
+            "description": "Diaspora* x-csrf token.",
             "type": "string",
             "name": "diasporaAuthenticationToken",
             "value": "",
-            "title": "diaspora* token",
+            "title": "Diaspora* token",
             "hidden": true
         },
         {
-            "description": "Your Bitly OAuth access token.",
+            "description": "Bitly OAuth access token.",
             "type": "string",
             "name": "bitlyOAuthAccessToken",
             "value": "",
             "title": "Bitly token",
             "hidden": true
         }],
-  "title": "diaspora* Easyshare",
   "name": "d_easyshare",
-  "version": "0.11.1",
-  "id": "jid1-gqfeTXcouyVkpg@jetpack",
   "description": "Easily share web content on your diaspora* pod",
-  "main": "index.js",
+  "version": "0.12.1",
   "author": "arlogn",
-  "homepage": "http://arlogn.github.io/easyshare/",
   "engines": {
     "firefox": ">=38.0a1"
   },
-  "license": "MIT",
-  "icon": "resource://jid1-gqfeTXcouyVkpg-at-jetpack/icons/icon.png",
+  "homepage": "http://arlogn.github.io/easyshare/",
+  "id": "jid1-gqfeTXcouyVkpg@jetpack",
+  "icon": "resource://jid1-gqfeTXcouyVkpg-at-jetpack/data/images/easyshare.png",
   "keywords": [
-    "jetpack",
     "diaspora",
-    "social"
-  ]
+    "social",
+    "communication"
+  ],
+  "license": "MIT",
+  "main": "lib/main.js",
+  "permissions": {
+    "multiprocess": true,
+    "private-browsing": true
+  },
+  "title": "diaspora* Easyshare"
 }
