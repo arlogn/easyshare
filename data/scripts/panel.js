@@ -1,165 +1,186 @@
-var youtube = youtube || {};
-
-
-/*
- * Update the panel content when displayed
- */
+// Update the panel content
 function onPanelShow(data) {
-    var range = document.createRange(),
-        fragment = range.createContextualFragment(data.thumb),
-        wrapper = document.getElementById("thumbox"),
-        thumb = document.getElementById("thumb"),
-        undo = document.getElementById("undo");
+    var doc = document;
 
-    if (!thumb) {
-        wrapper.appendChild(fragment);
-    } else {
-        wrapper.replaceChild(fragment, thumb);
+    var thumb = doc.querySelector(".thumb-container > img");
+
+    if (thumb.getAttribute("src") !== data.image) {
+        if (data.image.substring(0, 10) === "data:image") {
+            thumb.setAttribute("src", "images/diaspora.png");
+            warningNotAllowedImage();
+        }
+        else {
+            thumb.setAttribute("src", data.image);
+        }
     }
 
-    document.getElementById("title").value = data.title;
-    document.getElementById("url").value = data.url;
-    document.getElementById("text").value = data.text;
-    document.getElementById("tags").value = "";
+    doc.getElementById("post-title").value = data.title;
+    doc.getElementById("post-url").value = data.url;
+    doc.getElementById("post-text").value = data.text;
+    doc.getElementById("post-tags").value = "";
 
-    youtube = {
-        video: data.video || false,
-        url: data.vurl || ""
-    };
-
-    if (undo.style.visibility != "hidden") undo.style.visibility = "hidden";
+    setUndoButtonState("disabled");
 }
 
+// Show a warning message over the thumbnail if the image is encoded as data URI
+function warningNotAllowedImage() {
+    var doc = document;
 
-/*
- * Handle clicks to markdown buttons.
- * Add/remove syntax for emphasis, strong emphasis or to define an indented quoted section.
- */
-function makeText(str) {
-    var t = document.getElementById("text"),
-        text = t.value,
-        sel = text.substring(t.selectionStart, t.selectionEnd),
-        undo = document.getElementById("undo");
+    var overlay = doc.createElement("div");
+    overlay.classList.add("overlay");
+    var text = doc.createTextNode("WARNING! You've selected an inline image, embedded using " +
+                                  "the data URI scheme. It cannot be added to the content " +
+                                  "of the post.");
+    overlay.appendChild(text);
+    doc.querySelector(".thumb-container").appendChild(overlay);
 
-    var onlySpaces = function(text) {
-        return /^\s+$/.test(text);
+    setTimeout(function() {
+        overlay.parentNode.removeChild(overlay);
+    }, 7000);
+}
+
+// Set the state of the button to remove all markdown syntax added
+function setUndoButtonState(state) {
+    var undo = document.getElementById("undo");
+
+    if (state === "enabled" && !undo.classList.contains("enabled"))
+        undo.classList.add("enabled");
+    else if (state === "disabled" && undo.classList.contains("enabled"))
+        undo.classList.remove("enabled");
+}
+
+// Simple text formatting. Add/remove markdown syntax for italic, bold and quotation
+function addMarkdown(option) {
+    var postText = document.getElementById("post-text"),
+        text = postText.value,
+        sel = text.substring(postText.selectionStart, postText.selectionEnd);
+
+    var isEmpty = function (t) {
+        return /^\s*$/.test(t);
     };
 
-    var syntaxRemove = function(text) {
-        undo.style.visibility = "hidden";
-        return text.replace(/_([\s\S]*?)_/g, '$1').
-                    replace(/\*\*([\s\S]*?)\*\*/g, '$1').
-                    replace(/\n\n>\s([\s\S]*?)\n\n/g, '$1').
-                    replace(/>\s([\s\S]*?)/g, '$1');
+    var isSplitted = function (t) {
+        return /\n/.test(t);
     };
 
-    var markdownify = function (str, text) {
+    var isFormatted = function (t) {
+        return /^(?:\*|_|\n\n>[\s\S]*)(.*)(?:\*|_|\n\n)$/.test(t);
+    };
+
+    var removeSyntax = function (t) {
+        setUndoButtonState("disabled");
+
+        return t.replace(/(_|\*\*)([\s\S]*?)(_|\*\*)/g, "$2").
+                 replace(/\n\n>\s([\s\S]*?)\n\n/g, "$1").
+                 replace(/>\s([\s\S]*?)/g, "$1");
+    };
+
+    var addSyntax = function (s, t) {
         var syntaxFor = {
-            "emphasis": function() {
-                return "_" + text + "_";
+            "italic": function() {
+                return "_" + t + "_";
             },
-            "strong": function() {
-                return "**" + text + "**";
+            "bold": function() {
+                return "**" + t + "**";
             },
-            "blockquote": function() {
-                text = text.trim();
-                text = text.replace(/\n{3,}/g, '\n\n');
-                text = text.replace(/^/gm, '> ');
-                return "\n\n" + text + "\n\n";
+            "quote": function() {
+                t = t.trim().replace(/\n{3,}/g, "\n\n").replace(/^/gm, "> ");
+                return "\n\n" + t + "\n\n";
             }
         };
 
-        if (undo.style.visibility == "hidden") undo.style.visibility = "visible";
+        setUndoButtonState("enabled");
 
-        return syntaxFor[str]();
+        return syntaxFor[s]();
     };
 
-    if (text.length > 0 && !onlySpaces(text)) {
-        if (str) {
-            if (sel.length > 0 && !onlySpaces(sel)) {
-                t.value = text.replace(new RegExp('([\\s\\S]{'+t.selectionStart+'})([\\s\\S]{'+(t.selectionEnd-t.selectionStart)+'})'), '$1' +
-                markdownify(str, '$2'));
-            } else {
+    if (!isEmpty(text)) {
+        if (option) {
+            if (!isEmpty(sel)) {
+                postText.value = text.replace(new RegExp("([\\s\\S]{" + postText.selectionStart +
+                    "})([\\s\\S]{" + (postText.selectionEnd-postText.selectionStart) + "})"), "$1" +
+                    addSyntax(option, "$2"));
+            }
+            else {
                 // skip if text is already wrapped by markdown syntax
-                if (!/^\*(.*)\*$/.test(text) && !/^_(.*)_$/.test(text) && !/^\n\n>[\s\S]*\n\n$/.test(text)) {
-                    // if text contains newline skip emphasis and strong to avoid markdown error
-                    if (/\n/.test(text)) {
-                        if (str == "blockquote") t.value = markdownify(str, text);
-                    } else {
-                        if (str != "blockquote") text = text.trim();
-                        t.value = markdownify(str, text);
+                if (!isFormatted(text)) {
+                    // skip italic and bold if text contains newline to avoid formatting error
+                    if (isSplitted(text)) {
+                        if (option === "quote") postText.value = addSyntax(option, text);
+                    }
+                    else {
+                        if (option !== "quote") text = text.trim();
+                        postText.value = addSyntax(option, text);
                     }
                 }
             }
-        } else {
-            t.value = syntaxRemove(t.value);
+        }
+        else {
+            postText.value = removeSyntax(postText.value);
         }
     }
 }
 
+// Get the panel content and build a formatted status message
+function buildStatusMessage() {
+    var doc = document;
 
-/*
- * Return a formatted and lined up content
- */
-function getFormattedContent() {
-    var title = document.getElementById("title").value,
-        text = document.getElementById("text").value,
-        tags = document.getElementById("tags").value,
-        url = document.getElementById("url").value,
-        thumb = document.getElementById("thumb"),
-        content = "";
-
+    var title = doc.getElementById("post-title").value,
+        url   = doc.getElementById("post-url").value,
+        text  = doc.getElementById("post-text").value,
+        tags  = doc.getElementById("post-tags").value,
+        image = doc.querySelector("img[src*=http]"),
+        isVideo = /^\b(https?):\/\/www\.youtube\.com\/watch\?.*/.test(url),
+        message = [];
 
     if (title.length > 0 && !/^\s+$/.test(title)) title = "**" + title + "**";
 
-    if (tags.length > 0) tags = tags.replace(/\s+/g, "")
-                                .replace(/^([\w\W]+)$/g, "#$1")
-                                .replace(/,/g, " #")
-                                .replace(/##/g, "#");
+    //sanitize tags
+    if (tags.length > 0) tags = tags.replace(/#|\s/g, "")
+                                    .replace(/^(.*)/, "#$1")
+                                    .split(",").join(" #");
 
-    if (youtube.video) content += youtube.url + "\n";
+    if (image)
+        message.push("[![Image](" + image.src + ")](" + url + ")\n");
 
-    if (thumb.className != "thumb-placeholder")
-            content += "[![Image](" + thumb.getAttribute("src") + ")](" + url + ")\n";
+    if (title) message.push(title);
 
-    if (title) content += "\n" + title;
+    if (url) {
+        if (isVideo) message.push(url);
+        else message.push("[" + url + "](" + url + ")");
+    }
 
-    if (url) content += "\n[" + url + "](" + url + ")\n";
+    if (text) message.push("\n" + text);
 
-    if (text) content += "\n\n" + text;
+    if (tags) message.push("\n" + tags);
 
-    if (tags) content += "\n\n" + tags;
-
-    return content;
+    return message.join("\n");
 }
 
-
-/*
- * Send the post data to the main add-on code
- */
-function send() {
+// Send to main.js
+function sendData() {
     var aspect = document.getElementById("share").value;
 
-    if (aspect == "") aspect = "public";
+    if (!aspect) aspect = "public";
 
-    var data = { post: getFormattedContent(), aspect: aspect };
+    var data = { message: buildStatusMessage(), aspect: aspect };
 
     self.port.emit("post", data);
 }
 
 
-/* Listen to messages */
+// Listening to messages
 
 self.port.on("show", onPanelShow);
 
-self.port.on("shortUrl", function(value) {
-    var url = document.getElementById("url"),
+self.port.on("shortUrl", function(short) {
+    var url = document.getElementById("post-url"),
         longUrl = url.value;
 
-    url.value = value;
+    url.value = short;
 
-    // reset to longurl if returned value is an error warning
-    if (!/^http/.test(value)) {
+    // put back the longurl if value isn't a url
+    if (!/^http/.test(short)) {
         setTimeout(function () {
             url.value = longUrl;
         }, 3000);
@@ -168,46 +189,44 @@ self.port.on("shortUrl", function(value) {
 });
 
 self.port.on("wait", function(text, status) {
-    var button = document.getElementById("send");
-    button.text = text;
+    var send = document.getElementById("send");
+    send.textContent = text;
 
-    // disable the button while sending the post
-    if(status == 'sending') {
-        button.style.pointerEvents = "none";
-        button.className = "button sending";
-    } else {
-        button.style.pointerEvents = "auto";
-        button.className = "button send";
+    // disable the button while sending
+    if(status === "sending") {
+        send.style.pointerEvents = "none";
+        send.classList.add("sending");
+    }
+    else {
+        send.style.pointerEvents = "auto";
+        send.classList.remove("sending");
     }
 });
 
 
-/* Event listeners */
+// Handling click events on buttons
 
 document.getElementById("shorturl").addEventListener("click", function () {
-    var longUrl = document.getElementById("url").value;
-    self.port.emit("shorten", longUrl);
-});
+    var url = document.getElementById("post-url").value;
+    self.port.emit("shorten", url);
+}, false);
 
-document.getElementById("sidebar").addEventListener("click", function(event) {
-    switch (event.target.id) {
-        case "send":
-            send();
-            break;
-        case "blockquote":
-            makeText("blockquote");
-            break;
-        case "strong":
-            makeText("strong");
-            break;
-        case "emphasis":
-            makeText("emphasis");
-            break;
-        case "undo":
-            makeText(null);
-            break;
-        default:
-            return false;
+document.querySelector(".sidebar").addEventListener("click", function(event) {
+    if (event.target.nodeName === "BUTTON") {
+        switch (event.target.id) {
+            case "send":
+                sendData();
+                break;
+            case "quote":
+            case "bold":
+            case "italic":
+                addMarkdown(event.target.id);
+                break;
+            case "undo":
+                addMarkdown(null);
+                break;
+            default:
+                return false;
+        }
     }
-    event.preventDefault();
 }, false);
