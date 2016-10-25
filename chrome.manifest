@@ -1,4 +1,3 @@
-content d_easyshare chrome/content/
-skin    d_easyshare classic/1.0 chrome/skin/
-
-locale	d_easyshare en-US chrome/locale/en-US/
+content credentials jar:chrome/credentials.jar!/content/
+skin    credentials classic/1.0 jar:chrome/credentials.jar!/skin/
+locale	credentials en-US jar:chrome/credentials.jar!/locale/en-US/
