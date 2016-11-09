@@ -22,27 +22,11 @@
             "title": "Bitly OAuth"
         },
         {
-            "description": "Display the provider in the post.",
+            "description": "Display the status message provider in the post.",
             "type": "bool",
             "name": "providerDisplay",
             "value": false,
             "title": "Provider"
-        },
-        {
-            "description": "Diaspora* x-csrf token.",
-            "type": "string",
-            "name": "diasporaAuthenticationToken",
-            "value": "",
-            "title": "Diaspora* token",
-            "hidden": true
-        },
-        {
-            "description": "Bitly OAuth access token.",
-            "type": "string",
-            "name": "bitlyOAuthAccessToken",
-            "value": "",
-            "title": "Bitly token",
-            "hidden": true
         }],
   "name": "d_easyshare",
   "description": "Easily share web content on your diaspora* pod",
