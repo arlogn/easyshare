@@ -58,24 +58,24 @@ textarea {
     border: none;
 }
 
-#post-title,
-#post-text,
-#post-tags {
+#sm-title,
+#sm-text,
+#sm-tags {
     width: 100%;
     border: 1px solid #dddddd;
     display: block;
 }
 
-#post-title,
-#post-tags {
+#sm-title,
+#sm-tags {
     height: 40px;
 }
 
-#post-text {
+#sm-text {
     height: 225px;
 }
 
-#post-url {
+#sm-url {
     width: 372px;
     height: 38px;
     background: #eeeeee;
@@ -117,12 +117,12 @@ textarea {
    font-weight: bold;
 }
 
-.markdown-container {
+.md-btns-container {
     width: 205px;
     display: inline-block;
 }
 
-.markdown-container .button {
+.md-btns-container .button {
     width: 100px;
     height: 32px;
     float: left;
@@ -188,7 +188,7 @@ button::-moz-focus-inner{
     cursor: pointer;
 }
 
-.share-container {
+.share-with-container {
     margin-top: 15px;
 }
 
@@ -204,7 +204,7 @@ button::-moz-focus-inner{
     border: none;
 }
 
-.share-options {
+.share-with-opt {
     color: #999999;
     font-size: 10px;
     text-align: center;
@@ -231,7 +231,7 @@ button::-moz-focus-inner{
     color: #ffffff;
 }
 
-.app-name {
+.brand {
     width: 205px;
     height: 26px;
     color: #888888;
