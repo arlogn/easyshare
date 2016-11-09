@@ -1,12 +1,13 @@
+"use strict";
+
 var videoData = function() {
+    var items = {};
     try {
         var itemscope = document.getElementById("watch7-content");
 
-        var items = {
-            title: itemscope.querySelector("[itemprop='name']").getAttribute("content"),
-            desc: itemscope.querySelector("[itemprop='description']").getAttribute("content"),
-            thumb: itemscope.querySelector("[itemprop='thumbnailUrl']").getAttribute("href")
-        };
+        items.title = itemscope.querySelector("[itemprop='name']").getAttribute("content");
+        items.desc = itemscope.querySelector("[itemprop='description']").getAttribute("content");
+        items.thumb = itemscope.querySelector("[itemprop='thumbnailUrl']").getAttribute("href");
 
     } catch (e) {
         console.warn("video microdata not found.");
@@ -37,7 +38,13 @@ self.on("click", function(node, data) {
     else {
 
         if (data === "image") {
-            content.image = node.src;
+            // Discard base64-encoded data URIs
+            if (node.src.substring(0, 10) === "data:image") {
+                content.image = "data URIs";
+            }
+            else {
+                content.image = node.src;
+            }
         }
 
         content.text = window.getSelection().toString();

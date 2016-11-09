@@ -1,3 +1,5 @@
+"use strict";
+
 // Update the panel content
 function onPanelShow(data) {
     var doc = document;
@@ -5,41 +7,40 @@ function onPanelShow(data) {
     var thumb = doc.querySelector(".thumb-container > img");
 
     if (thumb.getAttribute("src") !== data.image) {
-        if (data.image.substring(0, 10) === "data:image") {
+        if (data.image === "data URIs") {
             thumb.setAttribute("src", "images/diaspora.png");
-            warningNotAllowedImage();
+            inlineImageNotice();
         }
         else {
             thumb.setAttribute("src", data.image);
         }
     }
 
-    doc.getElementById("post-title").value = data.title;
-    doc.getElementById("post-url").value = data.url;
-    doc.getElementById("post-text").value = data.text;
-    doc.getElementById("post-tags").value = "";
+    doc.getElementById("sm-title").value = data.title;
+    doc.getElementById("sm-url").value = data.url;
+    doc.getElementById("sm-text").value = data.text;
+    doc.getElementById("sm-tags").value = "";
 
     setUndoButtonState("disabled");
 }
 
-// Show a warning message over the thumbnail if the image is encoded as data URI
-function warningNotAllowedImage() {
+// Show a message over the thumbnail to inform that image was discarted
+function inlineImageNotice() {
     var doc = document;
 
     var overlay = doc.createElement("div");
     overlay.classList.add("overlay");
-    var text = doc.createTextNode("WARNING! You've selected an inline image, embedded using " +
-                                  "the data URI scheme. It cannot be added to the content " +
-                                  "of the post.");
+    var text = doc.createTextNode("Sorry, images embedded inline in the document " +
+                                  "cannot be referenced within the post content.");
     overlay.appendChild(text);
     doc.querySelector(".thumb-container").appendChild(overlay);
 
-    setTimeout(function() {
+    window.setTimeout(function() {
         overlay.parentNode.removeChild(overlay);
     }, 7000);
 }
 
-// Set the state of the button to remove all markdown syntax added
+// Set the state of the undo button
 function setUndoButtonState(state) {
     var undo = document.getElementById("undo");
 
@@ -49,11 +50,12 @@ function setUndoButtonState(state) {
         undo.classList.remove("enabled");
 }
 
-// Simple text formatting. Add/remove markdown syntax for italic, bold and quotation
+// Simple text formatting.
+// Add markdown syntax for text emphasis or quotation
 function addMarkdown(option) {
-    var postText = document.getElementById("post-text"),
-        text = postText.value,
-        sel = text.substring(postText.selectionStart, postText.selectionEnd);
+    var smText = document.getElementById("sm-text"),
+        text = smText.value,
+        sel = text.substring(smText.selectionStart, smText.selectionEnd);
 
     var isEmpty = function (t) {
         return /^\s*$/.test(t);
@@ -97,38 +99,38 @@ function addMarkdown(option) {
     if (!isEmpty(text)) {
         if (option) {
             if (!isEmpty(sel)) {
-                postText.value = text.replace(new RegExp("([\\s\\S]{" + postText.selectionStart +
-                    "})([\\s\\S]{" + (postText.selectionEnd-postText.selectionStart) + "})"), "$1" +
+                smText.value = text.replace(new RegExp("([\\s\\S]{" + smText.selectionStart +
+                    "})([\\s\\S]{" + (smText.selectionEnd-smText.selectionStart) + "})"), "$1" +
                     addSyntax(option, "$2"));
             }
             else {
                 // skip if text is already wrapped by markdown syntax
                 if (!isFormatted(text)) {
-                    // skip italic and bold if text contains newline to avoid formatting error
+                    // do not add syntax for italic and bold if text contains newline, to avoid formatting error
                     if (isSplitted(text)) {
-                        if (option === "quote") postText.value = addSyntax(option, text);
+                        if (option === "quote") smText.value = addSyntax(option, text);
                     }
                     else {
                         if (option !== "quote") text = text.trim();
-                        postText.value = addSyntax(option, text);
+                        smText.value = addSyntax(option, text);
                     }
                 }
             }
         }
         else {
-            postText.value = removeSyntax(postText.value);
+            smText.value = removeSyntax(smText.value);
         }
     }
 }
 
-// Get the panel content and build a formatted status message
+// Get the panel content and build the status message
 function buildStatusMessage() {
     var doc = document;
 
-    var title = doc.getElementById("post-title").value,
-        url   = doc.getElementById("post-url").value,
-        text  = doc.getElementById("post-text").value,
-        tags  = doc.getElementById("post-tags").value,
+    var title = doc.getElementById("sm-title").value,
+        url   = doc.getElementById("sm-url").value,
+        text  = doc.getElementById("sm-text").value,
+        tags  = doc.getElementById("sm-tags").value,
         image = doc.querySelector("img[src*=http]"),
         isVideo = /^\b(https?):\/\/www\.youtube\.com\/watch\?.*/.test(url),
         message = [];
@@ -174,7 +176,7 @@ function sendData() {
 self.port.on("show", onPanelShow);
 
 self.port.on("shortUrl", function(short) {
-    var url = document.getElementById("post-url"),
+    var url = document.getElementById("sm-url"),
         longUrl = url.value;
 
     url.value = short;
@@ -207,7 +209,7 @@ self.port.on("wait", function(text, status) {
 // Handling click events on buttons
 
 document.getElementById("shorturl").addEventListener("click", function () {
-    var url = document.getElementById("post-url").value;
+    var url = document.getElementById("sm-url").value;
     self.port.emit("shorten", url);
 }, false);
 
