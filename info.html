@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="description" content="A firefox addon to easily share web content on your diaspora* pod">
     <meta name="author" content="arlogn">
-    <title>diaspora* Easyshare - Usage</title>
+    <title>diaspora* Easyshare - Usage/Info/Tips</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/icons/favicon.png">
@@ -31,11 +31,11 @@
             font-family: 'Lato', sans-serif;
             font-size: 32px;
             font-weight: 300;
-            line-height: 10px;
+            line-height: 32px;
         }
         h3 {
-            font-family: inherit;
-            font-size: 24px;
+            font-family: 'Lato', sans-serif;
+            font-size: 20px;
             font-weight: 300;
         }
         a {
@@ -51,22 +51,31 @@
         }
         .header {
             margin: 30px 0;
-            border-bottom: 1px dotted #aaa;
+        }
+        .header div {
+            margin-top: 20px;
         }
         .section {
             margin-bottom: 20px;
         }
-        .box-warning {
+        .top-bar {
             width: 770px;
+            height: 50px;
             background: #fcc;
-            padding: 15px;
+            padding: 0 10px;
             margin-bottom: 10px;
         }
+        .title {
+            font-weight: bold;
+            line-height: 50px;
+            float: left;
+        }
         .version {
-            width: 100%;
-            text-align: right;
+            line-height: 50px;
+            float: right;
         }
         dt {
+            font-size: 15px;
             font-weight: 600;
             border-bottom: 1px dotted #ccc;
             padding-bottom: 3px;
@@ -77,6 +86,12 @@
         }
         ul {
             margin: 3px 0;
+            padding: 0;
+            list-style-type: square;
+        }
+        li {
+            margin-left: 13px;
+            margin-bottom: 5px;
         }
         .footer {
             width: 100%;
@@ -92,17 +107,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <!-- <img src="assets/images/logo.png" alt="diaspora* Easyshare"> -->
-            <!-- <h3>Usage / Info</h3> -->
             <h1>DIASPORA* EASYSHARE</h1>
-            <img src="assets/images/logo64.png" alt="diaspora* Easyshare">
-            <div>USAGE / INFO</div>
-            <div class="version">v.0.11.1</div>
+            <img src="assets/images/easyshare-firefox.png" alt="diaspora* Easyshare">
+            <h3>Firefox Addon</h3>
         </div>
         <div class="section">
-            <div class="box-warning">
-                Latest version: 0.11.1 - Support Firefox 46 (e10s)<br>
-                Updated to support multi-process (https://wiki.mozilla.org/Electrolysis)
+            <div class="top-bar">
+                <span class="title">INFO</span>
+                <span class="version">Latest version: 0.12.1</span>
             </div>
         </div>
         <div class="section">
@@ -114,36 +126,27 @@
         <div class="section">
             <dl>
                 <dt># Preferences</dt>
-                <dd><span class="strong600">Pod Url :</span> URL of your diaspora* pod. Enter the full address - https://yourpod.tld. (REQUIRED)</dd>
-                <dd><span class="strong600">Credentials :</span> the button to enter username/password to sign-in on your pod.  (REQUIRED)<br>From version 0.10.0 the credentials are used to opening a diaspora* session and post to it. They are securely stored in the Firefox Password Manager. You can manage them opening <span class="strong600">about:preferences#security</span> and clicking the 'Saved Passwords' button.</dd>
-                <dd><span class="strong600">Bitly OAuth Web Flow :</span> the button to start the OAuth authorization process. (Required to shorten URLs)<br>From version 0.9.0 Easyshare stops using ApiKey authentication to access the Bitly API and switches to OAuth2. Now to shorten URLs you must authorize the addon on your private Bitly account and receive an OAuth access token. The token is stored (hidden) in the preferences and allows Easyshare to access the Bilty API on your behalf.</dd>
-                <dd><span class="strong600">Display the provider name :</span> a checkbox to add the provider name (via Easyshare) below the post.</dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Panel - Url shortening</dt>
-                <dd>Use the button near the URL box in the popup dialog to shorten long URLs with Bitly (prior authorization).</dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Panel - Markdown</dt>
-                <dd>Use the buttons at the right side of the popup dialog to add a basic formatting to the entered text. You can add markdown syntax for emphasis, strong emphasis or to define an indented quoted section, to the entire text or by selecting part of it.</dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Panel - Share with</dt>
-                <dd>Enter how to share the post in the input box at right side of the popup dialog. You can choose between:</dd>
                 <dd>
                     <ul>
-                        <li><em>aspect-name</em> : to share with a single aspect entering its name</li>
-                        <li><em>all_aspects</em> : to share with all your aspects</li>
-                        <li><em>public</em> : to share public</li>
+                        <li><span class="strong600">Pod Url :</span> Enter the full address (https://yourpod.tld) of your pod. (REQUIRED)</li>
+                        <li><span class="strong600">Credentials :</span> Enter and save username and password to access your pod. (REQUIRED)<br>
+                        <em>The credentials are securely stored in the Firefox Password Manager. You can manage them opening about:preferences#security and clicking the 'Saved Passwords' button.</em></li>
+                        <li><span class="strong600">Bitly OAuth :</span> Start the OAuth web flow to authorize Easyshare to shorten URLs with your Bitly account. (Required to shorten URLs)</li>
+                        <li><span class="strong600">Provider :</span> select to display the status message provider in the post. (via Easyshare).</li>
                     </ul>
                 </dd>
-                <dd>N.B. - You can also leave the box blank to share public.</dd>
+            </dl>
+        </div>
+        <div class="section">
+            <dl>
+                <dt># The popup dialog</dt>
+                <dd>
+                    <ul>
+                        <li><span class="strong600">Short URL (button) :</span> to shorten long URLs with Bitly (prior authorization).</li>
+                        <li><span class="strong600">Markdown (buttons) :</span> to add markdown syntax for italic, bold or quotation. To the entire text or by selecting part of it.</li>
+                        <li><span class="strong600">Share with :</span> input box to enter an aspect name (to share with a single aspect), <em>all_aspects</em> (to share with all your aspects) or <em>public</em> (to share public).</li>
+                    </ul>
+                </dd>
             </dl>
         </div>
         <div class="section">
@@ -153,15 +156,20 @@
                 <dd>Thanks to @meneer for Dutch.</dd>
                 <dd>Thanks to @Victorhck for Spanish.</dd>
                 <dd>Thanks to @Bat41 for French.</dd>
-                <dd>Note: due to the general refactoring in the latest version some locales have strings untranslated.</dd>
+                <dd>Note: some strings, modified or introduced in the latest versions, have not yet been translated into all the available languages.</dd>
             </dl>
         </div>
         <div class="section">
             <dl>
                 <dt># Tips</dt>
-                <dd>- All textarea elements in the popup dialog are resizable to better view their content. To bring them back to their default size just double click on the resizer.</dd>
-                <dd>- Markdown buttons for emphasis and strong emphasis don't work if the text contains newline, to avoid a markdown failure. In this case, to enter the syntax you need to select the text, taking care to skip any new line.</dd>
-                <dd>- Remember to always escape in the text those asterisks and underscores that can generate errors when using markdown (like diaspora*).</dd>
+                <dd>
+                    <ul>
+                        <li>You can leave the 'Share with' box blank to share public.</li>
+                        <li>All textarea elements in the popup dialog are resizable to better view their content. To bring them back to their default size just double click on the resizer.</li>
+                        <li>The markdown's buttons for italic and bold they skip adding syntax if the text contains newlines. In this case to add the syntax you need to select each block of text without newline.</li>
+                        <li>Always use backslash escapes to generate the literal characters used by markdown syntax: *_> (e.g. diaspora\*).</li>
+                    </ul>
+                </dd>
             </dl>
         </div>
         <div class="section">
