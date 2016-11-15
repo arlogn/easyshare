@@ -142,7 +142,7 @@ function buildStatusMessage() {
                                     .replace(/^(.*)/, "#$1")
                                     .split(",").join(" #");
 
-    if (image)
+    if (image && !isVideo)
         message.push("[![Image](" + image.src + ")](" + url + ")\n");
 
     if (title) message.push(title);
