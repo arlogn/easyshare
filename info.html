@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="description" content="A firefox addon to easily share web content on your diaspora* pod">
+    <meta name="description" content="A firefox add-on to easily share web content on your diaspora* pod">
     <meta name="author" content="arlogn">
     <title>diaspora* Easyshare - Info</title>
 
@@ -75,10 +75,14 @@
             float: right;
         }
         .warning {
+			font-size: 16px;
             font-weight: 600;
             background: #f00;
             color: #fff;
             padding: 10px;
+            display: block;
+        }
+        .warning span {
             display: block;
         }
         .warning a {
@@ -110,7 +114,7 @@
             width: 100%;
             height: 50px;
         }
-        .strong600 {
+        .semi-bold {
             font-weight: 600;
         }
     </style>
@@ -122,18 +126,25 @@
         <div class="header">
             <h1>DIASPORA* EASYSHARE</h1>
             <img src="assets/images/easyshare-firefox.png" alt="diaspora* Easyshare">
-            <h3>Firefox Addon</h3>
+            <h3>Firefox Add-on</h3>
         </div>
         <div class="section">
             <div class="top-bar">
                 <span class="title">INFO</span>
-                <span class="version">Latest version: 0.12.2</span>
+                <span class="version">Latest version: 0.13.2</span>
+            </div>
+        </div>
+        <div class="section">
+            <div class="warning">
+                <span>WARNING!</span>
+                <span>Support for legacy extensions will be discontinued with the release of Firefox 57 Quantum on November 14, 2017.</span>
+                <span>From the above date this addon will only work on Firefox Extended Support Release (ESR) until ESR 59’s release in June 2018.</span>
             </div>
         </div>
         <div class="section">
             <dl>
                 <dt># Getting started</dt>
-                <dd>Once installed enter URL and credentials of your diaspora* pod in the addon preferences.</dd>
+                <dd>Once installed enter URL and credentials of your diaspora* pod in the add-on preferences.</dd>
             </dl>
         </div>
         <div class="section">
@@ -141,11 +152,11 @@
                 <dt># Preferences</dt>
                 <dd>
                     <ul>
-                        <li><span class="strong600">Pod Url :</span> Enter the full address (https://yourpod.tld) of your pod. (REQUIRED)</li>
-                        <li><span class="strong600">Credentials :</span> Enter and save username and password to access your pod. (REQUIRED)<br>
+                        <li><span class="semi-bold">Pod Url :</span> Enter the full address (https://yourpod.tld) of your pod. (REQUIRED)</li>
+                        <li><span class="semi-bold">Credentials :</span> Enter and save username and password to access your pod. (REQUIRED)<br>
                         <em>The credentials are securely stored in the Firefox Password Manager. You can manage them opening about:preferences#security and clicking the 'Saved Passwords' button.</em></li>
-                        <li><span class="strong600">Bitly OAuth :</span> Start the OAuth web flow to authorize Easyshare to shorten URLs with your Bitly account. (Required to shorten URLs)</li>
-                        <li><span class="strong600">Provider :</span> select to display the status message provider in the post. (via Easyshare).</li>
+                        <li><span class="semi-bold">Bitly OAuth :</span> Start the OAuth web flow to authorize Easyshare to shorten URLs with your Bitly account. (Required to shorten URLs)</li>
+                        <li><span class="semi-bold">Provider :</span> select to display the status message provider in the post. (via Easyshare).</li>
                     </ul>
                 </dd>
             </dl>
@@ -155,9 +166,10 @@
                 <dt># The popup dialog</dt>
                 <dd>
                     <ul>
-                        <li><span class="strong600">Short URL (button) :</span> to shorten long URLs with Bitly (prior authorization).</li>
-                        <li><span class="strong600">Markdown (buttons) :</span> to add markdown syntax for italic, bold or quotation. To the entire text or by selecting part of it.</li>
-                        <li><span class="strong600">Share with :</span> input box to enter an aspect name (to share with a single aspect), <em>all_aspects</em> (to share with all your aspects) or <em>public</em> (to share public).</li>
+                        <li><span class="semi-bold">Short URL (button) :</span> to shorten long URLs with Bitly (prior authorization).</li>
+                        <li><span class="semi-bold">Markdown (buttons) :</span> to add markdown syntax for italic, bold or quotation. To the entire text or by selecting part of it.</li>
+                        <li><span class="semi-bold">Share with :</span> to select your aspects.</li>
+                        <li><span class="semi-bold">Get aspects :</span> to get your aspects list.</li>
                     </ul>
                 </dd>
             </dl>
@@ -177,7 +189,6 @@
                 <dt># Tips</dt>
                 <dd>
                     <ul>
-                        <li>You can leave the 'Share with' box blank to share public.</li>
                         <li>All textarea elements in the popup dialog are resizable to better view their content. To bring them back to their default size just double click on the resizer.</li>
                         <li>The markdown's buttons for italic and bold they skip adding syntax if the text contains newlines. In this case to add the syntax you need to select each block of text without newline.</li>
                         <li>Always use backslash escapes to generate the literal characters used by markdown syntax: *_> (e.g. diaspora\*).</li>
