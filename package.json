@@ -30,7 +30,7 @@
         }],
   "name": "diaspora_easyshare",
   "description": "Easily share web content on your diaspora* pod",
-  "version": "0.12.2",
+  "version": "0.13.2",
   "author": "arlogn",
   "engines": {
     "firefox": ">=38.0a1"
