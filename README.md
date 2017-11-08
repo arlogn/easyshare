@@ -3,8 +3,8 @@ diaspora* Easyshare
 
 A Firefox addon to extend the right-click context menu with the ability to share images, text and videos on your diaspora* pod.
 
-## Install
-<a href="https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/">https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/</a>
+<a href="http://arlogn.github.io/easyshare/">Home page</a>
 
-## Web
-<a href="http://arlogn.github.io/easyshare/">http://arlogn.github.io/easyshare/</a>
+## Note
+Support for legacy extensions will be discontinued with the release of Firefox 57 Quantum on November 14, 2017.
+From the above date this addon will only work on Firefox Extended Support Release (ESR) until ESR 59’s release in June 2018.
