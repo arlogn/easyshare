@@ -1,3 +1,6 @@
+/*jshint node: true, browser: true, esversion: 6 */
+/*globals self: false*/
+
 "use strict";
 
 // Update the panel content
@@ -8,8 +11,8 @@ function onPanelShow(data) {
 
     if (thumb.getAttribute("src") !== data.image) {
         if (data.image === "data URIs") {
-            thumb.setAttribute("src", "images/diaspora.png");
-            inlineImageNotice();
+            thumb.setAttribute("src", "images/error.png");
+            data.text = "Sorry, images embedded as base64 encoded data URI are skipped!";
         }
         else {
             thumb.setAttribute("src", data.image);
@@ -22,22 +25,6 @@ function onPanelShow(data) {
     doc.getElementById("sm-tags").value = "";
 
     setUndoButtonState("disabled");
-}
-
-// Show a message over the thumbnail to inform that image was discarted
-function inlineImageNotice() {
-    var doc = document;
-
-    var overlay = doc.createElement("div");
-    overlay.classList.add("overlay");
-    var text = doc.createTextNode("Sorry, images embedded inline in the document " +
-                                  "cannot be referenced within the post content.");
-    overlay.appendChild(text);
-    doc.querySelector(".thumb-container").appendChild(overlay);
-
-    window.setTimeout(function() {
-        overlay.parentNode.removeChild(overlay);
-    }, 7000);
 }
 
 // Set the state of the undo button
@@ -160,14 +147,18 @@ function buildStatusMessage() {
 }
 
 // Send to main.js
-function sendData() {
-    var aspect = document.getElementById("share").value;
+function send(req) {
+    var aspect = document.getElementById("aspects").value,
+        data = {};
 
-    if (!aspect) aspect = "public";
+    if (req === "send_post") {
+        data.message = buildStatusMessage();
+        data.aspect = aspect;
+    }
 
-    var data = { message: buildStatusMessage(), aspect: aspect };
+    data.request = req;
 
-    self.port.emit("post", data);
+    self.port.emit("send", data);
 }
 
 
@@ -175,14 +166,14 @@ function sendData() {
 
 self.port.on("show", onPanelShow);
 
-self.port.on("shortUrl", function(short) {
+self.port.on("shortUrl", function(shortened) {
     var url = document.getElementById("sm-url"),
         longUrl = url.value;
 
-    url.value = short;
+    url.value = shortened;
 
-    // put back the longurl if value isn't a url
-    if (!/^http/.test(short)) {
+    // put back the long url if value isn't a short url
+    if (!/^http/.test(shortened)) {
         setTimeout(function () {
             url.value = longUrl;
         }, 3000);
@@ -190,23 +181,43 @@ self.port.on("shortUrl", function(short) {
 
 });
 
-self.port.on("wait", function(text, status) {
-    var send = document.getElementById("send");
-    send.textContent = text;
+self.port.on("wait", function(text, options) {
+    var button = document.getElementById(options.req);
 
-    // disable the button while sending
-    if(status === "sending") {
-        send.style.pointerEvents = "none";
-        send.classList.add("sending");
+    button.textContent = text;
+
+    if (options.wait) {
+        button.style.pointerEvents = "none";
+        button.classList.add("wait");
     }
     else {
-        send.style.pointerEvents = "auto";
-        send.classList.remove("sending");
+        button.style.pointerEvents = "auto";
+        button.classList.remove("wait");
     }
 });
 
+self.port.on("aspects_update", function(aspects) {
+    if (aspects) {
+        var selector = document.getElementById("aspects"),
+            len = selector.options.length,
+            option;
 
-// Handling click events on buttons
+        if (len > 2) {
+            for (var i = len-1; i > 1; i--) {
+                selector.remove(i);
+            }
+        }
+
+        aspects.forEach(function(element) {
+            option = document.createElement('option');
+            option.value = element.id;
+            option.text = element.name;
+            selector.add(option);
+        });
+    }
+});
+
+// Handling click events
 
 document.getElementById("shorturl").addEventListener("click", function () {
     var url = document.getElementById("sm-url").value;
@@ -216,17 +227,18 @@ document.getElementById("shorturl").addEventListener("click", function () {
 document.querySelector(".sidebar").addEventListener("click", function(event) {
     if (event.target.nodeName === "BUTTON") {
         switch (event.target.id) {
-            case "send":
-                sendData();
-                break;
+            case "send_post":
+            case "get_aspects":
+                send(event.target.id);
+            break;
             case "quote":
             case "bold":
             case "italic":
                 addMarkdown(event.target.id);
-                break;
+            break;
             case "undo":
                 addMarkdown(null);
-                break;
+            break;
             default:
                 return false;
         }
