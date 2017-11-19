@@ -1,3 +1,0 @@
-content credentials jar:chrome/credentials.jar!/content/
-skin    credentials classic/1.0 jar:chrome/credentials.jar!/skin/
-locale	credentials en-US jar:chrome/credentials.jar!/locale/en-US/
