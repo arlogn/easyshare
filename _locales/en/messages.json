@@ -1,0 +1,6 @@
+{
+  "contextMenuItemOpenPublisher": {
+    "message": "Share selected content",
+    "description": "Open publisher to share selected content"
+  }
+}

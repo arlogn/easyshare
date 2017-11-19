@@ -1,0 +1,133 @@
+/*csslint important: false */
+
+body {
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 12px;
+  background: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+::-moz-selection {
+  background: #2b9ad9;
+  color: #fff;
+}
+
+.panel {
+  width: 720px;
+  height: auto;
+  background: #eee;
+  border: 1px solid #aaa;
+  position: relative;
+  margin: 0 !important;
+}
+
+.main {
+  width: 100%;
+  height: 390px;
+  position: relative;
+}
+
+.bottom {
+  width: 100%;
+  height: 80px;
+  background: #ddd;
+  position: relative;
+}
+
+.bottom div {
+  float: left;
+}
+
+.footer {
+  width: 100%;
+  height: 28px;
+  background: #333;
+  color: #aaa;
+  line-height: 28px;
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+legend {
+  font-size: 90%;
+  text-transform: uppercase;
+  color: #333;
+  margin: 15px 0 0 10px;
+}
+
+textarea {
+  background: #fff;
+  color: #333;
+  padding: 5px !important;
+  border: 1px solid #ddd;
+  display: block;
+}
+
+.text-area {
+  width: 100%;
+  height: 342px;
+}
+
+.tags-area {
+  width: 525px;
+  height: 30px;
+  margin: 0 10px;
+  resize: none;
+}
+
+.btn {
+  font-size: 12px !important;
+  border-radius: 2px !important;
+}
+
+.btn-send, .btn-send:active, .btn-send:focus {
+  width: 160px;
+  color: #fff;
+  background-color: #428bca;
+  border-color: #357ebd;
+  margin-top: 25px !important;
+}
+
+.btn-send:hover {
+  color: #fff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
+.btn-select {
+  width: 150px !important;
+  margin-left: 5px !important;
+}
+
+button:focus, button:active, select::-moz-focus-inner {
+  outline: none !important;
+}
+
+.dropdown-menu {
+  font-size: 12px !important;
+}
+
+.md-preview {
+  padding: 5px;
+}
+
+.md-preview img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+.md-preview blockquote {
+  font-size: 13px !important;
+}
+
+.md-fullscreen-mode .md-preview {
+  max-width: 680px !important;
+  padding: 0 !important;
+  overflow-y: auto;
+}
