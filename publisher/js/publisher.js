@@ -1,13 +1,13 @@
 /*jshint esversion: 6 */
 
-function onError(error) {
-  console.log(`Error: ${error}`);
+function onStorageError(error) {
+  console.log(`Storage: ${error}`);
 }
 
-function onAjaxFailure(statusCode, action) {
-  notify(`An error occurred while attempting to ${action}.`, "error");
-  $("#send").text("Failure!");
-  console.log(`${action}: error ${statusCode}`);
+function onDiasporaError(error, action) {
+  notify(`(${action}) ${error}`, "error");
+  $("#send").prop("disabled", true).text("Failure!");
+  console.log(`${action}: ${error}`);
 }
 
 function notify(message, icon) {
@@ -32,19 +32,19 @@ function updateAspectsSelector(aspects) {
 }
 
 function diasporaSignIn(url, username, password) {
-  const signInUrl = url + "/users/sign_in",
-    tokenPatt = /<input[^>]* name="authenticity_token"[^>]* value="(.*)"/;
+  const tokenPattern = /<input[^>]* name="authenticity_token"[^>]* value="(.*)"/,
+    failPattern = /<body[^>]*page-sessions[^>]*>/i;
 
   let deferred = $.Deferred();
 
   $.get({
-      url: signInUrl
+      url: url + "/users/sign_in"
     })
     .then(data => {
-        let match = data.match(tokenPatt);
+        let match = data.match(tokenPattern);
         if (match) {
           $.post({
-              url: signInUrl,
+              url: url + "/users/sign_in",
               data: {
                 "user[username]": username,
                 "user[password]": password,
@@ -54,30 +54,31 @@ function diasporaSignIn(url, username, password) {
               }
             })
             .then(data => {
-                // Try to catch a login error before to get a 401 for invalid token
-                if (/<body[^>]*page-sessions[^>]*>/i.test(data)) {
+                // Try to catch a login error
+                if (failPattern.test(data)) {
                   deferred.resolve({
-                    error: "SignIn: invalid username or password."
+                    error: "Invalid username or password"
                   });
                 } else {
-                  let match2 = data.match(tokenPatt);
+                  match = data.match(tokenPattern);
                   deferred.resolve({
-                    token: match2[1]
+                    token: match[1]
                   });
                 }
               },
               error => {
-                deferred.reject(error.status);
+                deferred.reject(error.statusText);
               });
         } else {
           deferred.resolve({
-            error: "SignIn: authenticity token not found."
+            error: "Authenticity token not found"
           });
         }
       },
       error => {
-        deferred.reject(error.status);
+        deferred.reject(error.statusText);
       });
+
   return deferred;
 }
 
@@ -98,13 +99,13 @@ function diasporaGetAspects(url) {
           .then(() => {
             updateAspectsSelector(userAspects);
             notify("Aspects selector updated", "success");
-          }, onError);
+          });
       } else {
-        notify("User aspects not found.", "error");
+        onDiasporaError("Aspects not found", "GetAspects");
       }
     })
     .fail(error => {
-      onAjaxFailure(error.status, "get aspects");
+      onDiasporaError(error.statusText, "GetAspects");
     });
 }
 
@@ -112,97 +113,94 @@ function diasporaPostStatusMessage(url, token, session) {
   let message = {},
     tags = $("#smtags").val();
 
-  tags = tags.replace(/#|\s/g, "")
-    .replace(/^(.*)/, "#$1")
-    .split(",")
-    .join(" #");
+  if (tags) {
+    tags = tags.replace(/#|\s/g, "")
+      .replace(/^(.*)/, "#$1")
+      .split(",")
+      .join(" #");
+    message.status_message = {
+      "text": $("#smtext").val() + "\n\n" + tags
+    };
+  } else {
+    message.status_message = {
+      "text": $("#smtext").val()
+    };
+  }
 
-  message.status_message = {
-    "text": $("#smtext").val() + "\n\n" + tags
-  };
   message.aspect_ids = $(".selectpicker").val();
 
   $.ajax({
       url: url + "/status_messages",
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         "Accept": "application/json, application/xhtml+xml",
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRF-Token": token
       },
-      data: JSON.stringify(message),
-      statusCode: {
-        200: function() {
-          console.log("Status code: 200. Expected: 201");
-        }
-      }
+      data: message
     })
     .done((data, statusText, xhr) => {
       if (xhr.status === 201) {
-        notify("Post successfully sent to diaspora.", "success");
+        if (session === 2) {
+          browser.storage.local.set({
+            session: 0
+          });
+        }
+        notify("Post successfully sent to diaspora*", "success");
+        $("#send").prop("disabled", false).text("Send");
       } else {
         // On error try again for once
         if (session < 2) {
-          browser.storage.local.get(null)
-            .then(data => {
-              data.token = null;
-              sendHttpRequests("post", data);
-            }, onError);
+          browser.storage.local.set({
+            token: null
+          })
+          .then(sendRequestsToDiaspora("post message"));
         } else {
-          onAjaxFailure(xhr.status, "send message");
+          let err = xhr.statusText;
+          if (xhr.status === 200) err = "Unauthorized";
+          onDiasporaError(err, "PostStatusMessage");
         }
       }
     })
     .fail(error => {
-      onAjaxFailure(error.status, "send message");
-    })
-    .always(() => {
-      $("#send").prop("disabled", false).text("Send");
+      onDiasporaError(xhr.statusText, "PostStatusMessage");
     });
 }
 
-function sendHttpRequests(req, data) {
-  if (!data.token) {
-    diasporaSignIn(data.url, data.username, data.password)
-      .then(response => {
-        if (response.error) {
-          if (typeof response.error === "number") {
-            onAjaxFailure(response.error, "sign in");
-          } else {
-            notify(response.error, "error");
-          }
+function sendRequestsToDiaspora(req) {
+  browser.storage.local.get(["url", "username", "password", "token", "session"])
+    .then(items => {
+      if (!items.token) {
+        diasporaSignIn(items.url, items.username, items.password)
+          .then(response => {
+            if (response.error) {
+              onDiasporaError(response.error, "SignIn");
+            } else {
+              browser.storage.local.set({
+                  token: response.token,
+                  session: items.session + 1
+                })
+                .then(() => {
+                  if (req === "post message") {
+                    diasporaPostStatusMessage(items.url, response.token, items.session);
+                  } else {
+                    diasporaGetAspects(items.url);
+                  }
+                });
+            }
+          },
+          error => {
+            onDiasporaError(error, "SignIn");
+          });
+      } else {
+        if (req === "post message") {
+          diasporaPostStatusMessage(items.url, items.token, items.session);
         } else {
-          browser.storage.local.set({
-              token: response.token,
-              session: data.session + 1
-            })
-            .then(() => {
-              if (req === "post") {
-                diasporaPostStatusMessage(data.url, response.token, data.session);
-              } else {
-                diasporaGetAspects(data.url);
-              }
-            }, onError);
+          diasporaGetAspects(items.url);
         }
-      })
-      .catch(error => {
-        onAjaxFailure(error, "sign in");
-      });
-  } else {
-    if (req === "post") {
-      diasporaPostStatusMessage(data.url, data.token, data.session);
-    } else {
-      diasporaGetAspects(data.url);
-    }
-  }
-}
-
-function getDataAndSend(req) {
-  browser.storage.local.get(null)
-    .then(data => {
-      sendHttpRequests(req, data);
-    }, onError);
+      }
+    }, onStorageError);
 }
 
 // Custom buttons
@@ -225,7 +223,7 @@ $("#smtext").markdown({
           btnType: "button",
           callback: function(editor) {
             editor.disableButtons("getAspects");
-            getDataAndSend("get");
+            sendRequestsToDiaspora("get aspects");
           }
         },
         {
@@ -246,13 +244,12 @@ $(".selectpicker").selectpicker({
   style: "btn-default btn-sm",
   iconBase: "font-awesome",
   tickIcon: "caret-down",
-  size: false,
-  width: "70px"
+  size: false
 });
 
 $("#send").click(function() {
   $(this).prop("disabled", true).text("wait...");
-  getDataAndSend("post");
+  sendRequestsToDiaspora("post message");
 });
 
 var port = browser.runtime.connect({
@@ -269,4 +266,4 @@ browser.storage.local.get(["url", "username", "password", "aspects"])
     } else {
       if (items.aspects) updateAspectsSelector(items.aspects);
     }
-  }, onError);
+  }, onStorageError);
