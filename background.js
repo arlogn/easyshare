@@ -22,7 +22,7 @@ function onCreated() {
   if (browser.runtime.lastError) {
     console.log(`Error: ${browser.runtime.lastError}`);
   } else {
-    console.log("Item created successfully");
+    console.log("Context-menu item created successfully");
   }
 }
 
