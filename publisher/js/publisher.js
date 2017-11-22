@@ -262,7 +262,7 @@ port.onMessage.addListener(msg => {
 browser.storage.local.get(["url", "username", "password", "aspects"])
   .then(items => {
     if (!items.url || !items.username || !items.password) {
-      notify("Please enter and save all required preferences before starting to share.", "error");
+      notify("Please enter and save all required preferences before starting to share.", "warning");
     } else {
       if (items.aspects) updateAspectsSelector(items.aspects);
     }
