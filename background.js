@@ -40,9 +40,9 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
   var url = escapeUnderscores(tab.url);
   if (info.hasOwnProperty("mediaType")) {
     if (info.mediaType === "image") {
-      toPublisher = `![Image](${info.srcUrl})\n\n**${tab.title}**  \n[${url}](${url})`;
+      toPublisher = `![Image](${info.srcUrl})\n\n#### ${tab.title}\n[${url}](${url})`;
     } else {
-      toPublisher = `${info.pageUrl}  \n**${tab.title}**`;
+      toPublisher = `${info.pageUrl}\n**${tab.title}**`;
     }
   }
   if (info.hasOwnProperty("selectionText")) {
@@ -52,7 +52,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
       if (toPublisher) {
         toPublisher += `\n\n${results[0]}`;
       } else {
-        toPublisher = `**${tab.title}**  \n[${url}](${url})\n\n${results[0]}`;
+        toPublisher = `#### ${tab.title}\n[${url}](${url})\n\n${results[0]}`;
       }
     });
   }
