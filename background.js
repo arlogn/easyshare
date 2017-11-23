@@ -42,7 +42,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.mediaType === "image") {
       toPublisher = `![Image](${info.srcUrl})\n\n#### ${tab.title}\n[${url}](${url})`;
     } else {
-      toPublisher = `${info.pageUrl}\n**${tab.title}**`;
+      toPublisher = `${info.pageUrl}  \n**${tab.title}**`;
     }
   }
   if (info.hasOwnProperty("selectionText")) {
