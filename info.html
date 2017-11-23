@@ -68,25 +68,6 @@
       margin-bottom: 20px;
     }
 
-    .top-bar {
-      width: 770px;
-      height: 50px;
-      background: #fcc;
-      padding: 0 10px;
-      margin-bottom: 10px;
-    }
-
-    .title {
-      font-weight: bold;
-      line-height: 50px;
-      float: left;
-    }
-
-    .version {
-      line-height: 50px;
-      float: right;
-    }
-
     .warning {
       font-size: 16px;
       font-weight: 600;
@@ -120,24 +101,14 @@
       margin-left: 15px;
     }
 
-    ul {
-      margin: 3px 0;
+    ol {
+      margin: 5px 0 10px;
       padding: 0;
-      list-style-type: square;
     }
 
     li {
-      margin-left: 13px;
+      margin-left: 30px;
       margin-bottom: 5px;
-    }
-
-    .footer {
-      width: 100%;
-      height: 50px;
-    }
-
-    .semi-bold {
-      font-weight: 600;
     }
   </style>
 
@@ -150,121 +121,62 @@
       <img src="assets/images/easyshare-firefox.png" alt="diaspora* Easyshare">
       <h3>Firefox Add-on</h3>
     </div>
+
     <div class="section">
-      <div class="top-bar">
-        <span class="title">INFO</span>
-        <span class="version">Latest version: 0.14.1</span>
-      </div>
+      Latest version: 0.14.2
     </div>
+
     <div class="section">
-      <p>
-        <strong>About 0.14.1</strong><br> This is a major update to migrate the add-on to the WebExtensions APIs and allow it to work with Firefox 57 Quantum.
-      </p>
-
-      <p>This update makes Easyshare a bit different because the code was written for what it was supposed to be a new add-on. Some features are added, other are no longer there. The most relevant differences are:</p>
-      <ol>
-        <li>the panel looks like the publisher used by diaspora*. Better use of markdown and ability to preview the post.</li>
-        <li>The panel isn't positioned at center of the page but attached to the toolbar, below the icon. (*)</li>
-        <li>It is no longer possible to shorten URLs by linking your Bitly account.</li>
-        <li>It is no longer possible to display the status message provider in the post.</li>
-        <li>It is currently in english. No localized strings for other languages.</li>
-      </ol>
-
-      <p><strong>(*) Note</strong><br>With Firefox 56 the panel not opens automatically when you click the context-menu item. You have to click the icon that becames red when the content is inside. This because the api to open the panel programmatically is available only in Firefox 57.</p>
+      <dl>
+        <dt># About migration to WebExtensions</dt>
+        <dd>Version 0.14.1 is a major update to migrate the add-on to the WebExtensions APIs and allow it to work with Firefox 57 Quantum. </dd>
+        <dd>This update makes Easyshare a bit different. Some features are added and other are no longer there.<br>The most relevant differences are:</dd>
+        <dd>
+          <ol>
+            <li>the panel looks like the publisher used by diaspora*. Better use of markdown and ability to preview the post.</li>
+            <li>The panel isn't positioned at center of the page but attached to the toolbar, below the icon. (*)</li>
+            <li>It is no longer possible to shorten URLs by linking your Bitly account.</li>
+            <li>It is no longer possible to display the status message provider in the post.</li>
+            <li>It is currently in english. No localized strings for other languages.</li>
+          </ol>
+        </dd>
+        <dd>(*) With Firefox 56 the panel not opens automatically when you click the context-menu item. You have to click the toolbar icon that becames red when the content is inside. <strong>This will no longer have to be done with Firefox 57 and above.</strong></dd>
+      </dl>
     </div>
 
     <div class="section>">
       <img src="assets/images/easyshare0141.jpg" alt="Easyshare">
     </div>
 
+    <div class="section">
+      <dl>
+        <dt># Usage</dt>
+        <dd>Usage is very simple. After installed enter pod URL and credentials in the Preferences. And go, right click on images, text selection or videos, to share the content you want.</dd>
+        <dd><strong>Note.</strong><br>On videos you have to right click twice to show the browser's context-menu.<br>Tags must be separated by commas and can be entered with or without the hash symbol.</dd>
+      </dl>
+    </div>
 
-    <!-- <div class="section">
-            <div class="warning">
-                <span>WARNING!</span>
-                <span>Support for legacy extensions will be discontinued with the release of Firefox 57 Quantum on November 14, 2017.</span>
-                <span>From the above date this addon will only work on Firefox Extended Support Release (ESR) until ESR 59’s release in June 2018.</span>
-            </div>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Getting started</dt>
-                <dd>Once installed enter URL and credentials of your diaspora* pod in the add-on preferences.</dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Preferences</dt>
-                <dd>
-                    <ul>
-                        <li><span class="semi-bold">Pod Url :</span> Enter the full address (https://yourpod.tld) of your pod. (REQUIRED)</li>
-                        <li><span class="semi-bold">Credentials :</span> Enter and save username and password to access your pod. (REQUIRED)<br>
-                        <em>The credentials are securely stored in the Firefox Password Manager. You can manage them opening about:preferences#security and clicking the 'Saved Passwords' button.</em></li>
-                        <li><span class="semi-bold">Bitly OAuth :</span> Start the OAuth web flow to authorize Easyshare to shorten URLs with your Bitly account. (Required to shorten URLs)</li>
-                        <li><span class="semi-bold">Provider :</span> select to display the status message provider in the post. (via Easyshare).</li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># The popup dialog</dt>
-                <dd>
-                    <ul>
-                        <li><span class="semi-bold">Short URL (button) :</span> to shorten long URLs with Bitly (prior authorization).</li>
-                        <li><span class="semi-bold">Markdown (buttons) :</span> to add markdown syntax for italic, bold or quotation. To the entire text or by selecting part of it.</li>
-                        <li><span class="semi-bold">Share with :</span> to select your aspects.</li>
-                        <li><span class="semi-bold">Get aspects :</span> to get your aspects list.</li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Localizations</dt>
-                <dd>Currently localized for: english, italian, dutch, spanish, french. More localizations and fixes to existing ones are welcome.</dd>
-                <dd>Thanks to @meneer for Dutch.</dd>
-                <dd>Thanks to @Victorhck for Spanish.</dd>
-                <dd>Thanks to @Bat41 for French.</dd>
-                <dd>Note: some strings, modified or introduced in the latest versions, have not yet been translated into all the available languages.</dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Tips</dt>
-                <dd>
-                    <ul>
-                        <li>All textarea elements in the popup dialog are resizable to better view their content. To bring them back to their default size just double click on the resizer.</li>
-                        <li>The markdown's buttons for italic and bold they skip adding syntax if the text contains newlines. In this case to add the syntax you need to select each block of text without newline.</li>
-                        <li>Always use backslash escapes to generate the literal characters used by markdown syntax: (e.g. diaspora\*).</li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
-        <div class="section">
-            <dl>
-                <dt># Known issues</dt>
-                <dd></dd>
-            </dl>
-        </div> -->
     <div class="section">
       <dl>
         <dt># Issues, Bugs, Suggestions</dt>
         <dd><a href="https://github.com/arlogn/easyshare/issues">https://github.com/arlogn/easyshare/issues</a></dd>
       </dl>
     </div>
+
     <div class="section">
       <dl>
         <dt># Code</dt>
         <dd><a href="https://github.com/arlogn/easyshare">https://github.com/arlogn/easyshare</a></dd>
       </dl>
     </div>
+
     <div class="section">
       <dl>
         <dt># License</dt>
         <dd>Licensed under The MIT License (MIT).</dd>
       </dl>
     </div>
-    <div class="footer"></div>
+
   </div>
 </body>
 

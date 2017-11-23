@@ -63,6 +63,10 @@
       font-weight: 600;
     }
 
+    .aborted {
+      text-decoration: line-through;
+    }
+
     span {
       display: block;
     }
@@ -75,16 +79,19 @@
     <div class="header">
       <h1>DIASPORA* EASYSHARE</h1>
       <img src="assets/images/easyshare.png" alt="diaspora* Easyshare">
-      <h3>Updated to version 0.14.2</h3>
+      <h3>Updated to version 0.13.2</h3>
     </div>
     <div class="section">
       <p>
         <span class="semi-bold">Changes:</span>
         <ul class="changes">
-          <li>Improved error handling</li>
-          <li>Changed default markdown for the post title</li>
-          <li>Changed Content-Type in Ajax POST request</li>
+          <li>Fix regex to catch login errors</li>
+          <li>Fix typo in notifications</li>
         </ul>
+      </p>
+      <p>WARNING<br>
+        <span class="aborted">Support for legacy extensions will be discontinued with the release of Firefox 57 Quantum on November 14, 2017.<br>From the above date this addon will only work on Firefox Extended Support Release (ESR) until ESR 59’s release in June 2018.</span>
+        <span>The next update will migrate the add-on to the WebExtensions APIs to allow it to work with Firefox 57.</span>
       </p>
       <p>
         .....
