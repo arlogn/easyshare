@@ -15,6 +15,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * Diaspora Easyshare additions
+ * http://github.com/arlogn/easyshare
+ * This file has been modified adding options and methods to be used
+ * with the Firefox add-on Diaspora Easyshare. All additions is prefixed
+ * with a note including the string 'Easyshare addition' and are licensed
+ * under the MIT license.
+ * Markup and javascript for the aspects dropdown button derives from the
+ * diaspora code that is covered by the GNU AGPL 3 license.
  * ========================================================== */
 (function(factory) {
   if (typeof define === "function" && define.amd) {
@@ -111,7 +120,7 @@
 
           for (z = 0; z < buttons.length; z++) {
             var button = buttons[z],
-              buttonContainer, buttonIconContainer, buttonDefaultSelections,
+              buttonContainer, buttonIconContainer,
               buttonHandler = ns + '-' + button.name,
               buttonIcon = this.__getIcon(button),
               btnText = button.btnText ? button.btnText : '',
@@ -122,11 +131,20 @@
               btnType = button.btnType ? button.btnType : 'button';
 
             // Construct the button object
-            if (btnType === 'select') {
-              buttonContainer = $('<select></select>');
-              buttonContainer.addClass(btnClass);
-              buttonDefaultSelections = $('<option value="public">Public</option><option value="all_aspects">All aspects</option>');
-              buttonDefaultSelections.prependTo(buttonContainer);
+            buttonContainer = $('<button></button>');
+            // Easyshare addition (dropdown button)
+            if (btnType === 'dropdown') {
+              buttonContainer.addClass('btn-default btn-sm').addClass(btnClass);
+              if (button.toggle === true) {
+                buttonContainer.attr('data-toggle', 'dropdown');
+              }
+              var buttonListContainer = $('<ul class="dropdown-menu"></ul>'),
+                buttonDropdownDefaults = this.__getDropdownDefaults(button);
+              if (buttonDropdownDefaults) {
+                $(buttonDropdownDefaults.button).prependTo(buttonContainer);
+                $(buttonDropdownDefaults.menu).prependTo(buttonListContainer);
+                buttonContainer = buttonContainer.add(buttonListContainer);
+              } // end addition
             } else {
               buttonContainer = $('<button></button>');
               buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
@@ -134,16 +152,18 @@
                 buttonContainer.removeClass('btn-default');
               }
               buttonContainer.attr({
-                'type': btnType,
+                'type': 'button',
                 'title': this.__localize(button.title) + hotkeyCaption,
                 'tabindex': tabIndex,
                 'data-provider': ns,
                 'data-handler': buttonHandler,
                 'data-hotkey': hotkey
               });
+
               if (button.toggle === true) {
                 buttonContainer.attr('data-toggle', 'button');
               }
+
               buttonIconContainer = $('<span/>');
               buttonIconContainer.addClass(buttonIcon);
               buttonIconContainer.prependTo(buttonContainer);
@@ -157,7 +177,7 @@
             callback.push(button.callback);
           }
 
-          // Attach the button group into container dom
+          // Attach the button group into container DOM
           container.append(btnGroupContainer);
         }
       }
@@ -192,6 +212,8 @@
 
       // Re-attach markdown data
       this.$textarea.data('markdown', this);
+
+      //this.$editor.find('.dropdown-menu > li').on("click", $.proxy(this.__toggleDropdown, this));
     },
     __handle: function(e) {
       var target = $(e.currentTarget),
@@ -385,8 +407,24 @@
             this.__localize('Save') +
             '</button>');
 
+        // Easyshare addition (custom footer)
+        } else if (options.addFooter) {
+          createFooter = true;
+          var sendHandler = 'cmdSend';
 
-        }
+          // Register handler and callback
+          handler.push(sendHandler);
+          callback.push(options.onSend);
+
+          editorFooter.append('<div class="footer-controls"><div><label for="tags">Tags</label>' +
+            '<textarea class="tags-area" placeholder="tag1, tag2, tag3 ..."></textarea></div>' +
+            '<div><button class="btn btn-lg btn-send" data-provider="' +ns +
+            '" data-handler="' +
+            sendHandler +'"> ' +
+            this.__localize('Send') +
+            '<span class="fa fa-share"></span></button></div></div>' +
+            '<div class="footer-bar">diaspora* Easyshare</div>');
+        } // end addition
 
         footer = typeof options.footer === 'function' ? options.footer(this) : options.footer;
 
@@ -430,6 +468,8 @@
         // Set editor attributes, data short-hand API and listener
         this.$editor.attr('id', (new Date()).getTime());
         this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this));
+
+        this.__setDropdownListener();
 
         if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
           this.$editor.addClass('md-editor-disabled');
@@ -951,7 +991,111 @@
       }
 
       return this;
-    }
+    },
+
+    // Easyshare addition (custom methods)
+    __setDropdownListener: function () {
+      this.$editor.find('.dropdown-menu').on('click', 'li', $.proxy(this.__toggleDropdown, this));
+    },
+    updateDropdown: function (data) {
+      var dropdownMenu = this.$editor.find('.dropdown-menu');
+      dropdownMenu.find('li:gt(1)').remove();
+      dropdownMenu.append($('<li>', { class: 'divider' }));
+      $.each(data, function(key, value) {
+        dropdownMenu.append($('<li class="selector" data-aspect_id="' + value.id + '"><a><span class="fa fa-check"></span><span class="text">' + value.name + '</span></a></li>'));
+      });
+    },
+    __toggleDropdown: function (event) {
+      var target = $(event.target).closest('li'),
+        editor = this.$editor,
+        dropdownMenu = editor.find('.dropdown-menu'),
+        button = editor.find('.dropdown-toggle'),
+        icon = button.children('#locking'),
+        text,
+        selected;
+
+        if (target.is('.radio')) {
+            target.parent().children('li').removeClass('selected');
+        } else if (target.is('.selector')) {
+            event.stopPropagation();
+            target.parent().children('li.radio').removeClass('selected');
+        }
+
+        target.toggleClass('selected');
+
+        selected = dropdownMenu.find('li.selected').length;
+
+        if (selected === 0) {
+            dropdownMenu.find('li').first().addClass('selected');
+            text = "Public";
+        } else {
+            if (selected === 1) {
+                text = dropdownMenu.find('li.selected .text').text();
+            } else {
+                text = "in " + selected.toString() + " aspects";
+            }
+        }
+
+        button.find('.text').text(text);
+
+        if (text === 'Public') {
+            icon.removeClass("fa-lock");
+            icon.addClass("fa-unlock");
+        } else {
+            icon.removeClass("fa-unlock");
+            icon.addClass("fa-lock");
+        }
+    },
+    __getDropdownDefaults: function(src) {
+      if(typeof src == 'object' && typeof src.defaults == 'object') {
+        var defaults = src.defaults,
+          button = defaults[0].button,
+          menu = defaults[0].menu,
+          dropdown = {menu:''};
+
+        dropdown.button = '<span class="fa ' + button[0].icon + '" id="locking"></span><span class="text">' + button[0].text + '</span><span class="caret"></span>';
+        $.each(menu, function(key, value) {
+          var menuClass = menu[key].selected ? "radio selected" : "radio";
+          dropdown.menu += '<li class="' + menuClass + '" data-aspect_id="' + menu[key].id + '"><a><span class="fa fa-check"></span><span class="text">' + menu[key].text + '</span></a></li>';
+        });
+
+        return dropdown;
+      } else {
+        return null;
+      }
+    },
+    getPostPayload: function() {
+      var content = this.getContent();
+        
+      if ($.trim(content).length > 0) {
+        var tagsEl = this.$editor.find('.tags-area'),
+        tags = tagsEl.val(),
+        aspectIds = [],
+        payload = {};
+
+        if (tags) {
+          tags = tags.replace(/#|\s/g, "")
+            .replace(/^(.*)/, "#$1")
+            .split(",")
+            .join(" #");
+
+          content += '\n\n' + tags;
+          tagsEl.val('');
+        }
+
+        payload.status_message = { 'text': content };
+
+        this.$editor.find('.dropdown-menu > li.selected').each(function() {
+          aspectIds.push($(this).attr('data-aspect_id'));
+        });
+      
+        payload.aspect_ids = aspectIds;
+
+        return payload;
+      } else {
+        return null;
+      }
+    } // end addition
 
   };
 
@@ -1428,6 +1572,7 @@
       }]
     ],
     customIcons: {},
+    customOptions: {},
     additionalButtons: [], // Place to hook more buttons by code
     reorderButtonGroups: [],
     hiddenButtons: [], // Default hidden buttons
@@ -1467,7 +1612,8 @@
     onChange: function(e) {},
     onFullscreen: function(e) {},
     onFullscreenExit: function(e) {},
-    onSelect: function(e) {}
+    onSelect: function(e) {},
+    onSend: function(e) {}
   };
 
   $.fn.markdown.Constructor = Markdown;
