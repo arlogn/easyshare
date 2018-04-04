@@ -1,0 +1,168 @@
+/*csslint important: false*/
+
+@font-face {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+src: url('../fonts/roboto/roboto-v15-latin-regular.eot');
+src:
+   local('Roboto'),
+   local('Roboto-Regular'),
+   url('../fonts/roboto/roboto-v15-latin-regular.woff2') format('woff2'),
+   url('../fonts/roboto/roboto-v15-latin-regular.woff') format('woff'),
+   url('../fonts/roboto/roboto-v15-latin-regular.ttf') format('truetype'),
+   url('../fonts/roboto/roboto-v15-latin-regular.svg#Roboto') format('svg');
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  background: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 33px;
+}
+
+h2 {
+  font-size: 27px;
+}
+
+h3 {
+  font-size: 23px;
+}
+
+h4 {
+  font-size: 17px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+::-moz-selection {
+  background: #2b9ad9;
+  color: #fff;
+}
+
+.panel {
+  width: 720px;
+  height: 472px;
+  background: #eee;
+  position: relative;
+  margin: 0 !important;
+}
+
+.main {
+  height: 390px;
+  position: relative;
+}
+
+label {
+  font-size: 90%;
+  text-transform: uppercase;
+  color: #333;
+  margin: 15px 0 0 10px;
+  display: block;
+}
+
+.text-area {
+  height: 320px;
+}
+
+.tags-area {
+  width: 525px;
+  height: 30px;
+  margin: 0 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  resize: none;
+}
+
+.btn {
+  font-size: 12px !important;
+  border-radius: 2px !important;
+}
+
+.btn-send,
+.btn-send:active,
+.btn-send:focus {
+  width: 160px;
+  color: #fff;
+  background-color: #428bca;
+  border-color: #357ebd;
+  margin-top: 25px !important;
+}
+
+.btn-send:hover {
+  color: #fff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
+.btn-send .fa {
+  padding-left: 5px;
+}
+
+.btn-dropdown {
+  width: 200px;
+  margin-left: 5px !important;
+}
+
+.btn-dropdown .text {
+  padding: 0 5px;
+}
+
+.dropdown-menu {
+  width: 200px;
+  font-size: 12px;
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu li:hover {
+  cursor: pointer;
+}
+
+.dropdown-menu li .fa-check {
+  display: none;
+  padding-right: 5px;
+}
+
+.dropdown-menu li.selected .fa-check {
+  display: inline-block;
+}
+
+button:focus,
+button:active {
+  outline: none !important;
+}
+
+.footer-controls {
+  height: 80px;
+  position: relative;
+}
+
+.footer-controls div {
+  float: left;
+}
+
+.footer-bar {
+  height: 28px;
+  background: #333;
+  color: #aaa;
+  line-height: 28px;
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+}
