@@ -2,122 +2,98 @@
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A firefox addon to easily share web content on your diaspora* pod">
-  <meta name="author" content="arlogn">
-  <title>Diaspora* Easyshare</title>
-
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="assets/icons/favicon.png">
-
-  <!-- Fonts -->
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400|Lato:300" rel="stylesheet" type="text/css">
-
-  <!-- Bootstrap core CSS -->
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Flexislider CSS -->
-  <link href="assets/flexslider/flexslider.css" rel="stylesheet">
-
-  <!-- Font-awesome CSS -->
-  <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
-  <link href="assets/css/custom.css" rel="stylesheet">
-
+    <meta charset="utf-8">
+    <meta name="description" content="A firefox add-on to easily share web content on your diaspora* pod">
+    <meta name="author" content="arlogn">
+    <title>Diaspora* Easyshare</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="icons/favicon.png">
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:600,400|Lato:300" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-
-  <!-- Full Page Image Header Area -->
-  <div id="top" class="header">
-    <div id="bitlyOAuth">
-      <span id="callback"></span><span id="error"></span>
-    </div>
-    <div class="intro">
-      <h1>DIASPORA* EASYSHARE</h1>
-      <h3>EASILY SHARE WEB CONTENT ON YOUR DIASPORA* POD - <span class="yellow">FIREFOX ADDON</span></h3>
-      <div class="chev-down"><a href="#about"><i class="fa fa-chevron-down fa-3x"></i></a></div>
-    </div>
-  </div>
-
-  <!-- Content -->
-  <div id="about" class="content">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <div id="promo-slider" class="slider flexslider">
-            <ul class="slides">
-              <li>
-                <img src="assets/images/slide_1.jpg" alt="">
-                <p class="flex-caption">
-                  <span class="main">EXTENDS YOUR RIGHT-CLICK CONTEXT MENU WITH THE ABILITY TO SHARE IMAGES, TEXT AND VIDEOS</span>
-                </p>
-              </li>
-              <li>
-                <img src="assets/images/slide_2.jpg" alt="">
-                <p class="flex-caption">
-                  <span class="main">A SIMPLE POPUP DIALOG TO CREATE AND SEND YOUR POST</span>
-                </p>
-              </li>
-            </ul>
-            <!--//slides-->
-          </div>
-          <!--//flexslider-->
-          <div class="buttons">
-            <a href="https://addons.mozilla.org/en-US/firefox/addon/diaspora-easyshare/" class="btn">Install</a>
-            <a href="./info.html" class="btn btn-danger">Info</a>
-          </div>
-          <div class="chev-up"><a href="#top"><i class="fa fa-chevron-up fa-3x"></i></a></div>
+        <div class="header">
+            <h1>DIASPORA* EASYSHARE</h1>
+            <h3>Firefox Add-on</h3>
         </div>
-      </div>
+        <div class="section">
+            Latest version: 0.15.0
+            <br>
+            <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/">install</a>
+        </div>
+        <div class="section">
+            <h4>About migration to WebExtensions</h4>
+            <ul>
+                <li>From version 0.14.1 the addon has migrated to the Webextensions APIs, to allow it to work with Firefox 57 Quantum.</li>
+                <li>This update makes Easyshare a bit different from the legacy version. Some features are added and other are no longer there.
+                    <br>The most relevant differences are:</li>
+                <li>
+                    <ol>
+                        <li>The panel looks like the publisher used by diaspora. Better markdown and preview of the post.</li>
+                        <li>The panel now opens below the toolbar icon.</li>
+                        <li>It's no longer possible to shorten URLs by linking your Bitly account.</li>
+                        <li>It's no longer possible to display the status message provider in the post.</li>
+                        <li>It's currently localized only in english.</li>
+                    </ol>
+                </li>
+            </ul>
+            <img class="resp" src="images/easyshare0141.jpg" alt="Easyshare">
+        </div>
+        <div class="section">
+            <h4>Getting started</h4>
+            <ul>
+                <li>After installing the add-on you have to enter URL and credentials of your pod in the Preferences. That's all. Now you can surfing the web and choose the content to share using the right click context menu.</li>
+                <li class="title">Get your aspects</li>
+                <li>At first the aspects dropdown it permits to share only Public or All-Aspects. Use the 'Get aspects' button to update it with all your aspects.</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h4>Usage tips</h4>
+            <ul>
+                <li class="title first">Defaults</li>
+                <li>When you right click an image or a selection of text also the page title and the page link are added to the editor.</li>
+                <li class="title">Share only title and link of the page</li>
+                <li>Simply right click the page tab.</li>
+                <li class="title">Share video, audio and other multimedia resources</li>
+                <li>Right clicking the tab is also useful to share video, audio and other media resources. In these cases the page URL is passed as-is, without formatting, to allow the embedding of the media in the post.</li>
+                <li class="title">Share image and text together</li>
+                <li>First select the text and then right click the image.</li>
+                <li class="title">Tags</li>
+                <li>Tags must be separated by a comma and can be entered with or without the hash symbol.</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h4>Issues, Bugs, Suggestions</h4>
+            <ul>
+                <li><a href="https://github.com/arlogn/easyshare/issues">https://github.com/arlogn/easyshare/issues</a></li>
+            </ul>
+        </div>
+        <div class="section">
+            <h4>Code</h4>
+            <ul>
+                <li><a href="https://github.com/arlogn/easyshare">https://github.com/arlogn/easyshare</a></li>
+            </ul>
+        </div>
+        <div class="section">
+            <h4>License</h4>
+            <ul>
+                <li>Licensed under The MIT License (MIT).</li>
+            </ul>
+        </div>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <div id="footer" class="col-md-12 text-center">&copy; 2013 <a href="https://social.mbuto.me/u/podmin">arlogn</a></div>
-
-  <!-- JavaScript -->
-  <script src="assets/js/jquery-1.10.2.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/flexslider/jquery.flexslider-min.js"></script>
-
-  <!-- Custom JavaScript -->
-  <script>
-    $(function() {
-      // Redirects according to the query string
-      var q = window.location.search.substring(3);
-      if (q == "upgrade") {
-        window.location.replace('upgrade.html');
-      } else if (q == "update") {
-        window.location.replace('update.html');
-      } else if (q == "install") {
-        window.location.replace('info.html');
-      }
-      // Flexslider
-      $('.flexslider').flexslider({
-        animation: "fade",
-        slideshowSpeed: 8000,
-        pauseOnHover: true
-      });
-      // Smooth Scrolling
-      $('a[href*=#]:not([href=#])').click(function() {
-        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-          var target = $(this.hash);
-          target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-          if (target.length) {
-            $('html,body').animate({
-              scrollTop: target.offset().top
-            }, 1000);
-            return false;
-          }
+    <script>
+    (function() {
+        var q = window.location.search.substring(3);
+        if (q == "update") {
+            window.location.replace('update.html');
         }
-      });
-    });
-  </script>
+    })();
 
+    </script>
 </body>
 
 </html>

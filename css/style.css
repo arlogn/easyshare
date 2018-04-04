@@ -1,0 +1,95 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  background: #fff;
+  color: #000;
+}
+
+h1 {
+  font-family: 'Lato', sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 32px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid orange;
+}
+
+h3 {
+  font-family: 'Lato', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+h4 {
+  font-size: inherit;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 3px solid orange;
+  padding-bottom: 3px;
+  margin: 4px 0;
+  display: inline-block;
+}
+
+a {
+  color: #00f;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  width: 800px;
+  margin: auto;
+}
+
+.header {
+  margin: 30px 0;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+}
+
+ul,
+ol {
+  margin: 5px 0 10px;
+  padding: 0;
+}
+
+ul li {
+  margin-left: 0;
+  margin-bottom: 5px;
+}
+
+ol li {
+  margin-left: 30px;
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.section .title {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.section .title.first {
+  margin-top: 0;
+}
