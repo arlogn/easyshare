@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Diaspora Easyshare additions
+ * Diaspora Easyshare
  * http://github.com/arlogn/easyshare
  * This file has been modified adding options and methods to be used
  * with the Firefox add-on Diaspora Easyshare. All additions is prefixed
@@ -212,8 +212,6 @@
 
       // Re-attach markdown data
       this.$textarea.data('markdown', this);
-
-      //this.$editor.find('.dropdown-menu > li').on("click", $.proxy(this.__toggleDropdown, this));
     },
     __handle: function(e) {
       var target = $(e.currentTarget),
@@ -1572,7 +1570,6 @@
       }]
     ],
     customIcons: {},
-    customOptions: {},
     additionalButtons: [], // Place to hook more buttons by code
     reorderButtonGroups: [],
     hiddenButtons: [], // Default hidden buttons
