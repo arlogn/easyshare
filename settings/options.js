@@ -1,44 +1,30 @@
 /*jshint esversion: 6 */
 
+const url = document.querySelector("#podUrl"),
+      username = document.querySelector("#podUsername"),
+      password = document.querySelector("#podPassword");
+
 function onError(error) {
-  console.log(`Error: ${error}`);
+    console.log(error);
 }
 
-function saveOptions(e) {
-  e.preventDefault();
-  browser.storage.local.set({
-    url: document.querySelector("#podUrl").value,
-    username: document.querySelector("#podUsername").value,
-    password: document.querySelector("#podPassword").value,
-    token: null,
-    session: 0
-  })
-  .then(null, onError);
+function storeSettings() {
+    browser.storage.local.set({
+        url: url.value,
+        username: username.value,
+        password: password.value
+    });
 }
 
-function restoreOptions() {
-  function restoreUrl(result) {
-    document.querySelector("#podUrl").value = result.url || "";
-  }
-
-  function restoreUsername(result) {
-    document.querySelector("#podUsername").value = result.username || "";
-  }
-
-  function restorePassword(result) {
-    document.querySelector("#podPassword").value = result.password || "";
-  }
-
-  var url = browser.storage.local.get("url");
-  url.then(restoreUrl, onError);
-
-  var username = browser.storage.local.get("username");
-  username.then(restoreUsername, onError);
-
-  var password = browser.storage.local.get("password");
-  password.then(restorePassword, onError);
-
+function showSettings(stored) {
+    url.value = stored.url || "";
+    username.value = stored.username || "";
+    password.value = stored.password || "";
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form").addEventListener("submit", saveOptions);
+var gettingStoredSettings = browser.storage.local.get();
+gettingStoredSettings.then(showSettings, onError);
+
+url.addEventListener("blur", storeSettings);
+username.addEventListener("blur", storeSettings);
+password.addEventListener("blur", storeSettings);

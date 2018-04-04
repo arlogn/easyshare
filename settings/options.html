@@ -2,31 +2,34 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <link href="options.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8">
+    <link href="options.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-  <form class="options">
-    <div class="form-section">
-      <div class="action">
-        <label>Pod URL:</label><input type="text" id="podUrl" placeholder="https://yourpod.tld">
-      </div>
-      <div class="help">Enter URL of your pod (required)</div>
+    <div class="title">Pod URL and credentials</div>
+    <div class="settings">
+        <div class="container">
+            <label>Pod URL:
+                <input id="podUrl" type="text" />
+            </label>
+        </div>
     </div>
-
-    <div class="form-section">
-      <div class="action">
-        <label>Username:</label><input type="text" id="podUsername">
-        <label class="next">Password:</label><input type="password" id="podPassword">
-      </div>
-      <div class="help">Enter credentials to access your pod (required)</div>
+    <div class="settings">
+        <div class="container">
+            <label>Username:
+                <input id="podUsername" type="text" />
+            </label>
+        </div>
     </div>
-
-    <button type="submit">Save preferences</button>
-    <div class="info">(!) Always save preferences to make them active.</div>
-  </form>
-  <script src="options.js"></script>
+    <div class="settings">
+        <div class="container">
+            <label>Password:
+                <input id="podPassword" type="password" />
+            </label>
+        </div>
+    </div>
+    <script src="options.js"></script>
 </body>
 
 </html>
