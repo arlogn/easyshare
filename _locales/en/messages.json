@@ -1,6 +1,6 @@
 {
-  "contextMenuItemOpenPublisher": {
+  "menuShareSelectedContent": {
     "message": "Share selected content",
-    "description": "Open publisher to share selected content"
+    "description": "Paste the content to the publisher to share on diaspora"
   }
 }
