@@ -420,7 +420,7 @@
             '" data-handler="' +
             sendHandler +'"> ' +
             this.__localize('Send') +
-            '<span class="fa fa-share"></span></button></div></div>' +
+            '<span class="fa fa-caret-right"></span></button></div></div>' +
             '<div class="footer-bar">diaspora* Easyshare</div>');
         } // end addition
 
@@ -595,7 +595,8 @@
           'data-provider': 'markdown-preview'
         }),
         content,
-        callbackContent;
+        callbackContent,
+        tags;
 
       if (this.$isPreview === true) {
         // Avoid sequenced element creation on missused scenario
@@ -612,6 +613,13 @@
       callbackContent = options.onPreview(this);
       // Set the content based from the callback content if string otherwise parse value from textarea
       content = typeof callbackContent == 'string' ? callbackContent : this.parseContent();
+
+      // Easyshare addition (add hashtags to content)
+      tags = this.__getHashtags();
+      if (tags) {
+        tags = tags.replace(/([^\s]+)\s?/g, "<a href='#'>$1</a> ");
+        content += '<p>' + tags + '</p>';
+      } // end addition
 
       // Build preview element
       replacementContainer.html(content);
@@ -1062,21 +1070,29 @@
         return null;
       }
     },
+    __getHashtags: function() {
+      var tags = this.$editor.find('.tags-area').val();
+
+      if (tags) {
+        tags = tags.replace(/#|\s/g, '')
+          .replace(/^(.*)/, '#$1')
+          .split(',')
+          .join(' #');
+
+        return tags;
+      } else {
+        return null;
+      }
+    },
     getPostPayload: function() {
       var content = this.getContent();
         
       if ($.trim(content).length > 0) {
-        var tagsEl = this.$editor.find('.tags-area'),
-        tags = tagsEl.val(),
-        aspectIds = [],
-        payload = {};
+        var aspectIds = [],
+          payload = {},
+          tags = this.__getHashtags();
 
         if (tags) {
-          tags = tags.replace(/#|\s/g, "")
-            .replace(/^(.*)/, "#$1")
-            .split(",")
-            .join(" #");
-
           content += '\n\n' + tags;
           tagsEl.val('');
         }
