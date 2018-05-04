@@ -85,6 +85,8 @@ label {
   padding: 5px;
   border: 1px solid #ddd;
   resize: none;
+  font-size: 13px;
+  letter-spacing: 1px;
 }
 
 .btn {
