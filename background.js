@@ -45,7 +45,7 @@ function parseMediaUrl(url) {
 
     // Twitter
     const twitterPattern = /https?:\/\/twitter\.com\/(.*)\/status(?:es)?\/([^\/\?]+)/;
-    match = url.match(soundcloudPattern);
+    match = url.match(twitterPattern);
     if (match)
         return `https://twitter.com/${match[1]}/status/${match[2]}`;
 
@@ -100,4 +100,3 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 
 browser.runtime.onInstalled.addListener(onInstalled);
-
