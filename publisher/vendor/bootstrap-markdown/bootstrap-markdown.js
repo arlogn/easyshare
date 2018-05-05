@@ -1,3 +1,4 @@
+/*jshint esversion: 6*/
 /* ===================================================
  * bootstrap-markdown.js v2.10.0
  * http://github.com/toopay/bootstrap-markdown
@@ -15,7 +16,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * Diaspora Easyshare
  * http://github.com/arlogn/easyshare
  * This file has been modified adding options and methods to be used
@@ -1070,14 +1071,17 @@
         return null;
       }
     },
-    __getHashtags: function() {
-      var tags = this.$editor.find('.tags-area').val();
+    __getHashtags: function(clean = false) {
+      var tagsEl = this.$editor.find('.tags-area'),
+        tags = tagsEl.val();
 
       if (tags) {
         tags = tags.replace(/#|\s/g, '')
           .replace(/^(.*)/, '#$1')
           .split(',')
           .join(' #');
+
+        if (clean) tagsEl.val('');
 
         return tags;
       } else {
@@ -1086,15 +1090,14 @@
     },
     getPostPayload: function() {
       var content = this.getContent();
-        
+
       if ($.trim(content).length > 0) {
         var aspectIds = [],
           payload = {},
-          tags = this.__getHashtags();
+          tags = this.__getHashtags(true);
 
         if (tags) {
           content += '\n\n' + tags;
-          tagsEl.val('');
         }
 
         payload.status_message = { 'text': content };
@@ -1102,7 +1105,7 @@
         this.$editor.find('.dropdown-menu > li.selected').each(function() {
           aspectIds.push($(this).attr('data-aspect_id'));
         });
-      
+
         payload.aspect_ids = aspectIds;
 
         return payload;
