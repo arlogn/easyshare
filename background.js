@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-var selContent = null;
+var postContent = null;
 
 
 function onInstalled(details) {
@@ -67,22 +67,22 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     // Default formatting the selected content
     if (info.hasOwnProperty("mediaType")) {
         if (info.mediaType === "image") {
-            selContent = `![Image](${info.srcUrl})\n\n#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
+            postContent = `![Image](${info.srcUrl})\n\n#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
         }
     } else {
         var mediaUrl = parseMediaUrl(info.pageUrl);
         if (mediaUrl) {
-            selContent = `#### ${tab.title} \n${mediaUrl}`;
+            postContent = `#### ${tab.title} \n${mediaUrl}`;
         } else {
-            selContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
+            postContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
         }
     }
 
     if (info.hasOwnProperty("selectionText")) {
-        if (selContent) {
-            selContent += `\n\n${info.selectionText}`;
+        if (postContent) {
+            postContent += `\n\n${info.selectionText}`;
         } else {
-            selContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})\n\n${info.selectionText}`;
+            postContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})\n\n${info.selectionText}`;
         }
     }
 
@@ -91,10 +91,10 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // Send the selected content when requested
+    // Send the post content when requested
     if (request === "getContent") {
-        sendResponse({ content: selContent });
-        if (selContent) selContent = null;
+        sendResponse({ content: postContent });
+        if (postContent) postContent = null;
     }
 });
 
