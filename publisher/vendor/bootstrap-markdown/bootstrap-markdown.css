@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'Arimo';
+  src: url('../../fonts/arimo/Arimo-Regular-webfont.eot');
+  src:
+    url('../../fonts/arimo/Arimo-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/arimo/Arimo-Regular-webfont.woff') format('woff'),
+    url('../../fonts/arimo/Arimo-Regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 .md-editor {
   display: block;
   border: 1px solid #ddd;
@@ -15,8 +25,8 @@
 }
 
 .md-editor>.md-preview {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 13px;
+  font-family: "Arimo", Helvetica, Arial, sans-serif;
+  font-size: 14px;
   background: #fff;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
@@ -32,9 +42,27 @@
 }
 
 .md-editor>.md-preview blockquote {
-	margin-left: 10px !important;
-	padding-left: 5px;
+  margin-left: 10px !important;
+  padding-left: 5px;
   border-left: 5px solid #ddd;
+}
+
+.md-editor>.md-preview .media {
+  width: 400px;
+  height: 250px;
+  background-color: rgba(0, 0, 0, .9);
+  position: relative;
+}
+
+.md-editor>.md-preview .media>span {
+  font-size: 62px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: rgba(255, 255, 255, .6);
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 1001;
 }
 
 .md-editor>textarea {
