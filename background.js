@@ -54,8 +54,8 @@ function parseMediaUrl(url) {
 
 
 browser.contextMenus.create({
-    id: "shareContentMenu",
-    title: browser.i18n.getMessage("menuShareSelectedContent"),
+    id: "shareThisContent",
+    title: browser.i18n.getMessage("menuItemShareThisContent"),
     contexts: ["selection", "image", "tab"]
 }, onCreated);
 
