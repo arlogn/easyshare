@@ -575,6 +575,11 @@
       // parse with supported markdown parser
       val = val || this.$textarea.val();
 
+      // Easyshare addition (always convert html to md)
+      if (typeof toMarkdown == 'function') {
+        val = toMarkdown(val);
+      } // end addition
+
       if (this.$options.parser) {
         content = this.$options.parser(val);
       } else if (typeof markdown == 'object') {
