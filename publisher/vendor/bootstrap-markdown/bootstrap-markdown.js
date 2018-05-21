@@ -19,12 +19,11 @@
  *
  * Diaspora Easyshare
  * http://github.com/arlogn/easyshare
- * This file has been modified adding options and methods to be used
- * with the Firefox add-on Diaspora Easyshare. All additions is prefixed
- * with a note including the string 'Easyshare addition' and are licensed
- * under the MIT license.
- * Markup and javascript for the aspects dropdown button derives from the
- * diaspora code that is covered by the GNU AGPL 3 license.
+ * This file was modified to be used as a publisher in the Firefox add-on
+ * Diaspora Easyshare. All changes and additions are preceded by a note
+ * and licensed under the MIT license.
+ * Markup and javascript for the aspects dropdown button are inspired by
+ * the code that handles the same button on diaspora.
  * ========================================================== */
 (function(factory) {
   if (typeof define === "function" && define.amd) {
