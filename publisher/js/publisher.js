@@ -1,169 +1,615 @@
 /*jshint esversion: 6*/
 
-const $editor = $("#editor");
+const PUBLISHER = document.querySelector( ".publisher" ),
+    EDITOR = PUBLISHER.querySelector( "#editor" );
 
-function onError(error) {
-    $editor
-        .val(error)
-        .css("color", "red");
+var isPreview = false;
 
-    console.log(error);
+function onError( error ) {
+    EDITOR.value = error;
+    EDITOR.style.color = "#f00";
+
+    console.log( error );
 }
 
-function onSuccess(message) {
-    $editor
-        .val(message)
-        .data("markdown")
-        .enableButtons("all");
+function onSuccess( message ) {
+    enableButtons( "all" );
+    EDITOR.value = message;
 }
 
-function updateAspectsDropdown(aspects, notify = false) {
-    $editor
-        .data("markdown")
-        .updateDropdown(aspects);
+function onSending( message ) {
+    disableButtons( "all" );
+    EDITOR.value = message;
+}
 
-    if (notify) {
-        onSuccess("Dropdown menu updated with your aspects.");
+function enableButtons( id ) {
+    if ( id === "all" ) {
+        Array.from( PUBLISHER.querySelectorAll( ".btn" ) )
+            .forEach( e => e.removeAttribute( "disabled" ) );
+    } else {
+        PUBLISHER.querySelector( id ).removeAttribute( "disabled" );
     }
 }
 
-function storeAspects(aspects) {
+function disableButtons() {
+    Array.from( PUBLISHER.querySelectorAll( ".btn" ) )
+        .forEach( e => e.setAttribute( "disabled", "disabled" ) );
+}
+
+function parseContent() {
+    var content = toMarkdown( EDITOR.value );
+
+    return markdown.toHTML( content );
+}
+
+function showPreview() {
+    var footer = PUBLISHER.querySelector( ".footer" ),
+        preview = document.createElement( "div" ),
+        content;
+
+    preview.classList.add( "preview" );
+
+    if ( isPreview === false ) {
+        isPreview = true;
+        disableButtons();
+        enableButtons( "#mdPreview" );
+        content = parseContent();
+        content = enhancePreview( content );
+        preview.innerHTML = content;
+        PUBLISHER.insertBefore( preview, footer );
+
+        preview.style.width = EDITOR.offsetWidth + "px";
+        preview.style.height = EDITOR.offsetHeight + "px";
+
+        EDITOR.style.display = "none";
+    }
+}
+
+function hidePreview() {
+    isPreview = false;
+    PUBLISHER.querySelector( ".preview" ).remove();
+    enableButtons( "all" );
+    EDITOR.style.display = "";
+}
+
+function enhancePreview( content ) {
+    // Enhance the preview to view the post as it will be displayed in diaspora
+    var tags = getHashtags(),
+        preview = content;
+
+    if ( tags ) {
+        // append hashtags
+        preview += "<p>" + tags + "</p>";
+    }
+
+    // Preserve line breaks, linkify URL and hashtags
+    preview = preview.replace( /(\S)\n(\S)/g, "$1<br>$2" );
+    preview = preview.replace( /(^|\s|\>)(https?:\/\/[\w-]+\.[-\w:%\+.~#?&//=]{2,})/g, '$1<a href="$2">$2</a>' );
+    preview = preview.replace( /(^|\s|\>)(#[\w-]+)/g, '$1<a href="#">$2</a>' );
+
+    return preview;
+}
+
+function getSelection() {
+    var len = EDITOR.selectionEnd - EDITOR.selectionStart;
+
+    return {
+        start: EDITOR.selectionStart,
+        end: EDITOR.selectionEnd,
+        length: len,
+        text: EDITOR.value.substr( EDITOR.selectionStart, len )
+    };
+}
+
+function setSelection( start, end ) {
+    EDITOR.selectionStart = start;
+    EDITOR.selectionEnd = end;
+}
+
+function replaceSelection( text ) {
+    EDITOR.value = EDITOR.value.substr( 0, EDITOR.selectionStart ) +
+        text + EDITOR.value.substr( EDITOR.selectionEnd, EDITOR.value.length );
+    EDITOR.selectionStart = EDITOR.value.length;
+}
+
+function applyMdBold() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "strong text";
+    } else {
+        chunk = selected.text;
+    }
+
+    if ( content.substr( selected.start - 2, 2 ) === "**" &&
+        content.substr( selected.end, 2 ) === "**" ) {
+        setSelection( selected.start - 2, selected.end + 2 );
+        replaceSelection( chunk );
+        cursor = selected.start - 2;
+    } else {
+        replaceSelection( "**" + chunk + "**" );
+        cursor = selected.start + 2;
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdItalic() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "emphasized text";
+    } else {
+        chunk = selected.text;
+    }
+
+    if ( content.substr( selected.start - 1, 1 ) === "_" &&
+        content.substr( selected.end, 1 ) === "_" ) {
+        setSelection( selected.start - 1, selected.end + 1 );
+        replaceSelection( chunk );
+        cursor = selected.start - 1;
+    } else {
+        replaceSelection( "_" + chunk + "_" );
+        cursor = selected.start + 1;
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdHeading() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value,
+        pointer, prevChar;
+
+    if ( selected.length === 0 ) {
+        chunk = "heading text";
+    } else {
+        chunk = selected.text + "\n";
+    }
+
+    if ( ( pointer = 4, content.substr( selected.start - pointer, pointer ) === "### " ) ||
+        ( pointer = 3, content.substr( selected.start - pointer, pointer ) === "###" ) ) {
+        setSelection( selected.start - pointer, selected.end );
+        replaceSelection( chunk );
+        cursor = selected.start - pointer;
+    } else if ( selected.start > 0 &&
+        ( prevChar = content.substr( selected.start - 1, 1 ), !!prevChar && prevChar != "\n" ) ) {
+        replaceSelection( "\n\n### " + chunk );
+        cursor = selected.start + 6;
+    } else {
+        replaceSelection( "### " + chunk );
+        cursor = selected.start + 4;
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdLink() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "enter link description here";
+    } else {
+        chunk = selected.text;
+    }
+
+    replaceSelection( "[" + chunk + "](enter hyperlink here)" );
+    cursor = selected.start + 1;
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdImage() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "enter image description here";
+    } else {
+        chunk = selected.text;
+    }
+
+    replaceSelection( "![" + chunk + '](enter image hyperlink here "enter image title here")' );
+    cursor = selected.start + 2;
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdUnorderedList() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "list text here";
+        replaceSelection( "- " + chunk );
+        cursor = selected.start + 2;
+    } else {
+        if ( selected.text.indexOf( "\n" ) < 0 ) {
+            chunk = selected.text;
+            replaceSelection( "- " + chunk );
+            cursor = selected.start + 2;
+        } else {
+            var list = [];
+
+            list = selected.text.split( "\n" );
+            chunk = list[ 0 ];
+
+            list.forEach( ( item, i ) => {
+                list[ i ] = "- " + item;
+            } );
+
+            replaceSelection( "\n\n" + list.join( "\n" ) );
+            cursor = selected.start + 4;
+        }
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdOrderedList() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "list text here";
+        replaceSelection( "1. " + chunk );
+        cursor = selected.start + 3;
+    } else {
+        if ( selected.text.indexOf( "\n" ) < 0 ) {
+            chunk = selected.text;
+            replaceSelection( "1. " + chunk );
+            cursor = selected.start + 3;
+        } else {
+            var n = 1,
+                list = [];
+
+            list = selected.text.split( "\n" );
+            chunk = list[ 0 ];
+
+            list.forEach( ( item, i ) => {
+                list[ i ] = n + ". " + item;
+                n++;
+            } );
+
+            replaceSelection( "\n\n" + list.join( "\n" ) );
+            cursor = selected.start + 5;
+        }
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdCode() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "code text here";
+    } else {
+        chunk = selected.text;
+    }
+
+    if ( content.substr( selected.start - 4, 4 ) === "```\n" &&
+        content.substr( selected.end, 4 ) === "\n```" ) {
+        setSelection( selected.start - 4, selected.end + 4 );
+        replaceSelection( chunk );
+        cursor = selected.start - 4;
+    } else if ( content.substr( selected.start - 1, 1 ) === "`" &&
+        content.substr( selected.end, 1 ) === "`" ) {
+        setSelection( selected.start - 1, selected.end + 1 );
+        replaceSelection( chunk );
+        cursor = selected.start - 1;
+    } else if ( content.indexOf( "\n" ) > -1 ) {
+        replaceSelection( "```\n" + chunk + "\n```" );
+        cursor = selected.start + 4;
+    } else {
+        replaceSelection( "`" + chunk + "`" );
+        cursor = selected.start + 1;
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function applyMdQuote() {
+    var chunk, cursor, selected = getSelection(),
+        content = EDITOR.value;
+
+    if ( selected.length === 0 ) {
+        chunk = "quote here";
+        replaceSelection( "> " + chunk );
+        cursor = selected.start + 2;
+    } else {
+        if ( selected.text.indexOf( "\n" ) < 0 ) {
+            chunk = selected.text;
+            replaceSelection( "> " + chunk );
+            cursor = selected.start + 2;
+        } else {
+            var list = [];
+
+            list = selected.text.split( "\n" );
+            chunk = list[ 0 ];
+
+            list.forEach( ( item, i ) => {
+                list[ i ] = "> " + item;
+            } );
+
+            replaceSelection( "\n\n" + list.join( "\n" ) );
+            cursor = selected.start + 4;
+        }
+    }
+
+    setSelection( cursor, cursor + chunk.length );
+}
+
+function handleMarkdownButtons( event ) {
+    // Handling click on markdown buttons
+    EDITOR.focus();
+    switch ( event.target.id ) {
+        case "mdBold":
+            applyMdBold();
+            break;
+        case "mdItalic":
+            applyMdItalic();
+            break;
+        case "mdHeading":
+            applyMdHeading();
+            break;
+        case "mdLink":
+            applyMdLink();
+            break;
+        case "mdImage":
+            applyMdImage();
+            break;
+        case "mdUlist":
+            applyMdUnorderedList();
+            break;
+        case "mdOlist":
+            applyMdOrderedList();
+            break;
+        case "mdCode":
+            applyMdCode();
+            break;
+        case "mdQuote":
+            applyMdQuote();
+            break;
+        case "mdPreview":
+            if ( isPreview === false ) {
+                showPreview();
+            } else {
+                hidePreview();
+            }
+            break;
+        default:
+            console.log( "Something went wrong clicking a markdown button!" );
+    }
+}
+
+function getHashtags( clean = false ) {
+    // Sanitize and get the hashtags (if entered)
+    var tagsInput = PUBLISHER.querySelector( "#tags" ),
+        tags = tagsInput.value;
+
+    if ( tags ) {
+        tags = tags.replace( /#|\s/g, "" )
+            .replace( /^(.*)/, "#$1" )
+            .split( "," )
+            .join( " #" );
+
+        // Clean up while sending the post
+        if ( clean ) tagsInput.value = "";
+
+        return tags;
+    }
+
+    return null;
+}
+
+function getPayload() {
+    // Get the payload object to send to the pod
+    var content = EDITOR.value;
+
+    if ( content.trim().length > 0 ) {
+        var aspectIds = [],
+            payload = {},
+            tags = getHashtags( true );
+
+        if ( tags ) {
+            content += "\n\n" + tags;
+        }
+
+        payload.status_message = {
+            "text": content
+        };
+
+        Array.from( PUBLISHER.querySelectorAll( ".dropdown-menu > li.selected" ) )
+            .forEach( e => aspectIds.push( e.getAttribute( "data-aspect_id" ) ) );
+
+        payload.aspect_ids = aspectIds;
+
+        return payload;
+    }
+
+    return null;
+}
+
+function updateDropdown( aspects, notify = false ) {
+    // Append the user aspects to the dropdown menu
+    var dropdownMenu = PUBLISHER.querySelector( ".dropdown-menu" ),
+        divider,
+        item;
+
+    Array.from( dropdownMenu.querySelectorAll( "li" ) )
+        .forEach( e => {
+            if ( e.matches( ".selector" ) || e.matches( ".divider" ) ) {
+                e.remove();
+            }
+        } );
+    divider = document.createElement( "li" );
+    divider.classList.add( "divider" );
+    dropdownMenu.appendChild( divider );
+    aspects.forEach( ( item, i ) => {
+        dropdownMenu.insertAdjacentHTML( "beforeend", '<li class="selector" data-aspect_id="' +
+            item.id + '"><a><span class="fa fa-check"></span><span class="text">' +
+            item.name + "</span></a></li>" );
+    } );
+
+    // Notify if update after downloading
+    if ( notify ) {
+        onSuccess( "Dropdown menu updated with your aspects." );
+    }
+}
+
+function getClosest( element, selector ) {
+    // Get the closest parent element
+    // source http://gomakethings.com/climbing-up-and-down-the-dom-tree-with-vanilla-javascript/
+    for ( ; element && element !== document; element = element.parentNode ) {
+        if ( element.matches( selector ) ) return element;
+    }
+
+    return null;
+}
+
+function toggleDropdown( event ) {
+    // Toggle aspects dropdown menu with multiple selections
+    var target = getClosest( event.target, "li" );
+
+    if ( target && !target.matches( ".divider" ) ) {
+        var dropdownMenu = event.currentTarget,
+            button = dropdownMenu.previousElementSibling,
+            icon = button.firstChild,
+            text,
+            selected;
+
+        if ( target.matches( "li.radio" ) ) {
+            Array.from( target.parentNode.querySelectorAll( "li" ) )
+                .forEach( e => e.classList.remove( "selected" ) );
+        } else if ( target.matches( "li.selector" ) ) {
+            event.stopPropagation();
+            Array.from( target.parentNode.querySelectorAll( "li.radio" ) )
+                .forEach( e => e.classList.remove( "selected" ) );
+        }
+
+        target.classList.toggle( "selected" );
+
+        selected = dropdownMenu.querySelectorAll( "li.selected" ).length;
+
+        if ( selected === 0 ) {
+            dropdownMenu.firstChild.classList.add( "selected" );
+            text = "Public";
+        } else {
+            if ( selected === 1 ) {
+                text = dropdownMenu.querySelector( "li.selected .text" ).textContent;
+            } else {
+                text = "in " + selected.toString() + " aspects";
+            }
+        }
+
+        icon.nextElementSibling.textContent = text;
+
+        if ( text === "Public" ) {
+            icon.classList.remove( "fa-lock" );
+            icon.classList.add( "fa-unlock" );
+        } else {
+            icon.classList.remove( "fa-unlock" );
+            icon.classList.add( "fa-lock" );
+        }
+    }
+}
+
+function storeAspects( aspects ) {
     try {
-        let aspectsObj = JSON.parse(aspects);
+        var aspectsObj = JSON.parse( aspects );
 
-        // Remove unnecessary items
-        $.each(aspectsObj, (index, value) => {
-            delete value.selected;
-        });
+        // Remove useless items
+        aspectsObj.forEach( ( item, i ) => {
+            delete item.selected;
+        } );
 
-        browser.storage.local.set({
+        browser.storage.local.set( {
             aspects: aspectsObj
-        }).then(() => {
-            updateAspectsDropdown(aspectsObj, true);
-        });
-    } catch (e) {
-        onError("An error occurred while parsing the aspects list.");
+        } ).then( () => {
+            updateDropdown( aspectsObj, true );
+        } );
+    } catch ( e ) {
+        onError( "An error occurred while parsing the aspects list." );
     }
+}
+
+function send( diaspora, payload = null ) {
+    diaspora.retrieveToken()
+        .then( response => {
+            if ( response.error ) {
+                throw response.error;
+            }
+            if ( payload ) {
+                return diaspora.postMessage( response.token, payload )
+                    .then( response => {
+                        if ( response.error ) {
+                            throw response.error;
+                        }
+
+                        onSuccess( response.success );
+                    } );
+            } else {
+                return diaspora.retrieveAspects()
+                    .then( response => {
+                        if ( response.error ) {
+                            throw response.error;
+                        }
+
+                        storeAspects( response.aspects );
+                    } );
+            }
+        } )
+        .catch( onError );
 }
 
 function init() {
-    var diaspora = {},
-        send = function (payload = null) {
-            diaspora.retrieveToken()
-                .then(response => {
-                    if (response.error) {
-                        throw response.error;
-                    }
-                    if (payload) {
-                        return diaspora.postMessage(response.token, payload)
-                            .then(response => {
-                                if (response.error) {
-                                    throw response.error;
-                                }
+    // Get all stored data
+    var storedData = browser.storage.local.get();
 
-                                onSuccess(response.success);
-                            });
-                    } else {
-                        return diaspora.retrieveAspects()
-                            .then(response => {
-                                if (response.error) {
-                                    throw response.error;
-                                }
-
-                                storeAspects(response.aspects);
-                            });
-                    }
-                })
-                .catch(onError);
-        };
-
-    $editor.markdown({
-        fullscreen: [{
-            enabled: false
-        }],
-        additionalButtons: [
-            [{
-                name: "groupCustom",
-                data: [{
-                        name: "getAspects",
-                        toggle: false,
-                        title: "Get your aspects",
-                        icon: {
-                            fa: "fa fa-arrow-down"
-                        },
-                        btnText: "Get aspects",
-                        btnClass: "btn btn-primary",
-                        btnType: "button",
-                        callback: function (e) {
-                            e.disableButtons("all");
-                            e.setContent("Wait ...");
-                            send();
-                        }
-                    },
-                    {
-                        name: "selectAspects",
-                        toggle: true,
-                        icon: "",
-                        defaults: [{
-                            button: [{
-                                text: "All Aspects",
-                                icon: "fa-lock"
-                            }],
-                            menu: [{
-                                    id: "public",
-                                    text: "Public",
-                                    selected: false
-                                },
-                                {
-                                    id: "all_aspects",
-                                    text: "All aspects",
-                                    selected: true
-                            }]
-                        }],
-                        btnClass: "btn dropdown-toggle btn-dropdown",
-                        btnType: "dropdown"
-                    }
-                ]
-            }]
-        ],
-        addFooter: true,
-        onSend: function (e) {
-            var payload = e.getPostPayload();
-            if (payload) {
-                e.disableButtons("all");
-                e.setContent("Wait ...");
-                send(payload);
-            }
-        }
-    });
-
-    let storedData = browser.storage.local.get();
-
-    storedData.then(data => {
+    storedData.then( data => {
         // Check if all required settings are entered
-        if (!data.url || !data.username || !data.password) {
-            $editor
-                .data("markdown")
-                .disableButtons("all");
+        if ( !data.url || !data.username || !data.password ) {
+            disableButtons();
 
-            onError("Please enter all required settings before starting to share.");
+            onError( "Please enter all required settings before starting to share." );
         } else {
-            if (data.aspects) {
-                // Update the dropdown menu if the list of aspects is stored
-                updateAspectsDropdown(data.aspects);
+            // Initialize all publisher components
+
+            // Instantiate the diaspora communication class
+            var diaspora = new diasporaAjax( data.url, data.username, data.password );
+
+            // Add click event listeners to buttons
+            PUBLISHER.querySelector( ".md-buttons" ).addEventListener( "click", handleMarkdownButtons );
+            PUBLISHER.querySelector( "#getAspects" ).addEventListener( "click", () => {
+                onSending( "Getting aspects ..." );
+                send( diaspora );
+            } );
+            PUBLISHER.querySelector( ".dropdown-menu" ).addEventListener( "click", toggleDropdown );
+            PUBLISHER.querySelector( "#sendPost" ).addEventListener( "click", () => {
+                var payload = getPayload();
+                if ( payload && typeof payload === "object" ) {
+                    onSending( "Sending the post ..." );
+                    send( diaspora, payload );
+                }
+            } );
+
+            // If storage contains the user aspects list update the dropdown
+            if ( data.aspects ) {
+                updateDropdown( data.aspects );
             }
 
-            diaspora = new diasporaAjax(data.url, data.username, data.password);
-
-            // Send a message to receive the content to be included in the editor
-            browser.runtime.sendMessage("getContent")
-                .then(response => {
-                    if (response.content) {
-                        $editor.val(response.content);
+            // Send a message to receive the content to be included in the editor textarea
+            browser.runtime.sendMessage( "getContent" )
+                .then( response => {
+                    if ( response.content ) {
+                        EDITOR.value = response.content;
                     }
-                }, onError);
+                }, onError );
         }
-    });
+    } );
 }
 
 init();
