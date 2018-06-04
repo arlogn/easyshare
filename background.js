@@ -16,7 +16,7 @@ function onCreated() {
     if (browser.runtime.lastError) {
         console.log(`Error: ${browser.runtime.lastError}`);
     } else {
-        console.log("Easyshare menu added successfully");
+        console.log("Easyshare menu created successfully");
     }
 }
 
@@ -56,25 +56,36 @@ function parseMediaUrl(url) {
 browser.contextMenus.create({
     id: "shareThisContent",
     title: browser.i18n.getMessage("menuItemShareThisContent"),
-    contexts: ["selection", "image", "tab"]
+    contexts: ["selection", "image", "video", "audio", "link", "page"]
 }, onCreated);
 
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
-    // Escape underscores and asterisks in the links label to avoid markdown error in preview
-    var linkText = info.pageUrl.replace(/(_|\*)/g, "\\$1");
 
-    // Default formatting the selected content
+    // Default formatting the collected content
     if (info.hasOwnProperty("mediaType")) {
         if (info.mediaType === "image") {
-            postContent = `![Image](${info.srcUrl})\n\n#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
+            if (info.linkUrl) {
+                postContent = `[![Image](${info.srcUrl}) ](${info.linkUrl})\n\n### ${tab.title}\n${info.pageUrl}`;
+            } else {
+                postContent = `![Image](${info.srcUrl})\n\n### ${tab.title}\n${info.pageUrl}`;
+            }
+        } else if (info.mediaType === "video" || info.mediaType === "audio") {
+            postContent = `### ${tab.title}\n${info.srcUrl}`;
         }
     } else {
-        var mediaUrl = parseMediaUrl(info.pageUrl);
-        if (mediaUrl) {
-            postContent = `#### ${tab.title} \n${mediaUrl}`;
+        if (info.linkUrl) {
+            postContent = `[${info.linkText}](${info.linkUrl})`;
         } else {
-            postContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})`;
+            var mediaUrl = parseMediaUrl(info.pageUrl);
+            if (mediaUrl) {
+                postContent = `### ${tab.title} \n${mediaUrl}`;
+            }
+            else {
+                if (!postContent) {
+                    postContent = `### ${tab.title}\n${info.pageUrl}`;
+                }
+            }
         }
     }
 
@@ -82,7 +93,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
         if (postContent) {
             postContent += `\n\n${info.selectionText}`;
         } else {
-            postContent = `#### ${tab.title}\n[${linkText}](${info.pageUrl})\n\n${info.selectionText}`;
+            postContent = `### ${tab.title}\n${info.pageUrl}\n\n${info.selectionText}`;
         }
     }
 
