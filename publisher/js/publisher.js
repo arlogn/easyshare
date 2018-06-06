@@ -37,9 +37,19 @@ function disableButtons() {
 }
 
 function parseContent() {
-    var content = toMarkdown( EDITOR.value );
+    var content = EDITOR.value,
+        tags = getHashtags(),
+        md = window.markdownit( {
+            html: true,
+            breaks: true,
+            linkify: true
+        } ).use( window.markdownitHashtag );
 
-    return markdown.toHTML( content );
+    if ( tags ) {
+        content += "<p>" + tags + "</p>";
+    }
+
+    return md.render( content );
 }
 
 function showPreview() {
@@ -54,7 +64,6 @@ function showPreview() {
         disableButtons();
         enableButtons( "#mdPreview" );
         content = parseContent();
-        content = enhancePreview( content );
         preview.innerHTML = content;
         PUBLISHER.insertBefore( preview, footer );
 
@@ -70,24 +79,6 @@ function hidePreview() {
     PUBLISHER.querySelector( ".preview" ).remove();
     enableButtons( "all" );
     EDITOR.style.display = "";
-}
-
-function enhancePreview( content ) {
-    // Enhance the preview to view the post as it will be displayed in diaspora
-    var tags = getHashtags(),
-        preview = content;
-
-    if ( tags ) {
-        // append hashtags
-        preview += "<p>" + tags + "</p>";
-    }
-
-    // Preserve line breaks, linkify URL and hashtags
-    preview = preview.replace( /(\S)\n(\S)/g, "$1<br>$2" );
-    preview = preview.replace( /(^|\s|\>)(https?:\/\/[\w-]+\.[-\w:%\+.~#?&//=]{2,})/g, '$1<a href="$2">$2</a>' );
-    preview = preview.replace( /(^|\s|\>)(#[\w-]+)/g, '$1<a href="#">$2</a>' );
-
-    return preview;
 }
 
 function getSelection() {
