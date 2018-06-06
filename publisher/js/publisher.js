@@ -122,6 +122,7 @@ function applyMdBold() {
         chunk = selected.text;
     }
 
+    // Apply/remove Bold syntax (**)
     if ( content.substr( selected.start - 2, 2 ) === "**" &&
         content.substr( selected.end, 2 ) === "**" ) {
         setSelection( selected.start - 2, selected.end + 2 );
@@ -145,6 +146,7 @@ function applyMdItalic() {
         chunk = selected.text;
     }
 
+    // Apply/remove Italic syntax (_)
     if ( content.substr( selected.start - 1, 1 ) === "_" &&
         content.substr( selected.end, 1 ) === "_" ) {
         setSelection( selected.start - 1, selected.end + 1 );
@@ -169,6 +171,7 @@ function applyMdHeading() {
         chunk = selected.text + "\n";
     }
 
+    // Apply/remove Heading 3 syntax (###)
     if ( ( pointer = 4, content.substr( selected.start - pointer, pointer ) === "### " ) ||
         ( pointer = 3, content.substr( selected.start - pointer, pointer ) === "###" ) ) {
         setSelection( selected.start - pointer, selected.end );
@@ -196,6 +199,7 @@ function applyMdLink() {
         chunk = selected.text;
     }
 
+    // Apply Link syntax ([]())
     replaceSelection( "[" + chunk + "](enter hyperlink here)" );
     cursor = selected.start + 1;
     setSelection( cursor, cursor + chunk.length );
@@ -211,6 +215,7 @@ function applyMdImage() {
         chunk = selected.text;
     }
 
+    // Apply Image syntax (![]())
     replaceSelection( "![" + chunk + '](enter image hyperlink here "enter image title here")' );
     cursor = selected.start + 2;
     setSelection( cursor, cursor + chunk.length );
@@ -220,6 +225,7 @@ function applyMdUnorderedList() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
+    // Apply Unordered List syntax (- )
     if ( selected.length === 0 ) {
         chunk = "list text here";
         replaceSelection( "- " + chunk );
@@ -251,6 +257,7 @@ function applyMdOrderedList() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
+    // Apply Ordered List syntax (1. )
     if ( selected.length === 0 ) {
         chunk = "list text here";
         replaceSelection( "1. " + chunk );
@@ -290,6 +297,7 @@ function applyMdCode() {
         chunk = selected.text;
     }
 
+    // Apply/remove Code syntax (`)
     if ( content.substr( selected.start - 4, 4 ) === "```\n" &&
         content.substr( selected.end, 4 ) === "\n```" ) {
         setSelection( selected.start - 4, selected.end + 4 );
@@ -315,6 +323,7 @@ function applyMdQuote() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
+    // Apply Quote syntax (> )
     if ( selected.length === 0 ) {
         chunk = "quote here";
         replaceSelection( "> " + chunk );
@@ -343,7 +352,7 @@ function applyMdQuote() {
 }
 
 function handleMarkdownButtons( event ) {
-    // Handling click on markdown buttons
+    // Handle click events on buttons to apply md syntax
     EDITOR.focus();
     switch ( event.target.id ) {
         case "mdBold":
@@ -386,17 +395,18 @@ function handleMarkdownButtons( event ) {
 }
 
 function getHashtags( clean = false ) {
-    // Sanitize and get the hashtags (if entered)
+    // Get hashtags from the input box
     var tagsInput = PUBLISHER.querySelector( "#tags" ),
         tags = tagsInput.value;
 
+    // Make sure they are correct
     if ( tags ) {
         tags = tags.replace( /#|\s/g, "" )
             .replace( /^(.*)/, "#$1" )
             .split( "," )
             .join( " #" );
 
-        // Clean up while sending the post
+        // Clean up the box if requested
         if ( clean ) tagsInput.value = "";
 
         return tags;
@@ -406,9 +416,9 @@ function getHashtags( clean = false ) {
 }
 
 function getPayload() {
-    // Get the payload object to send to the pod
     var content = EDITOR.value;
 
+    // Create the payload object to send to the pod
     if ( content.trim().length > 0 ) {
         var aspectIds = [],
             payload = {},
@@ -434,17 +444,19 @@ function getPayload() {
 }
 
 function updateDropdown( aspects, notify = false ) {
-    // Append the user aspects to the dropdown menu
     var dropdownMenu = PUBLISHER.querySelector( ".dropdown-menu" ),
         divider,
         item;
 
+    // Remove old items
     Array.from( dropdownMenu.querySelectorAll( "li" ) )
         .forEach( e => {
             if ( e.matches( ".selector" ) || e.matches( ".divider" ) ) {
                 e.remove();
             }
         } );
+
+    // Append divider and user aspects list
     divider = document.createElement( "li" );
     divider.classList.add( "divider" );
     dropdownMenu.appendChild( divider );
@@ -462,7 +474,7 @@ function updateDropdown( aspects, notify = false ) {
 
 function getClosest( element, selector ) {
     // Get the closest parent element
-    // source http://gomakethings.com/climbing-up-and-down-the-dom-tree-with-vanilla-javascript/
+    // source: http://gomakethings.com/climbing-up-and-down-the-dom-tree-with-vanilla-javascript/
     for ( ; element && element !== document; element = element.parentNode ) {
         if ( element.matches( selector ) ) return element;
     }
@@ -471,9 +483,9 @@ function getClosest( element, selector ) {
 }
 
 function toggleDropdown( event ) {
-    // Toggle aspects dropdown menu with multiple selections
     var target = getClosest( event.target, "li" );
 
+    // Toggle aspects dropdown & manage multiple selections
     if ( target && !target.matches( ".divider" ) ) {
         var dropdownMenu = event.currentTarget,
             button = dropdownMenu.previousElementSibling,
@@ -526,6 +538,7 @@ function storeAspects( aspects ) {
             delete item.selected;
         } );
 
+        // Store then update
         browser.storage.local.set( {
             aspects: aspectsObj
         } ).then( () => {
@@ -537,6 +550,7 @@ function storeAspects( aspects ) {
 }
 
 function send( diaspora, payload = null ) {
+    // Send requests to the pod
     diaspora.retrieveToken()
         .then( response => {
             if ( response.error ) {
@@ -596,12 +610,12 @@ function init() {
                 }
             } );
 
-            // If storage contains the user aspects list update the dropdown
+            // If storage contains the user aspects, update the dropdown
             if ( data.aspects ) {
                 updateDropdown( data.aspects );
             }
 
-            // Send a message to receive the content to be included in the editor textarea
+            // Send a message to receive the content to include in the editor
             browser.runtime.sendMessage( "getContent" )
                 .then( response => {
                     if ( response.content ) {
