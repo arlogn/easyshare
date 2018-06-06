@@ -299,7 +299,7 @@ function applyMdCode() {
         setSelection( selected.start - 1, selected.end + 1 );
         replaceSelection( chunk );
         cursor = selected.start - 1;
-    } else if ( content.indexOf( "\n" ) > -1 ) {
+    } else if ( chunk.indexOf( "\n" ) > -1 ) {
         replaceSelection( "```\n" + chunk + "\n```" );
         cursor = selected.start + 4;
     } else {
