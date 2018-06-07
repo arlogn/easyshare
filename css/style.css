@@ -57,6 +57,7 @@ a:hover {
 }
 
 .section {
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -79,6 +80,20 @@ ol li {
   margin-left: 30px;
 }
 
+.inner {
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+
+.note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  display: block;
+  background-color: #eee;
+  margin-top: 5px;
+  padding: 8px;
+}
+
 .responsive {
   width: 100%;
   height: auto;
@@ -92,4 +107,8 @@ ol li {
 
 .section .title.first {
   margin-top: 0;
+}
+
+.browny {
+  color: brown;
 }

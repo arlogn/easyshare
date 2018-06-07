@@ -8,8 +8,14 @@
     <title>Diaspora* Easyshare</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="icons/favicon.png">
+	<script>
+		var q = window.location.search.substring(3);
+        if (q == "update") {
+			window.location.replace('update.html');
+        }
+    </script>
     <!-- Fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:600,400|Lato:300" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato:300|IBM+Plex+Mono:300" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -18,52 +24,70 @@
     <div class="container">
         <div class="header">
             <h1>DIASPORA* EASYSHARE</h1>
-            <h3>Firefox Add-on</h3>
+            <h3>Firefox add-on</h3>
+            <p>Extend the right-click context menu with the ability to share web content on your diaspora* pod.<br>Edit and preview the post in a publisher which popup from the browser toolbar.</p>
         </div>
         <div class="section">
-            Latest version: 0.15.0
+            Latest version: 0.16.0
             <br>
-            <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/">install</a>
+            <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/">install</a> (require Firefox 57+)
         </div>
         <div class="section">
-            <h4>About migration to WebExtensions</h4>
-            <ul>
-                <li>From version 0.14.1 the addon has migrated to the Webextensions APIs, to allow it to work with Firefox 57 Quantum.</li>
-                <li>This update makes Easyshare a bit different from the legacy version. Some features are added and other are no longer there.
-                    <br>The most relevant differences are:</li>
-                <li>
-                    <ol>
-                        <li>The panel looks like the publisher used by diaspora. Better markdown and preview of the post.</li>
-                        <li>The panel now opens below the toolbar icon.</li>
-                        <li>It's no longer possible to shorten URLs by linking your Bitly account.</li>
-                        <li>It's no longer possible to display the status message provider in the post.</li>
-                        <li>It's currently localized only in english.</li>
-                    </ol>
-                </li>
-            </ul>
-            <img class="resp" src="images/easyshare0141.jpg" alt="Easyshare">
+            <img class="responsive" src="images/easyshare0160.jpg" alt="Easyshare">
         </div>
         <div class="section">
             <h4>Getting started</h4>
             <ul>
-                <li>After installing the add-on you have to enter URL and credentials of your pod in the Preferences. That's all. Now you can surfing the web and choose the content to share using the right click context menu.</li>
+                <li class="title">Preferences</li>
+                <li>After installing the add-on you have to enter URL and credentials of your pod in the Preferences.</li>
                 <li class="title">Get your aspects</li>
-                <li>At first the aspects dropdown it permits to share only Public or All-Aspects. Use the 'Get aspects' button to update it with all your aspects.</li>
+                <li>The dropdown menu to select aspects initially contains only Public and All-aspects. Use the button <span class="browny">Get Aspects</span> to update it with all your aspects.</li>
             </ul>
         </div>
-        <div class="section">
-            <h4>Usage tips</h4>
+        <div id="usage" class="section">
+            <h4>Usage</h4>
             <ul>
-                <li class="title first">Defaults</li>
-                <li>When you right click an image or a selection of text also the page title and the page link are added to the editor.</li>
-                <li class="title">Share only title and link of the page</li>
-                <li>Simply right click the page tab.</li>
-                <li class="title">Share video, audio and other multimedia resources</li>
-                <li>Right clicking the tab is also useful to share video, audio and other media resources. In these cases the page URL is passed as-is, without formatting, to allow the embedding of the media in the post.</li>
-                <li class="title">Share image and text together</li>
-                <li>First select the text and then right click the image.</li>
-                <li class="title">Tags</li>
-                <li>Tags must be separated by a comma and can be entered with or without the hash symbol.</li>
+                <li>The conventional use is via the context menu item (<span class="browny">Share this content</span>) that allows you to add the markdown representation of the content chosen within the publisher. But you can also simply open the publisher and enter whatever you want.</li>
+                <li class="title">The context menu</li>
+				<li>The list of contexts in which the menu item will appear:</li>
+                <li>
+                    <ul class="inner">
+                        <li class="title">Image</li>
+                        <li>Displayed when you context-click an image in the page.
+                            <span class="note">Note:<br>
+                            if the image is wrapped with an anchor, the link is preserved.<br>
+                            Keep in mind that the menu item only appears on inline images, not on images added via css or javascript.</span>
+                        </li>
+						<li class="title">Selection</li>
+                        <li>Displayed when you context-click a selection in the page. This is generally used to select text, which can be added whitin the publisher along with other content.
+                            <span class="note">Some examples:<br>
+                            - select some text and context-click an image<br>- select some text and context-click a video<br>- select some text and context-click a link.</span>
+                        </li>
+                        <li class="title">Link</li>
+                        <li>Displayed when you context-click a link in the page.
+                            <span class="note">Note:<br>
+                            this is the only element added without the page title and the page URL.</span>
+                        </li>
+                        <li class="title">Audio/Video</li>
+                        <li>Displayed when you context-click html5 audio/video elements in the page.
+                            <span class="note">Note:<br>
+                            diaspora has added support for embedding html5 audio/video from version 0.7.4.0.<br>
+                            Also note that this fails on html5 videos from Youtube because its player dynamically construct the stream. Look at the note below to know on how to pass the video URL from Youtube.</span>
+                        </li>
+						<li class="title">Page</li>
+						<li>Displayed when you context-click the page. This refers to click on any place in the page but not on other contexts. Allows you to add the page title and page link within the editor.
+                            <span class="note">Note:<br>
+                            this can also be used to share all those resources &mdash; from media sharing sites as Youtube, Vimeo, Soundcloud or Twitter &mdash; that are embedded posting their URLs.<br>
+                            What to click in this pages:<br>
+                            - Youtube: in the video page, context-click anywere but not on the video or other contexts.<br>
+                            - Vimeo: in the video page, context-click the video.<br>
+                            - Soundcloud: in the track page, context-click the player.<br>
+                            - Twitter: open a tweet and context-click anywere but not on other contexts.</span>
+                        </li>
+                    </ul>
+                </li>
+                <li class="title">The tags input box</li>
+                <li>This box permits to enter tags at the end of the post in a simpler and faster way. You can enter them without the hash and with or without spaces between them, simply by separating them with a comma.<br>But of course, you can also enter tags directly within the editor.</li>
             </ul>
         </div>
         <div class="section">
@@ -84,16 +108,15 @@
                 <li>Licensed under The MIT License (MIT).</li>
             </ul>
         </div>
+        <div class="section">
+            <h4>Credits</h4>
+            <ul>
+                <li><a href="https://github.com/markdown-it/markdown-it">markdown-it</a> - The markdown parser</li>
+                <li><a href="https://github.com/svbergerem/markdown-it-hashtag">markdown-it-hashtag</a> - A markdown-it extension to linkify hashtags</a></li>
+				<li><a href="https://github.com/toopay/bootstrap-markdown">Bootstrap Markdown</a> - A markdown editor for bootstrap</li>
+            </ul>
+        </div>
     </div>
-    <script>
-    (function() {
-        var q = window.location.search.substring(3);
-        if (q == "update") {
-            window.location.replace('update.html');
-        }
-    })();
-
-    </script>
 </body>
 
 </html>
