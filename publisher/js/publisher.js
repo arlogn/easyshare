@@ -42,13 +42,12 @@ function parseContent() {
     var content = EDITOR.value,
         tags = getHashtags(),
         md = window.markdownit( {
-            html: true,
             breaks: true,
             linkify: true
         } ).use( window.markdownitHashtag );
 
     if ( tags ) {
-        content += "<p>" + tags + "</p>";
+        content += "\n\n" + tags + "\n";
     }
 
     return md.render( content );
