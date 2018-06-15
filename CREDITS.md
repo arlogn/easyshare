@@ -12,6 +12,12 @@ https://github.com/svbergerem/markdown-it-hashtag \
 Copyright (c) 2015 Steffen van Bergerem\
 Licensed under the MIT license (MIT)
 
+**toMarkdown**\
+Html to markdown converter\
+https://github.com/domchristie/to-markdown \
+Copyright (c) 2011 Dom Christie\
+Licensed under the MIT license (MIT)
+
 **Bootstrap Markdown**\
 Markdown editor for Bootstrap (jQuery plugin)\
 https://github.com/toopay/bootstrap-markdown \
