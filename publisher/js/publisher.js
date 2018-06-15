@@ -50,6 +50,8 @@ function parseContent() {
         content += "\n\n" + tags + "\n";
     }
 
+    content = toMarkdown(content);
+
     return md.render( content );
 }
 
