@@ -175,6 +175,10 @@ pre {
   letter-spacing: 1px;
 }
 
+.publisher>.footer>.footer-controls .tags:disabled {
+  cursor: not-allowed;
+}
+
 .publisher>.footer>.footer-bar {
   height: 28px;
   background: #333;
