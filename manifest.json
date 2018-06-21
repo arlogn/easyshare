@@ -37,8 +37,7 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": "icons/default.png",
-    "default_title": "Easyshare",
-    "default_popup": "publisher/publisher.html"
+    "default_title": "Easyshare"
   },
 
   "commands": {

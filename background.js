@@ -3,6 +3,11 @@
 var postContent = null;
 
 
+function onError( error ) {
+    console.log( error );
+}
+
+
 function onInstalled( details ) {
     if ( details.reason === "update" || details.reason === "install" ) {
         browser.tabs.create( {
@@ -21,7 +26,36 @@ function onCreated() {
 }
 
 
-// Parse URLs of popular media sharing sites to make them suitable for oEmbed
+// Set file theme for the popup (Original/Dark)
+function setPopupTheme( name = null ) {
+    var filePath = {
+        original: "/publisher/publisher.html",
+        dark: "/publisher/publisher-dark.html"
+    };
+
+    if ( name ) {
+        browser.browserAction.setPopup( {
+            popup: filePath[name]
+        } );
+    } else {
+        const theme = browser.storage.local.get( "theme" );
+
+        theme.then( data => {
+            if ( !data.theme || data.theme === "original" ) {
+                browser.browserAction.setPopup( {
+                    popup: filePath.original
+                } );
+            } else {
+                browser.browserAction.setPopup( {
+                    popup: filePath.dark
+                } );
+            }
+        }, onError );
+    }
+}
+
+
+// Parse URLs of popular media sharing sites
 function parseMediaUrl( url ) {
     var match;
 
@@ -99,6 +133,18 @@ browser.contextMenus.onClicked.addListener( ( info, tab ) => {
     browser.browserAction.openPopup();
 } );
 
+setPopupTheme();
+
+browser.storage.onChanged.addListener( ( changes, area ) => {
+    var changedItems = Object.keys( changes );
+
+    for ( var item of changedItems ) {
+        // Check to see if a different theme has been selected
+        if ( item === "theme" && changes[ item ].oldValue !== changes[ item ].newValue ) {
+            setPopupTheme( changes[ item ].newValue );
+        }
+    }
+} );
 
 browser.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
     // Send the post content when requested
@@ -109,6 +155,5 @@ browser.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
         if ( postContent ) postContent = null;
     }
 } );
-
 
 browser.runtime.onInstalled.addListener( onInstalled );
