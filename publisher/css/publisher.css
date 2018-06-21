@@ -14,10 +14,10 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
   background: #fff;
   color: #333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
   margin: 0;
   padding: 0;
 }
@@ -46,9 +46,9 @@ h1, h2, h3, h4 {
 }
 
 pre {
-  padding: 8px;
-  margin: 0 0 9px;
   font-size: 12px;
+  margin: 0 0 9px;
+  padding: 8px;
 }
 
 ::-moz-selection {
@@ -58,24 +58,24 @@ pre {
 
 /* Panel */
 .panel {
-  width: 720px;
-  height: 472px;
   background: #eee;
-  position: relative;
+  height: 472px;
   margin: 0 !important;
+  position: relative;
+  width: 720px;
 }
 
 /* Publisher */
 .publisher {
-  width: inherit;
-  height: inherit;
-  display: block;
   border: 1px solid #ddd;
+  display: block;
+  height: inherit;
+  width: inherit;
 }
 
 .publisher>.footer, .publisher>.header {
-  display: block;
   background: #eee;
+  display: block;
 }
 
 .publisher>.header {
@@ -84,26 +84,26 @@ pre {
 }
 
 .publisher>.editor {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 14px;
-  outline: 0;
-  margin: 0;
-  display: block;
-  padding: 5px;
-  width: 100%;
-  height: 320px;
-  resize: none;
+  background: #fafafa;
   border: 0;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
   border-radius: 0;
   box-shadow: none;
-  background: #fafafa;
+  display: block;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  height: 320px;
+  margin: 0;
+  outline: 0;
+  padding: 5px;
+  resize: none;
+  width: 100%;
 }
 
 .publisher>.editor:focus {
-  box-shadow: none;
   background: #fff;
+  box-shadow: none;
 }
 
 .publisher.active {
@@ -115,14 +115,14 @@ pre {
 
 /* Preview */
 .publisher>.preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
   background: #fff;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
   min-height: 10px;
-  padding: 5px;
   overflow: auto;
+  padding: 5px;
 }
 
 .publisher>.preview h1:first-child,
@@ -137,15 +137,15 @@ pre {
 }
 
 .publisher>.preview img {
-  max-width: 100%;
   display: block;
   height: auto;
+  max-width: 100%;
 }
 
 .publisher>.preview blockquote {
+  border-left: 5px solid #ddd;
   margin-left: 10px !important;
   padding-left: 5px;
-  border-left: 5px solid #ddd;
 }
 
 .publisher>.footer>.footer-controls {
@@ -158,21 +158,21 @@ pre {
 }
 
 .publisher>.footer>.footer-controls label {
-  font-size: 90%;
-  text-transform: uppercase;
   color: #333;
-  margin: 15px 0 0 10px;
   display: block;
+  font-size: 90%;
+  margin: 15px 0 0 10px;
+  text-transform: uppercase;
 }
 
 .publisher>.footer>.footer-controls .tags {
-  width: 525px;
-  height: 30px;
-  margin: 0 10px;
-  padding: 5px;
   border: 1px solid #ddd;
   font-size: 13px;
+  height: 30px;
   letter-spacing: 1px;
+  margin: 0 10px;
+  padding: 5px;
+  width: 525px;
 }
 
 .publisher>.footer>.footer-controls .tags:disabled {
@@ -180,21 +180,21 @@ pre {
 }
 
 .publisher>.footer>.footer-bar {
-  height: 28px;
   background: #333;
   color: #aaa;
-  line-height: 28px;
   font-size: 11px;
-  text-align: center;
+  height: 28px;
   letter-spacing: 2px;
-  text-transform: uppercase;
+  line-height: 28px;
   position: relative;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 /* Buttons */
 .btn {
-  font-size: 12px !important;
   border-radius: 2px !important;
+  font-size: 12px !important;
 }
 
 .btn .btn-text {
@@ -202,8 +202,8 @@ pre {
 }
 
 .btn-toolbar .btn-group {
-    margin-left: 5px;
-    float: left;
+  float: left;
+  margin-left: 5px;
 }
 
 .md-buttons .btn {
@@ -215,10 +215,14 @@ pre {
 }
 
 .dropdown-menu {
-  width: 180px;
   font-size: 12px;
-  right: 0;
   left: auto;
+  right: 0;
+  width: 180px;
+}
+
+.dropdown-menu .divider:hover {
+  cursor: default;
 }
 
 .dropdown-menu li:hover {
@@ -239,6 +243,6 @@ button:focus, button:active {
 }
 
 .btn-send {
-  width: 160px;
   margin-top: 25px !important;
+  width: 160px;
 }
