@@ -3,13 +3,20 @@ body {
   width: 100%;
 }
 
+.settings-section {
+  border-bottom: 1px solid #cecece;
+  margin-bottom: 30px;
+  overflow: hidden;
+  padding-bottom: 10px;
+  position: relative;
+}
+
 .title {
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 .settings {
-  border-bottom: 1px solid #cecece;
   padding: 2px 10px;
   width: 100%;
 }
@@ -18,11 +25,11 @@ body {
   width: 400px;
 }
 
-label {
-  float: right;
+.credentials .container {
+  text-align: right;
 }
 
-input {
+.credentials .container input {
   background: #eee;
   border: 1px solid #ddd;
   color: #600;
@@ -30,4 +37,21 @@ input {
   margin: 0.5em;
   padding: 0 0.5em;
   width: 300px;
+}
+
+.theme .container {
+  padding-top: 5px;
+}
+
+.theme .container * {
+  padding-top: 2px;
+  vertical-align: middle;
+}
+
+.theme .container label {
+  margin-left: 20px;
+}
+
+.theme .container input:focus {
+  outline: 0;
 }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Diaspora* Easyshare",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Easily share web content on your diaspora* pod",
   "homepage_url": "http://arlogn.github.io/easyshare/",
   "default_locale": "en",
@@ -37,8 +37,7 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": "icons/default.png",
-    "default_title": "Easyshare",
-    "default_popup": "publisher/publisher.html"
+    "default_title": "Easyshare"
   },
 
   "commands": {

@@ -13,41 +13,44 @@ function onError( error ) {
 }
 
 function onSuccess( message ) {
-    enableButtons( "all" );
+    enableElements( "all" );
     EDITOR.value = message;
 }
 
 function onSending( message ) {
-    disableButtons( "all" );
+    disableElements( "all" );
     EDITOR.value = message;
 }
 
-function enableButtons( id ) {
+function enableElements( id ) {
     if ( id === "all" ) {
         Array.from( PUBLISHER.querySelectorAll( ".btn" ) )
             .forEach( e => e.removeAttribute( "disabled" ) );
+        PUBLISHER.querySelector( "#tags" ).removeAttribute( "disabled" );
     } else {
         PUBLISHER.querySelector( id ).removeAttribute( "disabled" );
     }
 }
 
-function disableButtons() {
+function disableElements() {
     Array.from( PUBLISHER.querySelectorAll( ".btn" ) )
         .forEach( e => e.setAttribute( "disabled", "disabled" ) );
+    PUBLISHER.querySelector( "#tags" ).setAttribute( "disabled", "disabled" );
 }
 
 function parseContent() {
     var content = EDITOR.value,
         tags = getHashtags(),
         md = window.markdownit( {
-            html: true,
             breaks: true,
             linkify: true
         } ).use( window.markdownitHashtag );
 
     if ( tags ) {
-        content += "<p>" + tags + "</p>";
+        content += "\n\n" + tags + "\n";
     }
+
+    content = toMarkdown(content);
 
     return md.render( content );
 }
@@ -61,8 +64,8 @@ function showPreview() {
 
     if ( isPreview === false ) {
         isPreview = true;
-        disableButtons();
-        enableButtons( "#mdPreview" );
+        disableElements();
+        enableElements( "#mdPreview" );
         content = parseContent();
         preview.innerHTML = content;
         PUBLISHER.insertBefore( preview, footer );
@@ -77,7 +80,7 @@ function showPreview() {
 function hidePreview() {
     isPreview = false;
     PUBLISHER.querySelector( ".preview" ).remove();
-    enableButtons( "all" );
+    enableElements( "all" );
     EDITOR.style.display = "";
 }
 
@@ -498,7 +501,7 @@ function toggleDropdown( event ) {
         selected = dropdownMenu.querySelectorAll( "li.selected" ).length;
 
         if ( selected === 0 ) {
-            dropdownMenu.firstChild.classList.add( "selected" );
+            dropdownMenu.firstElementChild.classList.add( "selected" );
             text = "Public";
         } else {
             if ( selected === 1 ) {
@@ -577,7 +580,7 @@ function init() {
     storedData.then( data => {
         // Check if all required settings are entered
         if ( !data.url || !data.username || !data.password ) {
-            disableButtons();
+            disableElements();
 
             onError( "Please enter all required settings before starting to share." );
         } else {
