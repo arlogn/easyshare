@@ -501,7 +501,7 @@ function toggleDropdown( event ) {
         selected = dropdownMenu.querySelectorAll( "li.selected" ).length;
 
         if ( selected === 0 ) {
-            dropdownMenu.firstChild.classList.add( "selected" );
+            dropdownMenu.firstElementChild.classList.add( "selected" );
             text = "Public";
         } else {
             if ( selected === 1 ) {
