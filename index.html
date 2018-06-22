@@ -6,10 +6,10 @@
     <meta name="description" content="A firefox add-on to easily share web content on your diaspora* pod">
     <meta name="author" content="arlogn">
     <title>Diaspora* Easyshare</title>
-	<script>
-		var q = window.location.search.substring(3);
+    <script>
+        var q = window.location.search.substring(3);
         if (q && q == "update") {
-			window.location.replace('update.html');
+            window.location.replace('update.html');
         }
     </script>
     <!-- Favicon -->
@@ -56,9 +56,10 @@
         <div id="usage" class="section">
             <h4>Usage</h4>
             <ul>
-                <li>The conventional use is via the context menu item (<span class="browny">Share this content</span>) that allows you to add the markdown representation of the content chosen within the publisher. But you can also simply open the publisher and enter whatever you want.</li>
+                <li>The conventional use is via the context menu item (<span class="browny">Share this content</span>) that allows you to add the markdown representation of the content chosen within the publisher. But you can also simply open the publisher
+                    and enter whatever you want.</li>
                 <li class="title">The context menu</li>
-				<li>The list of contexts in which the menu item will appear:</li>
+                <li>The list of contexts in which the menu item will appear:</li>
                 <li>
                     <ul class="inner">
                         <li class="title">Image</li>
@@ -67,7 +68,7 @@
                             if the image is wrapped with an anchor, the link is preserved.<br>
                             Keep in mind that the menu item only appears when clicking on inline images, not on images added via css or javascript.</span>
                         </li>
-						<li class="title">Selection</li>
+                        <li class="title">Selection</li>
                         <li>Displayed when you context-click a selection of text in the page.
                             <span class="note">Note:<br>
                             a selection of text can be added whitin the publisher along with other content.<br>
@@ -85,8 +86,8 @@
                             diaspora has added support for embedding html5 audio/video from version 0.7.4.0.<br>
                             Also note that this fails on html5 videos from Youtube. Look at the note below to know on how to add the media URL from Youtube and other media sharing sites.</span>
                         </li>
-						<li class="title">Page</li>
-						<li>Displayed when you context-click the page. This refers to click on any place in the page but not on other contexts. Allows you to add the page title and page link within the publisher.
+                        <li class="title">Page</li>
+                        <li>Displayed when you context-click the page. This refers to click on any place in the page but not on other contexts. Allows you to add the page title and page link within the publisher.
                             <span class="note">Note:<br>
                             this can also be used to share all those resources - from media sharing sites as Youtube, Vimeo, Soundcloud or Twitter - that are embedded posting their URL.<br>
                             What to click in this pages:<br>
@@ -125,32 +126,37 @@
                 <li><a href="https://github.com/markdown-it/markdown-it">markdown-it</a> - The markdown parser</li>
                 <li><a href="https://github.com/svbergerem/markdown-it-hashtag">markdown-it-hashtag</a> - A markdown-it extension to linkify hashtags</li>
                 <li><a href="https://github.com/domchristie/to-markdown">to-markdown</a> - An html to markdown converter</li>
-				<li><a href="https://github.com/toopay/bootstrap-markdown">bootstrap-markdown</a> - A markdown editor for bootstrap</li>
+                <li><a href="https://github.com/toopay/bootstrap-markdown">bootstrap-markdown</a> - A markdown editor for bootstrap</li>
             </ul>
         </div>
     </div>
     <script>
-    var index = 1;
+        var index = 1;
 
-    function rotate(event) {
-        if (event.target && event.target.nodeName === "DIV") {
-            event.target.classList.contains("slide-button-right") ?
-                showImage(index += 1) : showImage(index -= 1);
+        function rotate(event) {
+            if (event.target && event.target.nodeName === "DIV") {
+                event.target.classList.contains("slide-button-right") ?
+                    showImage(index += 1) : showImage(index -= 1);
+            }
         }
-    }
 
-    function showImage(i) {
-      var slides = document.querySelectorAll(".slide"), l = slides.length;
-      if (i > l) {index = 1} else if (i < 1) {index = l}
-      slides.forEach(function(item) {
-          item.style.display = "none";
-      });
-      slides[index-1].style.display = "block";
-    }
+        function showImage(i) {
+            var slides = document.querySelectorAll(".slide"),
+                l = slides.length;
+            if (i > l) {
+                index = 1
+            } else if (i < 1) {
+                index = l
+            }
+            slides.forEach(function(item) {
+                item.style.display = "none";
+            });
+            slides[index - 1].style.display = "block";
+        }
 
-    showImage(index);
+        showImage(index);
 
-    document.querySelector(".slides").addEventListener("click", rotate);
+        document.querySelector(".slides").addEventListener("click", rotate);
     </script>
 </body>
 
