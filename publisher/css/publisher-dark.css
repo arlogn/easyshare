@@ -54,8 +54,12 @@ pre {
   padding: 8px;
 }
 
+code {
+  background: #222;
+}
+
 ::-moz-selection {
-  background: #2b9ad9;
+  background: #666;
   color: #fff;
 }
 
