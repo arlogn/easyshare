@@ -13,16 +13,15 @@ body {
 }
 
 h1 {
-  font-family: 'Lato', sans-serif;
   font-size: 32px;
   font-weight: 300;
+  letter-spacing: 2px;
   line-height: 32px;
   padding-bottom: 10px;
   border-bottom: 3px solid orange;
 }
 
 h3 {
-  font-family: 'Lato', sans-serif;
   font-size: 20px;
   font-weight: 300;
 }
@@ -59,6 +58,7 @@ a:hover {
 .section {
   width: 100%;
   margin-bottom: 20px;
+  position: relative;
 }
 
 ul {
@@ -86,8 +86,8 @@ ol li {
 }
 
 .note {
-  font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
+  line-height: 1.3em;
   display: block;
   background-color: #eee;
   margin-top: 5px;
@@ -100,8 +100,51 @@ ol li {
   margin-top: 10px;
 }
 
+.slides {
+  border: 1px solid #ccc;
+}
+
+.slide-button {
+  background: #000;
+  color: #ccc;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 8px 15px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.slide-button:hover {
+  color: #fff;
+}
+
+.slide-button-left {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0%, -50%);
+  -ms-transform: translate(-0%, -50%);
+}
+
+.slide-button-right {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0%, -50%);
+  -ms-transform: translate(-0%, -50%);
+}
+
+.slide-button-left::after {
+  content: "\276E";
+}
+
+.slide-button-right::after {
+  content: "\276F";
+}
+
 .section .title {
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 20px;
 }
 
