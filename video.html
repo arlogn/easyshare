@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="A video showing how to use diaspora* easyshare">
+    <meta name="author" content="arlogn">
+    <title>Diaspora* Easyshare Video</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="icons/favicon.png">
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            background: #fff;
+            color: #000;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            overfow: hidden;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 50px;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+        .controls {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+        }
+        .controls:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+        button {
+            width: 200px;
+            font-size: 18px;
+            padding: 10px;
+            border: none;
+            background: #000;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #f00;
+            color: black;
+        }
+        button::-moz-focus-inner {
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="intro" class="overlay">
+            <h1>Easyshare</h1>
+            <p>A quick guide how to use this addon.</p>
+            <p>Click Play to start.</p>
+        </div>
+        <video id="easyshare">
+            <source src="video/easyshare.mp4" type="video/mp4">
+        </video>
+        <div class="controls">
+            <button id="play">Play</button>
+        </div>
+    </div>
+    <script>
+        function playVideo() {
+            if (video.paused) {
+                video.play();
+                play.textContent = "Pause";
+            } else {
+                video.pause();
+                play.textContent = "Play";
+            }
+        }
+        var video = document.getElementById("easyshare"),
+            play = document.getElementById("play");
+
+        play.addEventListener("click", playVideo);
+        video.onplay = function() {
+            var intro = document.getElementById("intro");
+            if (window.getComputedStyle(intro).display === "block") {
+                intro.style.display = "none";
+            }
+        }
+        video.onended = function() {
+            play.textContent = "Play";
+        };
+    </script>
+</body>
+
+</html>
