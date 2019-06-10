@@ -65,7 +65,7 @@ function showPreview() {
     if ( isPreview === false ) {
         isPreview = true;
         disableElements();
-        enableElements( "#mdPreview" );
+        enableElements( "#postPreview" );
         content = parseContent();
         preview.innerHTML = content;
         PUBLISHER.insertBefore( preview, footer );
@@ -106,7 +106,7 @@ function replaceSelection( text ) {
     EDITOR.selectionStart = EDITOR.value.length;
 }
 
-function applyMdBold() {
+function addMdBold() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
@@ -116,7 +116,7 @@ function applyMdBold() {
         chunk = selected.text;
     }
 
-    // Apply/remove Bold syntax (**)
+    // Add/remove Bold syntax (**)
     if ( content.substr( selected.start - 2, 2 ) === "**" &&
         content.substr( selected.end, 2 ) === "**" ) {
         setSelection( selected.start - 2, selected.end + 2 );
@@ -130,7 +130,7 @@ function applyMdBold() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdItalic() {
+function addMdItalic() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
@@ -140,7 +140,7 @@ function applyMdItalic() {
         chunk = selected.text;
     }
 
-    // Apply/remove Italic syntax (_)
+    // Add/remove Italic syntax (_)
     if ( content.substr( selected.start - 1, 1 ) === "_" &&
         content.substr( selected.end, 1 ) === "_" ) {
         setSelection( selected.start - 1, selected.end + 1 );
@@ -154,7 +154,7 @@ function applyMdItalic() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdHeading() {
+function addMdHeading() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value,
         pointer, prevChar;
@@ -165,7 +165,7 @@ function applyMdHeading() {
         chunk = selected.text + "\n";
     }
 
-    // Apply/remove Heading 3 syntax (###)
+    // Add/remove Heading 3 syntax (###)
     if ( ( pointer = 4, content.substr( selected.start - pointer, pointer ) === "### " ) ||
         ( pointer = 3, content.substr( selected.start - pointer, pointer ) === "###" ) ) {
         setSelection( selected.start - pointer, selected.end );
@@ -183,7 +183,7 @@ function applyMdHeading() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdLink() {
+function addMdLink() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
@@ -193,13 +193,13 @@ function applyMdLink() {
         chunk = selected.text;
     }
 
-    // Apply Link syntax ([]())
+    // Add Link syntax ([]())
     replaceSelection( "[" + chunk + "](enter hyperlink here)" );
     cursor = selected.start + 1;
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdImage() {
+function addMdImage() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
@@ -209,17 +209,17 @@ function applyMdImage() {
         chunk = selected.text;
     }
 
-    // Apply Image syntax (![]())
+    // Add Image syntax (![]())
     replaceSelection( "![" + chunk + '](enter image hyperlink here "enter image title here")' );
     cursor = selected.start + 2;
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdUnorderedList() {
+function addMdUnorderedList() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
-    // Apply Unordered List syntax (- )
+    // Add Unordered List syntax (- )
     if ( selected.length === 0 ) {
         chunk = "list text here";
         replaceSelection( "- " + chunk );
@@ -247,11 +247,11 @@ function applyMdUnorderedList() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdOrderedList() {
+function addMdOrderedList() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
-    // Apply Ordered List syntax (1. )
+    // Add Ordered List syntax (1. )
     if ( selected.length === 0 ) {
         chunk = "list text here";
         replaceSelection( "1. " + chunk );
@@ -281,7 +281,7 @@ function applyMdOrderedList() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdCode() {
+function addMdCode() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
@@ -291,7 +291,7 @@ function applyMdCode() {
         chunk = selected.text;
     }
 
-    // Apply/remove Code syntax (`)
+    // Add/remove Code syntax (`)
     if ( content.substr( selected.start - 4, 4 ) === "```\n" &&
         content.substr( selected.end, 4 ) === "\n```" ) {
         setSelection( selected.start - 4, selected.end + 4 );
@@ -313,11 +313,11 @@ function applyMdCode() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function applyMdQuote() {
+function addMdQuote() {
     var chunk, cursor, selected = getSelection(),
         content = EDITOR.value;
 
-    // Apply Quote syntax (> )
+    // Add Quote syntax (> )
     if ( selected.length === 0 ) {
         chunk = "quote here";
         replaceSelection( "> " + chunk );
@@ -345,47 +345,25 @@ function applyMdQuote() {
     setSelection( cursor, cursor + chunk.length );
 }
 
-function handleMarkdownButtons( event ) {
-    // Handle click events on buttons to apply md syntax
+function addMarkdown( event ) {
+    // Add markdown syntax
     EDITOR.focus();
-    switch ( event.target.id ) {
-        case "mdBold":
-            applyMdBold();
-            break;
-        case "mdItalic":
-            applyMdItalic();
-            break;
-        case "mdHeading":
-            applyMdHeading();
-            break;
-        case "mdLink":
-            applyMdLink();
-            break;
-        case "mdImage":
-            applyMdImage();
-            break;
-        case "mdUlist":
-            applyMdUnorderedList();
-            break;
-        case "mdOlist":
-            applyMdOrderedList();
-            break;
-        case "mdCode":
-            applyMdCode();
-            break;
-        case "mdQuote":
-            applyMdQuote();
-            break;
-        case "mdPreview":
-            if ( isPreview === false ) {
-                showPreview();
-            } else {
-                hidePreview();
-            }
-            break;
-        default:
-            console.log( "Something went wrong clicking a markdown button!" );
-    }
+    var addMd = {
+        "mdBold": addMdBold,
+        "mdItalic": addMdItalic,
+        "mdHeading": addMdHeading,
+        "mdLink": addMdLink,
+        "mdImage": addMdImage,
+        "mdUlist": addMdUnorderedList,
+        "mdOlist": addMdOrderedList,
+        "mdCode": addMdCode,
+        "mdQuote": addMdQuote,
+        "error": function () {
+            console.log( "Markdown button error!" );
+        }
+    };
+
+    (addMd[event.target.id] || addMd.error)();
 }
 
 function getHashtags( clean = false ) {
@@ -584,13 +562,18 @@ function init() {
 
             onError( "Please enter all required settings before starting to share." );
         } else {
-            // Initialize all publisher components
-
             // Instantiate the diaspora communication class
             var diaspora = new diasporaAjax( data.url, data.username, data.password );
 
             // Add click event listeners to buttons
-            PUBLISHER.querySelector( ".md-buttons" ).addEventListener( "click", handleMarkdownButtons );
+            PUBLISHER.querySelector( ".md-buttons" ).addEventListener( "click", addMarkdown );
+            PUBLISHER.querySelector( "#postPreview" ).addEventListener( "click", () => {
+                if ( isPreview === false ) {
+                    showPreview();
+                } else {
+                    hidePreview();
+                }
+            } );
             PUBLISHER.querySelector( "#getAspects" ).addEventListener( "click", () => {
                 onSending( "Getting aspects ..." );
                 send( diaspora );
