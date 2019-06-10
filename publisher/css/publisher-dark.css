@@ -1,5 +1,3 @@
-/*csslint important: false*/
-
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
@@ -97,7 +95,7 @@ code {
   border-radius: 0;
   box-shadow: none;
   display: block;
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
   font-size: 14px;
   height: 320px;
   margin: 0;
@@ -125,7 +123,7 @@ code {
   background: #000;
   border-top: 1px dashed #666;
   border-bottom: 1px dashed #666;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 13px;
   min-height: 10px;
   overflow: auto;
@@ -214,8 +212,60 @@ code {
   font-size: 12px !important;
 }
 
-.btn:focus {
-  color: inherit;
+/* .btn > * {
+  pointer-events: none;
+} */
+
+.btn-md {
+  font-family: 'FontAwesome';
+  width: 34px;
+  height: 30px;
+  line-height: 1;
+  text-rendering: auto;
+  font-smoothing: antialiased;
+}
+
+.btn-md::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn.md-bold::after {
+  content: '\f032';
+}
+
+.btn.md-italic::after {
+  content: '\f033';
+}
+
+.btn.md-heading::after {
+  content: '\f1dc';
+}
+
+.btn.md-link::after {
+  content: '\f0c1';
+}
+
+.btn.md-picture::after {
+  content: '\f03e';
+}
+
+.btn.md-ulist::after {
+  content: '\f0ca';
+}
+
+.btn.md-olist::after {
+  content: '\f0cb';
+}
+
+.btn.md-code::after {
+  content: '\f121';
+}
+
+.btn.md-quote::after {
+  content: '\f10d';
 }
 
 .btn .btn-text {
@@ -225,10 +275,6 @@ code {
 .btn-toolbar .btn-group {
   float: left;
   margin-left: 5px;
-}
-
-.md-buttons .btn {
-  min-width: 34px;
 }
 
 .btn-dropdown {
@@ -285,11 +331,12 @@ button:focus, button:active {
 
 .btn-dark {
   background-color: #474747;
-  border-color: #0f0f0f;
+  border-color: #333;
   color: #b4b4b4;
 }
 
-.btn-dark:hover {
+.btn-dark:hover,
+.btn-dark:focus {
   background-color: #575757;
   color: #eee;
 }
