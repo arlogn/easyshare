@@ -24,9 +24,9 @@ function showSettings( stored ) {
     url.value = stored.url || "";
     username.value = stored.username || "";
     password.value = stored.password || "";
-    if (stored.theme === "dark") {
-        themes[0].checked = false;
-        themes[1].checked = true;
+    if ( stored.theme === "dark" ) {
+        themes[ 0 ].checked = false;
+        themes[ 1 ].checked = true;
     }
 }
 
@@ -36,5 +36,5 @@ gettingStoredSettings.then( showSettings, onError );
 url.addEventListener( "blur", storeSettings );
 username.addEventListener( "blur", storeSettings );
 password.addEventListener( "blur", storeSettings );
-themes[0].addEventListener( "click", storeSettings );
-themes[1].addEventListener( "click", storeSettings );
+themes[ 0 ].addEventListener( "click", storeSettings );
+themes[ 1 ].addEventListener( "click", storeSettings );

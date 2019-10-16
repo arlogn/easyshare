@@ -50,7 +50,7 @@ function parseContent() {
         content += "\n\n" + tags + "\n";
     }
 
-    content = toMarkdown(content);
+    content = toMarkdown( content );
 
     return md.render( content );
 }
@@ -363,7 +363,7 @@ function addMarkdown( event ) {
         }
     };
 
-    (addMd[event.target.id] || addMd.error)();
+    ( addMd[ event.target.id ] || addMd.error )();
 }
 
 function getHashtags( clean = false ) {
@@ -552,7 +552,7 @@ function send( diaspora, payload = null ) {
 }
 
 function init() {
-    // Get all stored data
+    // Get stored data
     var storedData = browser.storage.local.get();
 
     storedData.then( data => {

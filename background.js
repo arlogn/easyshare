@@ -26,7 +26,7 @@ function onCreated() {
 }
 
 
-// Set file theme for the popup (Original/Dark)
+// Set publisher theme (Original/Dark)
 function setPopupTheme( name = null ) {
     var filePath = {
         original: "/publisher/publisher.html",
@@ -35,7 +35,7 @@ function setPopupTheme( name = null ) {
 
     if ( name ) {
         browser.browserAction.setPopup( {
-            popup: filePath[name]
+            popup: filePath[ name ]
         } );
     } else {
         const theme = browser.storage.local.get( "theme" );
