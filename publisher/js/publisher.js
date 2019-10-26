@@ -579,11 +579,21 @@ function init() {
                 send( diaspora );
             } );
             PUBLISHER.querySelector( ".dropdown-menu" ).addEventListener( "click", toggleDropdown );
+            PUBLISHER.querySelector( "#saveData" ).addEventListener( "click", () => {
+                browser.storage.local.set( {
+                    persistent: EDITOR.value
+                } ).then( () => {
+                    EDITOR.value = "The content has been saved and now it is persistent. It will be deleted when the post is sent to the pod or by using Ctrl+Shift+D.";
+                }, onError );
+            } );
             PUBLISHER.querySelector( "#sendPost" ).addEventListener( "click", () => {
                 var payload = getPayload();
                 if ( payload && typeof payload === "object" ) {
                     onSending( "Sending the post ..." );
                     send( diaspora, payload );
+                    browser.storage.local.set( {
+                        persistent: ""
+                    } );
                 }
             } );
 

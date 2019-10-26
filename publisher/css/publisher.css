@@ -168,13 +168,23 @@ pre {
   font-size: 13px;
   height: 30px;
   letter-spacing: 1px;
-  margin: 0 10px;
+  margin-left: 10px;
   padding: 5px;
-  width: 525px;
+  width: 480px;
 }
 
 .publisher>.footer>.footer-controls .tags:disabled {
   cursor: not-allowed;
+}
+
+.publisher>.footer>.footer-controls .btn-save {
+  margin: 25px 5px 0 10px !important;
+  width: 80px;
+}
+
+.publisher>.footer>.footer-controls .btn-send {
+  margin-top: 25px !important;
+  width: 120px;
 }
 
 .publisher>.footer>.footer-bar {
@@ -290,9 +300,4 @@ pre {
 
 button:focus, button:active {
   outline: none !important;
-}
-
-.btn-send {
-  margin-top: 25px !important;
-  width: 160px;
 }

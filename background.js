@@ -1,6 +1,8 @@
 /*jshint esversion: 6*/
 
-var postContent = null;
+var postContent = "",
+    persistentContent = "",
+    persistentCount = 0;
 
 
 function onError( error ) {
@@ -20,8 +22,6 @@ function onInstalled( details ) {
 function onCreated() {
     if ( browser.runtime.lastError ) {
         console.log( `Error: ${browser.runtime.lastError}` );
-    } else {
-        console.log( "Easyshare menu created successfully" );
     }
 }
 
@@ -54,6 +54,13 @@ function setPopupTheme( name = null ) {
     }
 }
 
+// Set the browser action badge text
+function setBadge( count ) {
+    if ( typeof count === "number" ) {
+        count = count.toString();
+    }
+    browser.browserAction.setBadgeText( { text: count } );
+}
 
 // Parse URLs of popular media sharing sites
 function parseMediaUrl( url ) {
@@ -135,6 +142,9 @@ browser.contextMenus.onClicked.addListener( ( info, tab ) => {
 
 setPopupTheme();
 
+browser.browserAction.setBadgeBackgroundColor( { color: "#337ab7" } );
+browser.browserAction.setBadgeTextColor( { color: "white" } );
+
 browser.storage.onChanged.addListener( ( changes, area ) => {
     var changedItems = Object.keys( changes );
 
@@ -143,16 +153,37 @@ browser.storage.onChanged.addListener( ( changes, area ) => {
         if ( item === "theme" && changes[ item ].oldValue !== changes[ item ].newValue ) {
             setPopupTheme( changes[ item ].newValue );
         }
+        // Update persistent content
+        if ( item === "persistent" ) {
+            persistentContent = changes[ item ].newValue;
+            if ( persistentContent ) {
+                setBadge( ++persistentCount );
+            } else {
+                setBadge( "" );
+                persistentCount = 0;
+            }
+        }
+    }
+} );
+
+browser.commands.onCommand.addListener( function ( command ) {
+    // Manually clean persistent content
+    if ( command == "clean_persistent_content" ) {
+        persistentContent = "";
+        browser.storage.local.set( {
+            persistent: persistentContent
+        } );
     }
 } );
 
 browser.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
     // Send the post content when requested
     if ( request === "getContent" ) {
+        if ( persistentContent ) postContent = `${persistentContent}\n\n${postContent}`;
         sendResponse( {
             content: postContent
         } );
-        if ( postContent ) postContent = null;
+        if ( postContent ) postContent = "";
     }
 } );
 
