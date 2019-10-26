@@ -1,6 +1,10 @@
 {
-  "menuItemShareThisContent": {
-    "message": "Share this content",
-    "description": "The context menu item to share the page content"
+  "menuItemAddHeaderAndContent": {
+    "message": "Add header and selected content",
+    "description": "The context menu item to add the page title/url and selected content to the publisher"
+  },
+  "menuItemAddOnlyContent": {
+    "message": "Add only selected content",
+    "description": "The context menu item to add only the selected content to the publisher"
   }
 }

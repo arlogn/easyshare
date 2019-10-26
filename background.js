@@ -95,36 +95,52 @@ function parseMediaUrl( url ) {
 
 
 browser.contextMenus.create( {
-    id: "shareThisContent",
-    title: browser.i18n.getMessage( "menuItemShareThisContent" ),
-    contexts: [ "selection", "image", "video", "audio", "link", "page" ]
+    id: "addHeaderAndContent",
+    title: browser.i18n.getMessage( "menuItemAddHeaderAndContent" ),
+    contexts: [ "selection", "image", "video", "audio", "link", "page" ],
+    icons: {
+        "16": "icons/cmenu1.png"
+    }
+}, onCreated );
+
+browser.contextMenus.create( {
+    id: "addOnlyContent",
+    title: browser.i18n.getMessage( "menuItemAddOnlyContent" ),
+    contexts: [ "selection", "image", "video", "audio", "link", "page" ],
+    icons: {
+        "16": "icons/cmenu2.png"
+    }
 }, onCreated );
 
 
 browser.contextMenus.onClicked.addListener( ( info, tab ) => {
 
+    var header = true;
+    if ( info.menuItemId === "addOnlyContent" ) header = false;
+
     // Default formatting the collected content
     if ( info.hasOwnProperty( "mediaType" ) ) {
         if ( info.mediaType === "image" ) {
             if ( info.linkUrl ) {
-                postContent = `[![Image](${info.srcUrl}) ](${info.linkUrl})\n\n### ${tab.title}\n${info.pageUrl}`;
+                postContent = `[![Image](${info.srcUrl}) ](${info.linkUrl})`;
             } else {
-                postContent = `![Image](${info.srcUrl})\n\n### ${tab.title}\n${info.pageUrl}`;
+                postContent = `![Image](${info.srcUrl})`;
             }
         } else if ( info.mediaType === "video" || info.mediaType === "audio" ) {
-            postContent = `### ${tab.title}\n${info.srcUrl}`;
+            postContent = `${info.srcUrl}`;
+        }
+        if ( header ) {
+            postContent += `\n\n### ${tab.title}\n${info.pageUrl}`;
         }
     } else {
         if ( info.linkUrl ) {
             postContent = `[${info.linkText}](${info.linkUrl})`;
+            if ( header ) postContent = `### ${tab.title}\n${info.pageUrl}\n\n${postContent}`;
         } else {
             var mediaUrl = parseMediaUrl( info.pageUrl );
             if ( mediaUrl ) {
-                postContent = `### ${tab.title} \n${mediaUrl}`;
-            } else {
-                if ( !postContent ) {
-                    postContent = `### ${tab.title}\n${info.pageUrl}`;
-                }
+                postContent = `${mediaUrl}`;
+                if ( header ) postContent = `### ${tab.title} \n${postContent}`;
             }
         }
     }
@@ -133,9 +149,14 @@ browser.contextMenus.onClicked.addListener( ( info, tab ) => {
         if ( postContent ) {
             postContent += `\n\n${info.selectionText}`;
         } else {
-            postContent = `### ${tab.title}\n${info.pageUrl}\n\n${info.selectionText}`;
+            postContent = `${info.selectionText}`;
+            if ( header ) {
+                postContent = `### ${tab.title}\n${info.pageUrl}\n\n${postContent}`;
+            }
         }
     }
+
+    if ( !postContent && header ) postContent = `### ${tab.title}\n${info.pageUrl}`;
 
     browser.browserAction.openPopup();
 } );
