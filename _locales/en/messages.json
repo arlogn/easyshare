@@ -1,10 +1,10 @@
 {
   "menuItemAddHeaderAndContent": {
-    "message": "Add header and selected content",
-    "description": "The context menu item to add the page title/url and selected content to the publisher"
+    "message": "Add to publisher with header",
+    "description": "Title of context menu item that adds header and content to the publisher"
   },
-  "menuItemAddOnlyContent": {
-    "message": "Add only selected content",
-    "description": "The context menu item to add only the selected content to the publisher"
+  "menuItemAddContent": {
+    "message": "Add to publisher",
+    "description": "Title of context menu item that adds content to the publisher"
   }
 }

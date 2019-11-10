@@ -104,8 +104,8 @@ browser.contextMenus.create( {
 }, onCreated );
 
 browser.contextMenus.create( {
-    id: "addOnlyContent",
-    title: browser.i18n.getMessage( "menuItemAddOnlyContent" ),
+    id: "addContent",
+    title: browser.i18n.getMessage( "menuItemAddContent" ),
     contexts: [ "selection", "image", "video", "audio", "link", "page" ],
     icons: {
         "16": "icons/cmenu2.png"
@@ -116,7 +116,7 @@ browser.contextMenus.create( {
 browser.contextMenus.onClicked.addListener( ( info, tab ) => {
 
     var header = true;
-    if ( info.menuItemId === "addOnlyContent" ) header = false;
+    if ( info.menuItemId === "addContent" ) header = false;
 
     // Default formatting the collected content
     if ( info.hasOwnProperty( "mediaType" ) ) {
