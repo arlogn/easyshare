@@ -11,6 +11,7 @@
         if (q && q == "update") {
             window.location.replace('update.html');
         }
+
     </script>
     <!-- Favicon -->
     <link rel="shortcut icon" href="icons/favicon.png">
@@ -25,31 +26,25 @@
         <div class="header">
             <h1>DIASPORA* EASYSHARE</h1>
             <h3>Firefox add-on</h3>
-            <p>Extend the right-click context menu with the ability to share web content on your diaspora* pod.<br>Edit and preview the post in a publisher which popup from the browser toolbar.</p>
+            <p>Extend the right-click context menu with the ability to take content from a web pages. Create the post quickly and easily and send it to diaspora* from every web page.</p>
         </div>
         <div class="section">
-            <p>Latest version: 0.16.2
+            <p>Latest version: 0.17.0
                 <br>
                 <a href="https://addons.mozilla.org/firefox/addon/diaspora-easyshare/">install</a> (require Firefox 57+)</p>
-            <p><a href="video.html">Watch a video</a></p>
         </div>
-        <div class="section slides">
-            <img class="responsive slide" src="images/context-menu.jpg" alt="Context-menu">
-            <img class="responsive slide" src="images/context-menu-detail.jpg" alt="Context-menu detail">
-            <img class="responsive slide" src="images/publisher.jpg" alt="Publisher">
-            <img class="responsive slide" src="images/publisher-content-light-detail.jpg" alt="Publisher content light">
-            <img class="responsive slide" src="images/publisher-preview-light-detail.jpg" alt="Publisher preview light">
-            <img class="responsive slide" src="images/publisher-content-dark-detail.jpg" alt="Publisher content dark">
-            <img class="responsive slide" src="images/publisher-preview-dark-detail.jpg" alt="Publisher preview dark">
-            <img class="responsive slide" src="images/preferences.jpg" alt="Preferences">
-            <div class="slide-button slide-button-left"></div>
-            <div class="slide-button slide-button-right"></div>
+        <div class="section">
+            <div class="banner">
+                <img src="images/poster.jpg">
+                <a class="watch-video" href="javascript:void(0)" id="open-video">Watch a quick video guide</a>
+            </div>
         </div>
         <div class="section">
             <h4>Getting started</h4>
             <ul>
                 <li class="title">Preferences</li>
-                <li>After installing the add-on you have to enter URL and credentials of your pod in the Preferences.<br>From here you can also choose a theme for the publisher: Original (default, light) or Dark.</li>
+                <li>After installing the add-on enter URL and credentials of your pod in the Preferences. Pay attention to enter the absolute URL not only the domain name (e.g. https://joindiaspora.com).<br>From here you can also choose a theme for
+                    the publisher: Original (default, light) or Dark.</li>
                 <li class="title">Get your aspects</li>
                 <li>The dropdown menu to select aspects initially contains only the default items: Public and All-aspects. Use the button <span class="browny">Get Aspects</span> to update it with all your aspects.</li>
             </ul>
@@ -57,51 +52,69 @@
         <div id="usage" class="section">
             <h4>Usage</h4>
             <ul>
-                <li>The conventional use is via the context menu item (<span class="browny">Share this content</span>) that allows you to add the markdown representation of the content chosen within the publisher. But you can also simply open the
-                    publisher
-                    and enter whatever you want.</li>
+                <li>The conventional use is via the context menu that allows you to add the content from one or more web pages within the publisher. But you can also simply open the publisher and enter whatever you want.</li>
                 <li class="title">The context menu</li>
+                <li>The context menu item contains two sub-items: one to add the content with a header (the page title and the URL) and the other without (to be used mainly to integrate the saved content).</li>
                 <li>The list of contexts in which the menu item will appear:</li>
                 <li>
                     <ul class="inner">
                         <li class="title">Image</li>
                         <li>Displayed when you context-click an image in the page.
-                            <span class="note">Note:<br>
-                                if the image is wrapped with an anchor, the link is preserved.<br>
-                                Keep in mind that the menu item only appears when clicking on inline images, not on images added via css or javascript.</span>
+                            <span class="note">
+                                If the image is wrapped with an anchor, the link is preserved.<br>
+                                Keep in mind that the menu item only appears when clicking on inline images, not on images added via css or javascript.
+                            </span>
                         </li>
                         <li class="title">Selection</li>
                         <li>Displayed when you context-click a selection of text in the page.
-                            <span class="note">Note:<br>
-                                a selection of text can be added whitin the publisher along with other content.<br>
-                                Some examples:<br>
-                                - select some text and context-click an image<br>- select some text and context-click a video<br>- select some text and context-click a link.</span>
+                            <span class="note">
+                                A selection of text can be added within the publisher along with other content.<br>
+                                Example:<br>
+                                - select some text and context-click an image.<br>
+                                N.B. If the selection contains a link, be careful not to click on it because in this case only the link is added to the publisher.
+                            </span>
                         </li>
                         <li class="title">Link</li>
                         <li>Displayed when you context-click a link in the page.
-                            <span class="note">Note:<br>
-                                this is the only element added within the publisher without the page title and the page URL.</span>
+                            <span class="note">
+                                As mentioned above, this context always takes precedence over selection.
+                            </span>
                         </li>
                         <li class="title">Audio/Video</li>
                         <li>Displayed when you context-click html5 audio/video elements in the page.
-                            <span class="note">Note:<br>
-                                diaspora has added support for embedding html5 audio/video from version 0.7.4.0.<br>
-                                Also note that this fails on html5 videos from Youtube. Look at the note below to know on how to add the media URL from Youtube and other media sharing sites.</span>
+                            <span class="note">
+                                Diaspora has added support for embedding html5 audio/video from version 0.7.4.0.<br>
+                                Look at the context below (Page) to know on how to add the media URL from Youtube and other media sharing sites.
+                            </span>
                         </li>
                         <li class="title">Page</li>
-                        <li>Displayed when you context-click the page. This refers to click on any place in the page but not on other contexts. Allows you to add the page title and page link within the publisher.
-                            <span class="note">Note:<br>
-                                this can also be used to share all those resources - from media sharing sites as Youtube, Vimeo, Soundcloud or Twitter - that are embedded posting their URL.<br>
+                        <li>Displayed when you context-click any place in the page but none of the other page contexts apply. This add the page URL into the publisher.
+                            <span class="note">
+                                Use this context to share all those resources - from media sharing sites as Youtube, Vimeo, Soundcloud or Twitter - that are embedded posting their URL.<br>
                                 What to click in this pages:<br>
-                                - Youtube: in the video page, context-click anywhere but not the video or other contexts.<br>
+                                - Youtube: in the video page, context-click anywhere other than the video and other page contexts. Or double click the video.<br>
                                 - Vimeo: in the video page, context-click the video.<br>
                                 - Soundcloud: in the track page, context-click the player.<br>
-                                - Twitter: open a tweet and context-click anywhere but not on other contexts.</span>
+                                - Twitter: open a tweet and context-click anywhere other than the video and other page contexts.
+                            </span>
                         </li>
                     </ul>
                 </li>
-                <li class="title">The tags input box</li>
-                <li>An input box to insert tags at the end of the post in a quick way: without the hash, separating them with a comma, and with or without spaces between them.<br>But of course, you can also enter tags directly within the publisher.</li>
+                <li class="title">The publisher</li>
+                <li>The publisher looks like the Diaspora one. You can select an aspect, apply markdown with buttons and preview the content. It automatically popup using the context menu or can be opened with the toolbar button.<br>During preview
+                    the publisher becomes disabled, you must exit the preview to continue working.</li>
+                <li>
+                <li>You can also:</li>
+                <ul class="inner">
+                    <li class="title">Quick tagging</li>
+                    <li>You can insert tags quickly at the end of the post from an input box. Without hash, separated by a comma with or without spaces. But of course you can also insert tags directly into the publisher.</li>
+                    <li class="title">Save (content persistent)</li>
+                    <li>The popup window that contains the publisher is managed by a WebExtension API. It is created when it is shown and destroyed (with its content) when it is no longer visible. If you want to keep the publisher content persistent, in order to add other content from a different source,
+                        use the <span class="browny">Save</span> button. The content will be saved in the local storage and automatically entered the next time the popup is opened. The new content taken with the context menu is added below the saved one. The saved content will be automatically deleted when the post is sent to the pod, but you can delete it at any time using the keyboard shortcut Alt+Shift+D.
+                        <span class="note">N.B. The Firefox storage space is about 5 MB, sufficient to hold even for very long posts. But if this limit is exceeded an error will be generated.</span>
+                    </li>
+                </ul>
+                </li>
             </ul>
         </div>
         <div class="section">
@@ -132,33 +145,42 @@
             </ul>
         </div>
     </div>
+    <div id="video-outer">
+        <div class="video-inner">
+            <video class="video" id="quickguide" poster="images/poster.jpg" controls>
+                <source src="video/easyshare_video.mp4" type="video/mp4">
+            </video>
+            <div class="play-overlay"><img id="play" src="images/play.png"></div>
+        </div>
+        <div class="overlay"></div>
+        <a href="javascript:void(0)" id="close-video" title="Close">✕</a>
+    </div>
+
+    <script src="js/jquery-3.1.1.min.js"> </script>
     <script>
-        var index = 1;
-
-        function rotate(event) {
-            if (event.target && event.target.nodeName === "DIV") {
-                event.target.classList.contains("slide-button-right") ?
-                    showImage(index += 1) : showImage(index -= 1);
-            }
-        }
-
-        function showImage(i) {
-            var slides = document.querySelectorAll(".slide"),
-                l = slides.length;
-            if (i > l) {
-                index = 1
-            } else if (i < 1) {
-                index = l
-            }
-            slides.forEach(function(item) {
-                item.style.display = "none";
+        $(function() {
+            var vo = $("#video-outer"),
+                play = $("#play"),
+                video = document.getElementById("quickguide");
+            $("#open-video").on('click', function(e) {
+                e.preventDefault();
+                vo.show();
+                //video.play();
             });
-            slides[index - 1].style.display = "block";
-        }
-
-        showImage(index);
-
-        document.querySelector(".slides").addEventListener("click", rotate);
+            $("#close-video").on("click", function(e) {
+                e.preventDefault();
+                video.pause();
+                video.currentTime = 0;
+                vo.hide();
+            });
+            video.addEventListener("play", function() {
+                play.addClass("fadeOut");
+            });
+            video.addEventListener("pause", function() {
+                play.removeClass("fadeOut");
+                play.show();
+            });
+        });
 
     </script>
 </body>
