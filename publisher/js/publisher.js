@@ -580,11 +580,15 @@ function init() {
             } );
             PUBLISHER.querySelector( ".dropdown-menu" ).addEventListener( "click", toggleDropdown );
             PUBLISHER.querySelector( "#saveData" ).addEventListener( "click", () => {
-                browser.storage.local.set( {
-                    persistent: EDITOR.value
-                } ).then( () => {
-                    EDITOR.value = "The content has been saved and now it is persistent. It will be deleted when the post is sent to the pod or by using Ctrl+Shift+D.";
-                }, onError );
+                if ( EDITOR.value ) {
+                    browser.storage.local.set( {
+                        persistent: EDITOR.value
+                    } ).then( () => {
+                        EDITOR.value = "Content saved. Alt+Shift+D to delete it.";
+                    }, onError );
+                } else {
+                    EDITOR.value = "Nothing to save!";
+                }
             } );
             PUBLISHER.querySelector( "#sendPost" ).addEventListener( "click", () => {
                 var payload = getPayload();
