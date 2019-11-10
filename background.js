@@ -28,7 +28,7 @@ function onCreated() {
 
 // Set publisher theme (Original/Dark)
 function setPopupTheme( name = null ) {
-    var filePath = {
+    const filePath = {
         original: "/publisher/publisher.html",
         dark: "/publisher/publisher-dark.html"
     };
@@ -39,22 +39,16 @@ function setPopupTheme( name = null ) {
         } );
     } else {
         const theme = browser.storage.local.get( "theme" );
-
         theme.then( data => {
-            if ( !data.theme || data.theme === "original" ) {
-                browser.browserAction.setPopup( {
-                    popup: filePath.original
-                } );
-            } else {
-                browser.browserAction.setPopup( {
-                    popup: filePath.dark
-                } );
-            }
+            const themeName = data.theme || "original";
+            browser.browserAction.setPopup( {
+                popup: filePath[ themeName ]
+            } );
         }, onError );
     }
 }
 
-// Set the browser action badge text
+// Set the text of browser action badge
 function setBadge( count ) {
     if ( typeof count === "number" ) {
         count = count.toString();
@@ -112,6 +106,11 @@ browser.contextMenus.create( {
     }
 }, onCreated );
 
+setPopupTheme();
+
+browser.browserAction.setBadgeBackgroundColor( { color: "#337ab7" } );
+browser.browserAction.setBadgeTextColor( { color: "white" } );
+
 
 browser.contextMenus.onClicked.addListener( ( info, tab ) => {
 
@@ -160,11 +159,6 @@ browser.contextMenus.onClicked.addListener( ( info, tab ) => {
 
     browser.browserAction.openPopup();
 } );
-
-setPopupTheme();
-
-browser.browserAction.setBadgeBackgroundColor( { color: "#337ab7" } );
-browser.browserAction.setBadgeTextColor( { color: "white" } );
 
 browser.storage.onChanged.addListener( ( changes, area ) => {
     var changedItems = Object.keys( changes );
