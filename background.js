@@ -155,7 +155,13 @@ browser.contextMenus.onClicked.addListener( ( info, tab ) => {
         }
     }
 
-    if ( !postContent && header ) postContent = `### ${tab.title}\n${info.pageUrl}`;
+    if ( !postContent ) {
+        if ( header ) {
+            postContent = `### ${tab.title}\n${info.pageUrl}`;
+        } else {
+            postContent = info.pageUrl;
+        }
+    }
 
     browser.browserAction.openPopup();
 } );
