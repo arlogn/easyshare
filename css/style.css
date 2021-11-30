@@ -126,6 +126,13 @@ ol li {
   color: brown;
 }
 
+.warning {
+  background: red;
+  color: white;
+  padding: 20px;
+  font-weight: bold;
+}
+
 .watch-video {
   position: absolute;
   top: 50%;
