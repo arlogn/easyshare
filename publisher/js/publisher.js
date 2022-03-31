@@ -397,8 +397,32 @@ function getPayload() {
     return null;
 }
 
+// Set default aspect selector
+function setDefaultSelector(option) {
+    const def = PUBLISHER.querySelector(".dropdown-toggle > .btn-text");
+    const pub = PUBLISHER.querySelector("li[data-aspect_id='public']");
+    const all = PUBLISHER.querySelector("li[data-aspect_id='all_aspects']");
+
+    if (option.defaultPublic) {
+        all.classList.remove("selected");
+        pub.classList.add("selected");
+        def.textContent = "Public";
+    } else {
+        pub.classList.remove("selected");
+        all.classList.add("selected");
+        def.textContent = "All Aspects";
+    }
+}
+
 // Update the dropdown items
 function updateDropdown(aspects, notify = false) {
+    const pub = browser.storage.local.get("defaultPublic");
+    pub.then(data => {
+        setDefaultSelector(data);
+    }, onError);
+
+    if (!aspects) return;
+
     const dropdownMenu = PUBLISHER.querySelector(".dropdown-menu");
 
     // Remove old items
@@ -570,9 +594,11 @@ function init() {
             }
         });
 
-        // If storage contains the user aspects, update the dropdown
+        // Update the aspects dropdown
         if (data.aspects) {
             updateDropdown(data.aspects);
+        } else {
+            updateDropdown(false);
         }
 
         // Get and show the content
