@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Diaspora* Easyshare",
-  "version": "0.17.0",
+  "version": "0.17.2",
   "description": "Easily share web content on your diaspora* pod",
   "homepage_url": "http://arlogn.github.io/easyshare/",
   "default_locale": "en",
