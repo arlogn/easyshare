@@ -20,11 +20,11 @@ function storeSettings() {
     });
 }
 
-function showSettings(data) {
-    url.value = data.url || "";
-    username.value = data.username || "";
-    password.value = data.password || "";
-    if (data.theme === "dark") {
+function showSettings(stored) {
+    url.value = stored.url || "";
+    username.value = stored.username || "";
+    password.value = stored.password || "";
+    if (stored.theme === "dark") {
         themes[0].checked = false;
         themes[1].checked = true;
     }

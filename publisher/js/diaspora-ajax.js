@@ -2,67 +2,61 @@
 
 class diasporaAjax {
 
-    constructor( url, username, password ) {
+    constructor(url, username, password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
-    request( options ) {
-        return new Promise( ( resolve, reject ) => {
+    request(options) {
+        return new Promise((resolve, reject) => {
 
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
 
-            xhr.open( options.method, options.url );
+            xhr.open(options.method, options.url);
 
             xhr.onload = () => {
-                if ( xhr.status >= 200 && xhr.status < 300 ) {
-                    resolve( {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    resolve({
                         status: xhr.status,
                         data: xhr.response,
                         url: xhr.responseURL
-                    } );
+                    });
                 } else {
-                    reject( `Error. The server responded with a status of ${xhr.status} (${xhr.statusText}).` );
+                    reject(`Error. The server responded with a status of ${xhr.status} (${xhr.statusText}).`);
                 }
             };
 
             xhr.onerror = () => {
-                reject( "Network request failed." );
+                reject("Network request failed.");
             };
 
-            if ( options.credentials ) {
+            if (options.credentials) {
                 xhr.withCredentials = true;
             }
 
-            if ( options.headers ) {
-                Object.keys( options.headers ).forEach( ( key ) => {
-                    xhr.setRequestHeader( key, options.headers[ key ] );
-                } );
+            if (options.headers) {
+                Object.keys(options.headers).forEach((key) => {
+                    xhr.setRequestHeader(key, options.headers[key]);
+                });
             }
 
-            var params = options.params || null;
+            let params = options.params || null;
 
-            if ( params && typeof params === "object" ) {
-                if ( options.json ) {
-                    params = JSON.stringify( params );
-                } else {
-                    params = Object.keys( params ).map( ( key ) => {
-                        return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
-                    } ).join( "&" );
-                }
+            if (params && typeof params === "object") {
+                params = options.json ? JSON.stringify(params) : Object.keys(params).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join("&");
             }
 
-            xhr.send( params );
-        } );
+            xhr.send(params);
+        });
     }
 
-    signIn( url, token ) {
-        console.log( `Sign in to: ${this.url}` );
+    signIn(url, token) {
+        console.log(`Sign in to: ${this.url}`);
 
-        return this.request( {
+        return this.request({
             method: "POST",
-            url: url,
+            url,
             params: {
                 "user[username]": this.username,
                 "user[password]": this.password,
@@ -72,93 +66,90 @@ class diasporaAjax {
                 "commit": "Sign in"
             },
             headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                // "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8"
             }
-        } );
+        });
     }
 
     retrieveToken() {
-        const url = `${this.url}/bookmarklet`,
-            siUrl = `${this.url}/users/sign_in`,
-            pattern = /<meta name="csrf-token" content="(.*)"/;
+        const url = `${this.url}/bookmarklet`;
+        const siUrl = `${this.url}/users/sign_in`;
+        const pattern = /<meta name="csrf-token" content="(.*)"/;
 
-        return this.request( {
+        return this.request({
                 method: "GET",
-                url: url,
+                url,
                 credentials: true
-            } )
-            .then( response => {
-                var match = response.data.match( pattern );
+            })
+            .then(response => {
+                let match = response.data.match(pattern);
 
-                if ( !match ) {
+                if (!match) {
                     return {
                         error: "Fatal error, CSRF token not found."
                     };
                 }
 
                 // If we are redirected ...
-                if ( response.url !== url ) {
-                    return this.signIn( siUrl, match[ 1 ] )
-                        .then( response => {
-                            if ( response.url === siUrl ) {
+                if (response.url !== url) {
+                    return this.signIn(siUrl, match[1])
+                        .then(response => {
+                            if (response.url === siUrl) {
                                 return {
                                     error: "Authentication error."
                                 };
                             }
 
-                            match = response.data.match( pattern );
+                            match = response.data.match(pattern);
 
                             return {
-                                token: match[ 1 ]
+                                token: match[1]
                             };
-                        } );
+                        });
                 }
 
                 return {
-                    token: match[ 1 ]
+                    token: match[1]
                 };
-            } )
-            .catch( error => {
-                return {
-                    error: error
-                };
-            } );
+            })
+            .catch(error => ({
+                error
+            }));
     }
 
     retrieveAspects() {
-        const url = `${this.url}/bookmarklet`,
-            pattern = /"aspects":(\[[^\]]+\])/;
+        const url = `${this.url}/bookmarklet`;
+        const pattern = /"aspects":(\[[^\]]+\])/;
 
-        return this.request( {
+        return this.request({
                 method: "GET",
-                url: url
-            } )
-            .then( response => {
-                var match = response.data.match( pattern );
+                url
+            })
+            .then(response => {
+                const match = response.data.match(pattern);
 
-                if ( !match ) {
+                if (!match) {
                     return {
                         error: "Something went wrong, aspects list not found."
                     };
                 }
 
                 return {
-                    aspects: match[ 1 ]
+                    aspects: match[1]
                 };
-            } )
-            .catch( error => {
-                return {
-                    error: error
-                };
-            } );
+            })
+            .catch(error => ({
+                error
+            }));
     }
 
-    postMessage( token, message ) {
+    postMessage(token, message) {
         const url = `${this.url}/status_messages`;
 
-        return this.request( {
+        return this.request({
                 method: "POST",
-                url: url,
+                url,
                 params: message,
                 json: true,
                 headers: {
@@ -166,9 +157,9 @@ class diasporaAjax {
                     "Accept": "application/json, application/xhtml+xml",
                     "X-CSRF-Token": token
                 }
-            } )
-            .then( response => {
-                if ( response.status !== 201 ) {
+            })
+            .then(response => {
+                if (response.status !== 201) {
                     return {
                         error: "Unauthorized access. Probably incorrect or missing CSRF token."
                     };
@@ -177,12 +168,10 @@ class diasporaAjax {
                 return {
                     success: "Post successfully sent to your diaspora pod."
                 };
-            } )
-            .catch( error => {
-                return {
-                    error: error
-                };
-            } );
+            })
+            .catch(error => ({
+                error
+            }));
     }
 
 }

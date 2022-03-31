@@ -1,14 +1,13 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1em;
+  width: 100%;
 }
 
 .settings-section {
   border-bottom: 1px solid #cecece;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   overflow: hidden;
-  padding-bottom: 30px;
-  padding-left: 10px;
+  padding-bottom: 10px;
   position: relative;
 }
 
@@ -17,33 +16,20 @@ body {
   margin-bottom: 10px;
 }
 
-.title sup {
-  color: red;
-  font-weight: 400;
-  font-size: small;
-}
-
 .settings {
-  font-size: 90%;
   padding: 2px 10px;
   width: 100%;
 }
 
 .container {
-  width: 500px;
+  width: 400px;
 }
 
-.credentials {
-  background: #fafafa;
-}
-
-.credentials label {
-  width: 100px;
-  display: inline-block;
+.credentials .container {
   text-align: right;
 }
 
-.credentials input {
+.credentials .container input {
   background: #eee;
   border: 1px solid #ddd;
   color: #600;
@@ -53,6 +39,19 @@ body {
   width: 300px;
 }
 
-input:focus {
+.theme .container {
+  padding-top: 5px;
+}
+
+.theme .container * {
+  padding-top: 2px;
+  vertical-align: middle;
+}
+
+.theme .container label {
+  margin-left: 20px;
+}
+
+.theme .container input:focus {
   outline: 0;
 }
