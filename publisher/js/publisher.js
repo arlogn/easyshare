@@ -331,7 +331,7 @@ function addMarkdown(event) {
         "mdOlist": addMdOrderedList,
         "mdCode": addMdCode,
         "mdQuote": addMdQuote,
-        "error": function() {
+        "error": function () {
             console.log("Markdown button error!");
         }
     };
@@ -410,11 +410,11 @@ function setDefaultSelector(option) {
         const ico = def.previousElementSibling;
         ico.classList.remove("fa-lock");
         ico.classList.add("fa-unlock");
-        return;
+    } else {
+        pub.classList.remove("selected");
+        all.classList.add("selected");
+        def.textContent = "All Aspects";
     }
-    pub.classList.remove("selected");
-    all.classList.add("selected");
-    def.textContent = "All Aspects";
 }
 
 // Update the dropdown items
@@ -497,17 +497,17 @@ function toggleDropdown(event) {
 // Store aspects
 function storeAspects(aspects) {
     try {
-        const aspectsObj = JSON.parse(aspects);
+        const aspectsData = JSON.parse(aspects.data);
 
         // Remove useless items
-        aspectsObj.forEach((item, i) => {
-            delete item.selected;
+        aspectsData.forEach((item, i) => {
+            delete item.order;
         });
 
         browser.storage.local.set({
-            aspects: aspectsObj
+            aspects: aspectsData
         }).then(() => {
-            updateDropdown(aspectsObj, true);
+            updateDropdown(aspectsData, true);
         });
     } catch (e) {
         onError("An error occurred while parsing the aspects list.");
@@ -516,26 +516,27 @@ function storeAspects(aspects) {
 
 // Send requests to the pod
 function send(request, payload = null) {
-    request.retrieveToken()
+    browser.storage.local.get("token")
         .then(response => {
-            if (response.error) {
-                throw response.error;
+            if (payload) {
+                return request.postMessage(response.token, payload)
+                    .then(response => {
+                        if (response.error) {
+                            throw response.error;
+                        }
+
+                        onSuccess(response.success);
+                    });
+            } else {
+                return request.getAspects(response.token)
+                    .then(response => {
+                        if (response.error) {
+                            throw response.error;
+                        } else {
+                            storeAspects(response.aspects);
+                        }
+                    });
             }
-            return payload ? request.postMessage(response.token, payload)
-                .then(response => {
-                    if (response.error) {
-                        throw response.error;
-                    }
-
-                    onSuccess(response.success);
-                }) : request.retrieveAspects()
-                .then(response => {
-                    if (response.error) {
-                        throw response.error;
-                    }
-
-                    storeAspects(response.aspects);
-                });
         })
         .catch(onError);
 }
@@ -544,11 +545,12 @@ function init() {
     const storedData = browser.storage.local.get();
 
     storedData.then(data => {
-        // Check if all required settings are entered
+        // Check if all required data are entered
         if (!data.url || !data.username || !data.password) {
             disableElements();
-            onError("Please enter all required settings in the Options.");
+            onError("Please enter all required settings in the Preferences.");
         }
+
         // Instantiate the communication class
         const request = new diasporaAjax(data.url, data.username, data.password);
 

@@ -51,62 +51,21 @@ class diasporaAjax {
         });
     }
 
-    signIn(url, token) {
-        console.log(`Sign in to: ${this.url}`);
-
-        return this.request({
-            method: "POST",
-            url,
-            params: {
-                "user[username]": this.username,
-                "user[password]": this.password,
-                "user[remember_me]": 1,
-                "utf8": "✓",
-                "authenticity_token": token,
-                "commit": "Sign in"
-            },
-            headers: {
-                // "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        });
-    }
-
-    async retrieveToken() {
-        const url = `${this.url}/bookmarklet`;
-        const siUrl = `${this.url}/users/sign_in`;
-        const pattern = /<meta name="csrf-token" content="(.*)"/;
+    async getAspects(token) {
+        const url = `${this.url}/api/v1/aspects`;
 
         try {
-            let match = await (await this.request({
+            const aspects = await this.request({
                 method: "GET",
                 url,
-                credentials: true
-            })).data.match(pattern);
-
-            if (!match) {
-                return {
-                    error: "Fatal error, CSRF token not found."
-                };
-            }
-
-            if (match.url !== url) {
-                const signin = await this.signIn(siUrl, match[1]);
-
-                if (signin.url === siUrl) {
-                    return {
-                        error: "Authentication error."
-                    };
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Accept": "application/json, application/xhtml+xml",
+                    "Authorization": `Bearer ${token}`
                 }
-
-                match = signin.data.match(pattern);
-                return {
-                    token: match[1]
-                };
-            }
-
+            });
             return {
-                token: match[1]
+                aspects
             };
         } catch (error) {
             return {
@@ -115,47 +74,38 @@ class diasporaAjax {
         }
     }
 
-    async retrieveAspects() {
-        const url = `${this.url}/bookmarklet`;
-        const pattern = /"aspects":(\[[^\]]+\])/;
+    async postMessage(token, data) {
+        const url = `${this.url}/api/v1/posts`;
+        let isPublic = false;
 
-        try {
-            const match = await (await this.request({
-                method: "GET",
-                url
-            })).data.match(pattern);
-
-            return match ? {
-                aspects: match[1]
-            } : {
-                error: "Something went wrong, aspects list not found."
-            };
-        } catch (error) {
-            return {
-                error
-            };
+        if (data.aspect_ids.includes("public")) {
+            data.aspect_ids = [];
+            isPublic = true;
         }
-    }
-
-    async postMessage(token, message) {
-        const url = `${this.url}/status_messages`;
 
         try {
-            const response = await (await this.request({
+            const response = await this.request({
                 method: "POST",
                 url,
-                params: message,
+                params: {
+                    body: data.status_message,
+                    public: isPublic,
+                    aspects: data.aspect_ids
+                },
                 json: true,
                 headers: {
                     "Content-Type": "application/json; charset=UTF-8",
                     "Accept": "application/json, application/xhtml+xml",
-                    "X-CSRF-Token": token
+                    "Authorization": `Bearer ${token}`
                 }
-            })).response;
-            
-            return response.status !== 201 ? {
-                error: "Unauthorized access. Probably incorrect or missing CSRF token."
-            } : {
+            });
+            if (response.status !== 200) {
+                return {
+                    error: `Something went wrong, response status is ${response.status}`
+                };
+            }
+
+            return {
                 success: "Post successfully sent to your diaspora pod."
             };
         } catch (error) {

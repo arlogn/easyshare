@@ -3,6 +3,9 @@
 let postContent = "";
 let persistentContent = "";
 
+const redirectURL = browser.identity.getRedirectURL();
+
+
 function onError(error) {
     console.log(error);
 }
@@ -21,7 +24,7 @@ function onCreated() {
     }
 }
 
-// Set theme (Original/Dark)
+// Set the theme (Original/Dark)
 function setTheme(name = null) {
     const filePath = {
         original: "/publisher/publisher.html",
@@ -81,6 +84,110 @@ function parseMediaUrl(url) {
     return null;
 }
 
+// Generate a randon string
+function generateRandomString(length) {
+    return Math.random().toString(20).substr(2, length);
+}
+    
+// OpenID: register the client
+function registerClient(podurl) {
+    const url = `${podurl}/api/openid_connect/clients`;
+    const params = {
+        application_type: "web",
+        client_name: "Diaspora Easyshare",
+        redirect_uris: [
+            redirectURL
+        ]
+    };
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url);
+
+    xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const data = JSON.parse(xhr.response);
+            browser.storage.local.set({
+                    clientId: data.client_id
+                })
+                .then(() => {
+                    authorizeClient(podurl, data.client_id, true)
+                        .then(validateAndStoreToken);
+                })
+                .catch(onError);
+        } else {
+            console.log(`OpenID client registration: error ${xhr.status} (${xhr.statusText}).`);
+        }
+    };
+
+    xhr.onerror = () => {
+        console.log("OpenID client registration: network request failed!");
+    };
+
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("Accept", "application/json");
+
+    xhr.send(JSON.stringify(params));
+}
+
+// OpenID: run the authorization flow
+function authorizeClient(podurl, clientID) {
+    const scopes = ["openid", "contacts:read", "public:modify", "private:modify"];
+    let authURL = `${podurl}/api/openid_connect/authorizations/new`;
+
+    const state = generateRandomString(12);
+    const nonce = generateRandomString(12);
+
+    browser.storage.local.set({
+        state,
+        nonce
+    });
+
+    authURL += `?client_id=${clientID}`;
+    authURL += `&response_type=id_token token`;
+    authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+    authURL += `&scope=${encodeURIComponent(scopes.join(' '))}`;
+    authURL += `&state=${state}`;
+    authURL += `&nonce=${nonce}`;
+
+    return browser.identity.launchWebAuthFlow({
+        interactive: true,
+        url: authURL
+    });
+}
+
+// Decode the ID Token
+function parseJWT(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Extract, validate and store the token
+function validateAndStoreToken(redirectUri) {
+    let match = redirectUri.match(/[#?](.*)/);
+    let params = new URLSearchParams(match[1].split("#")[0]);
+
+    if (params) {
+        const gettingValues = browser.storage.local.get(["state", "nonce"]);
+        gettingValues.then((items) => {
+            let id_token = parseJWT(params.get("id_token"));
+            if (params.get("state") === items.state && id_token.nonce === items.nonce) {
+                browser.storage.local.set({
+                    token: params.get("access_token"),
+                    createdAt: Date.now()
+                });
+            } else {
+                console.log("Token validation failed!");
+            }
+        }, onError);
+    } else {
+        console.log("Invalid redirect URI", redirectUri);
+    }
+}
+
 // Create the context menu items
 browser.contextMenus.create({
     id: "addHeaderAndContent",
@@ -103,10 +210,10 @@ setTheme();
 
 // Set the badge colors
 browser.browserAction.setBadgeBackgroundColor({
-    color: "#222222"
+    color: "#b0d8f5"
 });
 browser.browserAction.setBadgeTextColor({
-    color: "#ffffff"
+    color: "black"
 });
 
 // Listen for click on the context menu items
@@ -114,7 +221,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     let header = true;
     if (info.menuItemId === "addContent") header = false;
 
-    // Default formatting the content
+    // Default formatting of the selected content
     if (info.hasOwnProperty("mediaType")) {
         if (info.mediaType === "image") {
             postContent = info.linkUrl ? `[![Image](${info.srcUrl}) ](${info.linkUrl})` : `![Image](${info.srcUrl})`;
@@ -167,7 +274,7 @@ browser.storage.onChanged.addListener((changes, area) => {
         if (item === "persistent") {
             persistentContent = changes[item].newValue;
             if (persistentContent) {
-                setBadge("🡫");
+                setBadge("+");
             } else {
                 setBadge("");
             }
@@ -188,7 +295,7 @@ browser.commands.onCommand.addListener((command) => {
 
 // Listen for messages
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // Send response with the post content
+    // Send the post content to the publisher
     if (request === "getContent") {
         if (persistentContent) postContent = `${persistentContent}\n\n${postContent}`;
         sendResponse({

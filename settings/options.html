@@ -10,50 +10,80 @@
     <div class="header">
         <ul>
             <li><img src="../icons/icon48.png" alt="Diaspora Easyshare"></li>
-            <li>Diaspora* Easyshare Options</li>
+            <li>diaspora* Easyshare Preferences</li>
         </ul>
     </div>
-    <div class="settings-section credentials">
-        <p class="title">Pod URL and credentials <sup>(required)</sup></p>
-        <div class="settings">
-            <div class="container">
-                <label for="podUrl">Pod URL:</label>
-                <input id="podUrl" type="text">
+    
+    <div class="row">
+        <div class="col">
+            <div class="settings-section credentials lightgrey">
+                <p class="title">Pod URL and credentials</p>
+                <div class="settings">
+                    <div class="container">
+                        <label for="podUrl">Pod URL:</label>
+                        <input id="podUrl" type="text">
+                    </div>
+                </div>
+                <div class="settings">
+                    <div class="container">
+                        <label for="podUsername">Username:</label>
+                        <input id="podUsername" type="text">
+                    </div>
+                </div>
+                <div class="settings">
+                    <div class="container">
+                        <label for="posPassword">Password:</label>
+                        <input id="podPassword" type="password">
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <p class="title">Publisher theme</p>
+                <div class="settings">
+                    <div class="container">
+                        <label for="orig">Original</label>
+                        <input name="theme" id="orig" value="original" checked type="radio">
+                        <label for="dark">Dark</label>
+                        <input name="theme" id="dark" value="dark" type="radio">
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <p class="title">Aspect selector</p>
+                <div class="settings">
+                    <div class="container">
+                        <label for="default">Set default to Public</label>
+                        <input name="public" id="setPublic" type="checkbox">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="settings">
-            <div class="container">
-                <label for="podUsername">Username:</label>
-                <input id="podUsername" type="text">
+        <div class="col lightgrey">
+            <div class="settings-section openid status">
+                <div>
+                    <p class="title">Status</p>
+                    <div class="small">Addon is registered: <span class="isRegistered"></span></div>
+                    <div class="small">Access token validity: <span class="isTokenValid"></span></div>
+                </div>
+                <div><button class="button" id="refreshStatus">Refresh</button></div>
             </div>
-        </div>
-        <div class="settings">
-            <div class="container">
-                <label for="posPassword">Password:</label>
-                <input id="podPassword" type="password">
+            <div class="settings-section openid">
+                <div>
+                    <p class="title">OpenID registration and authorization</p>
+                    <div class="small">After installation the addon must be registered and authorized starting an implicit flow to get a valid access token.</div>
+                </div>
+                <div><button class="button" id="register">Start flow</button></div>
+            </div>
+            <div class="settings-section openid">
+                <div>
+                    <p class="title">Refresh the access token</p>
+                    <div class="small">The lifetime of the access token is 24 hours. When the pod responds with a 401 error (Unauthorized) or the status indicates that the token is expired you need to authorize the addon again to get a new valid access token.</div>
+                </div>
+                <div><button class="button" id="authorize">Authorize</button></div>
             </div>
         </div>
     </div>
-    <div class="settings-section">
-        <p class="title">Aspect selector</p>
-        <div class="settings">
-            <div class="container">
-                <label for="default">Set default to Public</label>
-                <input name="public" id="setPublic" type="checkbox">
-            </div>
-        </div>
-    </div>
-    <div class="settings-section">
-        <p class="title">Publisher theme</p>
-        <div class="settings">
-            <div class="container">
-                <label for="orig">Original</label>
-                <input name="theme" id="orig" value="original" checked type="radio">
-                <label for="dark">Dark</label>
-                <input name="theme" id="dark" value="dark" type="radio">
-            </div>
-        </div>
-    </div>
+    
     <script src="options.js"></script>
 </body>
 
