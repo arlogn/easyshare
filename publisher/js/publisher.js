@@ -331,7 +331,7 @@ function addMarkdown(event) {
         "mdOlist": addMdOrderedList,
         "mdCode": addMdCode,
         "mdQuote": addMdQuote,
-        "error": function () {
+        "error": function() {
             console.log("Markdown button error!");
         }
     };
@@ -407,11 +407,14 @@ function setDefaultSelector(option) {
         all.classList.remove("selected");
         pub.classList.add("selected");
         def.textContent = "Public";
-    } else {
-        pub.classList.remove("selected");
-        all.classList.add("selected");
-        def.textContent = "All Aspects";
+        const ico = def.previousElementSibling;
+        ico.classList.remove("fa-lock");
+        ico.classList.add("fa-unlock");
+        return;
     }
+    pub.classList.remove("selected");
+    all.classList.add("selected");
+    def.textContent = "All Aspects";
 }
 
 // Update the dropdown items
@@ -519,35 +522,32 @@ function send(request, payload = null) {
                 throw response.error;
             }
             return payload ? request.postMessage(response.token, payload)
-            .then(response => {
-                if (response.error) {
-                    throw response.error;
-                }
+                .then(response => {
+                    if (response.error) {
+                        throw response.error;
+                    }
 
-                onSuccess(response.success);
-            }) : request.retrieveAspects()
-            .then(response => {
-                if (response.error) {
-                    throw response.error;
-                }
+                    onSuccess(response.success);
+                }) : request.retrieveAspects()
+                .then(response => {
+                    if (response.error) {
+                        throw response.error;
+                    }
 
-                storeAspects(response.aspects);
-            });
+                    storeAspects(response.aspects);
+                });
         })
         .catch(onError);
 }
 
 function init() {
-    // Get all data stored
     const storedData = browser.storage.local.get();
 
     storedData.then(data => {
-        // Check if all required data are entered
+        // Check if all required settings are entered
         if (!data.url || !data.username || !data.password) {
             disableElements();
-
-            onError("Please enter all required settings before starting to share.");
-            return;
+            onError("Please enter all required settings in the Options.");
         }
         // Instantiate the communication class
         const request = new diasporaAjax(data.url, data.username, data.password);
@@ -593,6 +593,10 @@ function init() {
                 onError("Unexpected error. The payload is undefined or malformed!");
             }
         });
+        PUBLISHER.querySelector(".options").addEventListener("click", () => {
+            browser.runtime.sendMessage("openOptions");
+            window.close();
+        });
 
         // Update the aspects dropdown
         if (data.aspects) {
@@ -603,11 +607,11 @@ function init() {
 
         // Get and show the content
         browser.runtime.sendMessage("getContent")
-        .then(response => {
-            if (response.content) {
-                EDITOR.value = response.content;
-            }
-        }, onError);
+            .then(response => {
+                if (response.content) {
+                    EDITOR.value = response.content;
+                }
+            }, onError);
     });
 }
 

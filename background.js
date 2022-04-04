@@ -188,13 +188,17 @@ browser.commands.onCommand.addListener((command) => {
 
 // Listen for messages
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // Send the post content to the publisher
+    // Send response with the post content
     if (request === "getContent") {
         if (persistentContent) postContent = `${persistentContent}\n\n${postContent}`;
         sendResponse({
             content: postContent
         });
         if (postContent) postContent = "";
+    }
+    else if (request === "openOptions") {
+        // Open options tab
+        browser.runtime.openOptionsPage();
     }
 });
 

@@ -195,8 +195,30 @@ pre {
   letter-spacing: 2px;
   line-height: 28px;
   position: relative;
-  text-align: center;
+  text-align: right;
+  padding-right: 20px;
   text-transform: uppercase;
+}
+
+.publisher>.footer>.footer-bar>.options {
+  width: 130px;
+  height: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #66afe9;
+  text-align: center;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.publisher>.footer>.footer-bar>.options:hover {
+  background: #444;
+  color: #fff;
+}
+
+.publisher>.footer>.footer-bar>.options>.fa {
+  font-size: 12px;
 }
 
 /* Buttons */
