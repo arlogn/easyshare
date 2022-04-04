@@ -1,4 +1,4 @@
-/*jshint esversion: 6*/
+/*jshint esversion: 8*/
 
 class diasporaAjax {
 
@@ -72,82 +72,76 @@ class diasporaAjax {
         });
     }
 
-    retrieveToken() {
+    async retrieveToken() {
         const url = `${this.url}/bookmarklet`;
         const siUrl = `${this.url}/users/sign_in`;
         const pattern = /<meta name="csrf-token" content="(.*)"/;
 
-        return this.request({
+        try {
+            let match = await (await this.request({
                 method: "GET",
                 url,
                 credentials: true
-            })
-            .then(response => {
-                let match = response.data.match(pattern);
+            })).data.match(pattern);
 
-                if (!match) {
+            if (!match) {
+                return {
+                    error: "Fatal error, CSRF token not found."
+                };
+            }
+
+            if (match.url !== url) {
+                const signin = await this.signIn(siUrl, match[1]);
+
+                if (signin.url === siUrl) {
                     return {
-                        error: "Fatal error, CSRF token not found."
+                        error: "Authentication error."
                     };
                 }
 
-                // If we are redirected ...
-                if (response.url !== url) {
-                    return this.signIn(siUrl, match[1])
-                        .then(response => {
-                            if (response.url === siUrl) {
-                                return {
-                                    error: "Authentication error."
-                                };
-                            }
-
-                            match = response.data.match(pattern);
-
-                            return {
-                                token: match[1]
-                            };
-                        });
-                }
-
+                match = signin.data.match(pattern);
                 return {
                     token: match[1]
                 };
-            })
-            .catch(error => ({
+            }
+
+            return {
+                token: match[1]
+            };
+        } catch (error) {
+            return {
                 error
-            }));
+            };
+        }
     }
 
-    retrieveAspects() {
+    async retrieveAspects() {
         const url = `${this.url}/bookmarklet`;
         const pattern = /"aspects":(\[[^\]]+\])/;
 
-        return this.request({
+        try {
+            const match = await (await this.request({
                 method: "GET",
                 url
-            })
-            .then(response => {
-                const match = response.data.match(pattern);
+            })).data.match(pattern);
 
-                if (!match) {
-                    return {
-                        error: "Something went wrong, aspects list not found."
-                    };
-                }
-
-                return {
-                    aspects: match[1]
-                };
-            })
-            .catch(error => ({
+            return match ? {
+                aspects: match[1]
+            } : {
+                error: "Something went wrong, aspects list not found."
+            };
+        } catch (error) {
+            return {
                 error
-            }));
+            };
+        }
     }
 
-    postMessage(token, message) {
+    async postMessage(token, message) {
         const url = `${this.url}/status_messages`;
 
-        return this.request({
+        try {
+            const response = await (await this.request({
                 method: "POST",
                 url,
                 params: message,
@@ -157,21 +151,17 @@ class diasporaAjax {
                     "Accept": "application/json, application/xhtml+xml",
                     "X-CSRF-Token": token
                 }
-            })
-            .then(response => {
-                if (response.status !== 201) {
-                    return {
-                        error: "Unauthorized access. Probably incorrect or missing CSRF token."
-                    };
-                }
-
-                return {
-                    success: "Post successfully sent to your diaspora pod."
-                };
-            })
-            .catch(error => ({
+            })).response;
+            
+            return response.status !== 201 ? {
+                error: "Unauthorized access. Probably incorrect or missing CSRF token."
+            } : {
+                success: "Post successfully sent to your diaspora pod."
+            };
+        } catch (error) {
+            return {
                 error
-            }));
+            };
+        }
     }
-
 }

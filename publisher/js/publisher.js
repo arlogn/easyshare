@@ -538,7 +538,7 @@ function send(request, payload = null) {
 }
 
 function init() {
-    // Get all data
+    // Get all data stored
     const storedData = browser.storage.local.get();
 
     storedData.then(data => {
